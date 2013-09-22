@@ -66,6 +66,16 @@ namespace Claudy.Input
             set { mousePrevious = value; }
         }
         #endif
+        public GamePadState[] GamepadByID
+        {
+            get { return gamepadByID; }
+            protected set { }
+        }
+        public GamePadState[] PreviousGamepadByID
+        {
+            get { return previousGamepadByID; }
+            protected set { }
+        }
 
         public GamePadState GamePadCurrent1
         {

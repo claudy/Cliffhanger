@@ -21,7 +21,7 @@ namespace Cliffhanger
         SpriteBatch spriteBatch;
         ClaudyInput test;
 
-        SpriteFont calibri;
+        SpriteFont consolas;
 
         public CliffhangerGame()
         {
@@ -40,7 +40,7 @@ namespace Cliffhanger
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            calibri = Content.Load<SpriteFont>("Calibri");
+            consolas = Content.Load<SpriteFont>("Consolas");
         }
 
         protected override void UnloadContent()
@@ -61,10 +61,19 @@ namespace Cliffhanger
             if (test.DetectBackPressedByAnyPlayer())
                 this.Exit();
 
+            buttonsPressed = test.GamePadCurrent1.Buttons;
+
             // TODO: Add your update logic here
             
             base.Update(gameTime);
         }
+
+        #region Testing Vars
+        GamePadButtons buttonsPressed;
+
+        Color byDirect = Color.Yellow;
+        Color byID = Color.YellowGreen;
+        #endregion
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -72,12 +81,33 @@ namespace Cliffhanger
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            spriteBatch.DrawString(calibri, 
-                test.GamePadCurrent1.IsConnected.ToString(),
-                Vector2.Zero,
-                Color.WhiteSmoke);
+            spriteBatch.DrawString(consolas,
+            "test.GamePadCurrent1.IsConnected=" +
+                test.GamePadCurrent1.IsConnected.ToString() + "\n" +
+            "test.GamePadCurrent2.IsConnected=" +
+                test.GamePadCurrent2.IsConnected.ToString() + "\n" +
+            "test.GamePadCurrent3.IsConnected=" +
+                test.GamePadCurrent3.IsConnected.ToString() + "\n" +
+            "test.GamePadCurrent4.IsConnected=" +
+                test.GamePadCurrent4.IsConnected.ToString(),
+            Vector2.Zero,
+            byDirect);
+
+            spriteBatch.DrawString(consolas,
+            "test.GamepadByID[1].IsConnected=" +
+                test.GamepadByID[1].IsConnected.ToString() + "\n" +
+            "test.GamepadByID[2].IsConnected=" +
+                test.GamepadByID[2].IsConnected.ToString() + "\n" +
+            "test.GamepadByID[3].IsConnected=" +
+                test.GamepadByID[3].IsConnected.ToString() + "\n" +
+            "test.GamepadByID[4].IsConnected=" +
+                test.GamepadByID[4].IsConnected.ToString(),
+            new Vector2(0f, 100f),
+            byID);
+
+
             spriteBatch.End();
 
             // Claudy calls dibs on viewports drawing code.
