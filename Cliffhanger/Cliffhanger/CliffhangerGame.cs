@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Claudy.Input;
 
 namespace Cliffhanger
 {
@@ -18,11 +19,15 @@ namespace Cliffhanger
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ClaudyInput test;
+
+        SpriteFont calibri;
 
         public CliffhangerGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            test = new ClaudyInput();
         }
 
         protected override void Initialize()
@@ -35,8 +40,7 @@ namespace Cliffhanger
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            calibri = Content.Load<SpriteFont>("Calibri");
         }
 
         protected override void UnloadContent()
@@ -51,12 +55,14 @@ namespace Cliffhanger
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            test.Update();
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (test.DetectBackPressedByAnyPlayer())
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            
             base.Update(gameTime);
         }
 
@@ -67,8 +73,12 @@ namespace Cliffhanger
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.DrawString(calibri, 
+                test.GamePadCurrent1.IsConnected.ToString(),
+                Vector2.Zero,
+                Color.WhiteSmoke);
+            spriteBatch.End();
 
             // Claudy calls dibs on viewports drawing code.
 
