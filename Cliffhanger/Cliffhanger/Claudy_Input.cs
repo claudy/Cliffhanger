@@ -41,6 +41,7 @@ namespace Claudy.Input
         private GamePadState gamePadPrevious3;
         private GamePadState gamePadCurrent4;
         private GamePadState gamePadPrevious4;
+        
 
         public KeyboardState KeyboardCurrent
         {
@@ -391,7 +392,8 @@ namespace Claudy.Input
 
         public bool DetectBackPressedByAnyPlayer()
         {
-            return (gamePadCurrent1.IsButtonDown(Buttons.Back) ||
+            return (keyboardCurrent.IsKeyDown(Keys.Escape) ||
+                gamePadCurrent1.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent2.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent3.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent4.IsButtonDown(Buttons.Back));
