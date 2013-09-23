@@ -355,7 +355,7 @@ namespace Claudy.Input
         }
         public bool isConnected(int playerIndex)
         {
-            if(playerIndex <= 0 || playerIndex > 4) throw new ArgumentOutOfRangeException("playerIndex", "Only players 1 through 4 shall be accepted.");
+            if(playerIndex <= 0 || playerIndex > 4) throw new ArgumentOutOfRangeException("playerIndex", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
             return gamepadByID[playerIndex].IsConnected;
         }
 
@@ -541,6 +541,32 @@ namespace Claudy.Input
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
         /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick(int index)
+        {
+            if (index <= 0 || index > 4) throw new ArgumentOutOfRangeException("index", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Left.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Left.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
         public Vector2 GetAs8DirectionRightThumbStick()
         {
             Vector2 movement = new Vector2(0f, 0f);
@@ -568,6 +594,32 @@ namespace Claudy.Input
         public Vector2 GetAs8DirectionRightThumbStick(PlayerIndex p_)
         {
             int index = (int)p_ + 1;
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Right.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Right.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick(int index)
+        {
+            if (index <= 0 || index > 4) throw new ArgumentOutOfRangeException("index", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
             Vector2 movement = new Vector2(0f, 0f);
 
             if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y < 0.0f)
