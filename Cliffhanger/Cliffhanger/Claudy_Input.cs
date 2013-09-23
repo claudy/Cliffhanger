@@ -10,15 +10,21 @@ namespace Claudy.Input
     /// Game class doesn't need to.
     /// </summary>
     /// <author>Andrew Claudy</author>
-    /// <currentversion>1.4</currentversion><!--Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>-->
-    /// <currentversion>1.3</currentversion><!--Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads,
+    /// 
+    /// <currentversion>1.5</currentversion>Uses singleton design, revision of the GetLeftThumbstickAs8Direction()
+    /// <version>1.4</version><!--Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>-->
+    /// <version>1.3</version><!--Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads,
     ///                                         Mouse is limited to Windows compilation target-->
     /// <version>1.2</version><!--Adds Mouse input and mouseDelta for 3D cameraP1 usage.-->
     /// <version>1.1</version><!--4-way & 8-way arrow key creates vector2D for 2D games.-->
     /// <version>1.0</version><!--Keyboard input only.-->
-    public class ClaudyInput
+    public sealed class ClaudyInput
     {
-        // Note to self: these are only public if explicitly, individually defined as public.
+        //Singleton with public field design: See http://www.dotnetperls.com/singleton
+        public static readonly ClaudyInput Instance = new ClaudyInput(); 
+        ////////////////////////////////////////////////////////////////
+
+        // Note to self: members are only public if explicitly, individually defined as public.
         KeyboardState keyboardCurrent;
         KeyboardState keyboardPrevious;
 
@@ -46,12 +52,12 @@ namespace Claudy.Input
         public KeyboardState KeyboardCurrent
         {
             get { return keyboardCurrent; }
-            protected set { }
+            //protected set { }
         }
         public KeyboardState KeyboardPrevious
         {
             get { return keyboardPrevious; }
-            protected set { }
+            //protected set { }
         }
 
         #if WINDOWS
@@ -66,59 +72,68 @@ namespace Claudy.Input
             set { mousePrevious = value; }
         }
         #endif
+        #region GamePad Property Declarations
+        /// <summary>
+        /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
+        /// </summary>
         public GamePadState[] GamepadByID
         {
             get { return gamepadByID; }
-            protected set { }
+            //protected set { }
         }
+        /// <summary>
+        /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
+        /// </summary>
         public GamePadState[] PreviousGamepadByID
         {
             get { return previousGamepadByID; }
-            protected set { }
+            //protected set { }
         }
 
         public GamePadState GamePadCurrent1
         {
             get { return gamePadCurrent1; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious1
         {
             get { return gamePadPrevious1; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent2
         {
             get { return gamePadCurrent2; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious2
         {
             get { return gamePadPrevious2; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent3
         {
             get { return gamePadCurrent3; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious3
         {
             get { return gamePadPrevious3; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent4
         {
             get { return gamePadCurrent4; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious4
         {
             get { return gamePadPrevious4; }
-            protected set { }
+            //protected set { }
         }
+        #endregion
 
-        public ClaudyInput()
+        // CTOR
+        private ClaudyInput()
         {
             keyboardPrevious = keyboardCurrent; // Initialize previous as "no action occurring".
             keyboardCurrent = Keyboard.GetState();
@@ -147,6 +162,12 @@ namespace Claudy.Input
             gamepadByID[3] = gamePadCurrent3;
             gamepadByID[4] = gamePadCurrent4;
             previousGamepadByID = new GamePadState[5];
+            previousGamepadByID[0] = new GamePadState();
+            previousGamepadByID[1] = gamePadPrevious1;
+            previousGamepadByID[2] = gamePadPrevious2;
+            previousGamepadByID[3] = gamePadPrevious3;
+            previousGamepadByID[4] = gamePadPrevious4;
+
         }
 
         /// <summary>
@@ -178,6 +199,16 @@ namespace Claudy.Input
 
             gamePadPrevious4 = gamePadCurrent4; // Initialize previous as "no action occurring".
             gamePadCurrent4 = GamePad.GetState(PlayerIndex.Four);
+
+            gamepadByID[1] = gamePadCurrent1;
+            gamepadByID[2] = gamePadCurrent2;
+            gamepadByID[3] = gamePadCurrent3;
+            gamepadByID[4] = gamePadCurrent4;
+            previousGamepadByID[1] = gamePadPrevious1;
+            previousGamepadByID[2] = gamePadPrevious2;
+            previousGamepadByID[3] = gamePadPrevious3;
+            previousGamepadByID[4] = gamePadPrevious4;
+
             return keyboardCurrent;
         }
 
@@ -410,6 +441,21 @@ namespace Claudy.Input
         }
 
         /// <summary>
+        /// Returns True if any controller is still connected.
+        /// Returns False if all controllers are disconnected.
+        /// </summary>
+        /// <returns></returns>
+        public bool AreAnyControllersPluggedIn()
+        {
+            return (
+                gamePadCurrent1.IsConnected ||
+                gamePadCurrent2.IsConnected ||
+                gamePadCurrent3.IsConnected ||
+                gamePadCurrent4.IsConnected
+                );
+        }
+
+        /// <summary>
         /// Returns the status of the arrow keys in the form of a normalized Vector2 which can
         /// be used for multiplication of a scalar or vector velocity. Think of this in terms
         /// of a direction filter. 8 directions of freedom.
@@ -418,21 +464,26 @@ namespace Claudy.Input
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
         /// <returns>Vector2 of direction.</returns>
-        public Vector2 getLeftThumbStickAs8Direction()
+        public Vector2 GetLeftThumbStickAs8Direction()
         {
             Vector2 movement = new Vector2(0f, 0f);
-            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .50f && gamePadCurrent1.ThumbSticks.Left.Y < 0.0f)
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .99f && gamePadCurrent1.ThumbSticks.Left.Y < 0.0f)
                 movement.Y--;
-            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .50f && gamePadCurrent1.ThumbSticks.Left.Y > 0.0f)
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .99f && gamePadCurrent1.ThumbSticks.Left.Y > 0.0f)
                 movement.Y++;
-            if (gamePadCurrent1.ThumbSticks.Left.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .50f)
+            if (gamePadCurrent1.ThumbSticks.Left.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .99f)
                 movement.X--;
-            if (gamePadCurrent1.ThumbSticks.Left.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .50f)
+            if (gamePadCurrent1.ThumbSticks.Left.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .99f)
                 movement.X++;
             if (movement != Vector2.Zero) 
                 movement.Normalize();
             return movement;
         }
+
+        // TODO: Indexed overload
+        // TODO: GetRightThumbStickAs8Diretion()
+        // TODO: Indexed overload
+
         #endregion
     }
 }

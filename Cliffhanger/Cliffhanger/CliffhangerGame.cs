@@ -27,7 +27,7 @@ namespace Cliffhanger
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            test = new ClaudyInput();
+            test = ClaudyInput.Instance;
         }
 
         protected override void Initialize()
@@ -71,8 +71,8 @@ namespace Cliffhanger
         #region Testing Vars
         GamePadButtons buttonsPressed;
 
-        Color byDirect = Color.Yellow;
-        Color byID = Color.YellowGreen;
+        readonly Color byDirect = Color.Yellow;
+        readonly Color byID = Color.YellowGreen;
         #endregion
 
         /// <summary>
@@ -107,6 +107,20 @@ namespace Cliffhanger
             new Vector2(0f, 100f),
             byID);
 
+
+            spriteBatch.DrawString(consolas,
+                "test.GamePadCurrent1.Buttons = " + buttonsPressed.ToString(),
+                new Vector2(0f, 200f),
+                byDirect);
+            spriteBatch.DrawString(consolas,
+                "test.GamepadByID[1].Buttons.ToString()" + test.GamepadByID[1].Buttons.ToString(),
+                new Vector2(0f, 250f),
+                byID);
+
+            spriteBatch.DrawString(consolas,
+                "test.GetLeftThumbStickAs8Direction()" + test.GetLeftThumbStickAs8Direction(),
+                new Vector2(0f, 400f),
+                byDirect);
 
             spriteBatch.End();
 
