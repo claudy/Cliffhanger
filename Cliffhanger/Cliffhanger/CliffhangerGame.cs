@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Claudy.Input;
 
 namespace Cliffhanger
 {
@@ -18,11 +19,13 @@ namespace Cliffhanger
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ClaudyInput input;
 
         public CliffhangerGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            input = ClaudyInput.Instance;
         }
 
         protected override void Initialize()
@@ -36,12 +39,10 @@ namespace Cliffhanger
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -51,11 +52,12 @@ namespace Cliffhanger
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            input.Update(); // ONLY MAKE THIS CALL ONCE PER FRAME!!!1
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (input.DetectBackPressedByAnyPlayer())
                 this.Exit();
 
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
