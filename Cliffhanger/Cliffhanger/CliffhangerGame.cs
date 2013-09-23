@@ -71,7 +71,7 @@ namespace Cliffhanger
         #region Testing Vars
         GamePadButtons buttonsPressed;
 
-        readonly Color byDirect = Color.Yellow;
+        readonly Color byDirect = Color.Blue;
         readonly Color byID = Color.YellowGreen;
         #endregion
 
@@ -104,7 +104,7 @@ namespace Cliffhanger
                 test.GamepadByID[3].IsConnected.ToString() + "\n" +
             "test.GamepadByID[4].IsConnected=" +
                 test.GamepadByID[4].IsConnected.ToString(),
-            new Vector2(0f, 100f),
+            new Vector2(0f, 75f),
             byID);
 
 
@@ -118,8 +118,12 @@ namespace Cliffhanger
                 byID);
 
             spriteBatch.DrawString(consolas,
-                "test.GetLeftThumbStickAs8Direction()" + test.GetLeftThumbStickAs8Direction(),
+                "test.GetLeftThumbStickAs8Direction()" + test.GetAs8DirectionLeftThumbStick(),
                 new Vector2(0f, 400f),
+                byDirect);
+            spriteBatch.DrawString(consolas,
+                "test.GetRightThumbStickAs8Direction()" + test.GetAs8DirectionRightThumbStick(),
+                new Vector2(0f, 425f),
                 byDirect);
 
             spriteBatch.End();

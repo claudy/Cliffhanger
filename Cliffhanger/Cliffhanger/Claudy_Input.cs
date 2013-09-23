@@ -2,22 +2,27 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+/// <!--
+/// <author>Andrew Claudy</author>
+/// 
+/// 1.5 [current version]  Uses singleton design, revision of the GetAs8DirectionLeft & RightThumbStick()
+/// 1.4     Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>
+/// 1.3     Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads, mouse is limited to Windows compilation target
+/// 1.2     Adds Mouse input and mouseDelta for 3D cameraP1 usage.
+/// 1.1     4-way & 8-way arrow key creates vector2D for 2D games.
+/// 1.0     Keyboard input only.
+/// -->
 namespace Claudy.Input
 {
     /// <summary>
-    /// A wrapper class for listening for certain key presses. 
-    /// Stores the current and previous keyboard & mouse states so that the 
-    /// Game class doesn't need to.
-    /// </summary>
-    /// <author>Andrew Claudy</author>
+    /// A singleton wrapper class for listening for certain key presses. 
     /// 
-    /// <currentversion>1.5</currentversion>Uses singleton design, revision of the GetLeftThumbstickAs8Direction()
-    /// <version>1.4</version><!--Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>-->
-    /// <version>1.3</version><!--Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads,
-    ///                                         Mouse is limited to Windows compilation target-->
-    /// <version>1.2</version><!--Adds Mouse input and mouseDelta for 3D cameraP1 usage.-->
-    /// <version>1.1</version><!--4-way & 8-way arrow key creates vector2D for 2D games.-->
-    /// <version>1.0</version><!--Keyboard input only.-->
+    /// To initialize, write the following in your game's constructor:
+    /// ClaudyInput ci = ClaudyInput.Instance;
+    /// 
+    /// Stores the current and previous keyboard and mouse and GamePad states 
+    /// so that the Game class doesn't need to.
+    /// </summary>
     public sealed class ClaudyInput
     {
         //Singleton with public field design: See http://www.dotnetperls.com/singleton
@@ -171,7 +176,7 @@ namespace Claudy.Input
         }
 
         /// <summary>
-        /// Updates the input state. CALL THIS ONCE ONLY IN MAIN GAME LOOP.
+        /// Updates the input state. PROTIP: CALL THIS ONCE ONLY IN MAIN GAME LOOP.
         /// </summary>
         /// <returns>Returns the current keyboard state. 
         /// The return type is ignorable by the user of this class.</returns>
@@ -431,6 +436,10 @@ namespace Claudy.Input
             }
         }
 
+        /// <summary>
+        /// Returns True if the game should exit.
+        /// </summary>
+        /// <returns></returns>
         public bool DetectBackPressedByAnyPlayer()
         {
             return (keyboardCurrent.IsKeyDown(Keys.Escape) ||
@@ -456,15 +465,14 @@ namespace Claudy.Input
         }
 
         /// <summary>
-        /// Returns the status of the arrow keys in the form of a normalized Vector2 which can
-        /// be used for multiplication of a scalar or vector velocity. Think of this in terms
-        /// of a direction filter. 8 directions of freedom.
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
         /// 
         /// Adapted from the TrackAndEvade1 example code.
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
-        /// <returns>Vector2 of direction.</returns>
-        public Vector2 GetLeftThumbStickAs8Direction()
+        /// <returns>Vector2 of direction. X & Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick()
         {
             Vector2 movement = new Vector2(0f, 0f);
             if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .99f && gamePadCurrent1.ThumbSticks.Left.Y < 0.0f)
@@ -481,7 +489,31 @@ namespace Claudy.Input
         }
 
         // TODO: Indexed overload
-        // TODO: GetRightThumbStickAs8Diretion()
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X & Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick()
+        {
+            Vector2 movement = new Vector2(0f, 0f);
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Right.X) < .99f && gamePadCurrent1.ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Right.X) < .99f && gamePadCurrent1.ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamePadCurrent1.ThumbSticks.Right.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamePadCurrent1.ThumbSticks.Right.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
         // TODO: Indexed overload
 
         #endregion
