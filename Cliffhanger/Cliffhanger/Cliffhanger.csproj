@@ -108,9 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Claudy_Input.cs" />
+    <Compile Include="CliffhangerGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="CliffhangerGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

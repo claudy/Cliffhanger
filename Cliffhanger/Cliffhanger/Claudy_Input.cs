@@ -2,15 +2,19 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-/// <!--
-/// <author>Andrew Claudy</author>
 /// 
-/// 1.5 [current version]  Uses singleton design, revision of the GetAs8DirectionLeft & RightThumbStick()
-/// 1.4     Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>
-/// 1.3     Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads, mouse is limited to Windows compilation target
+/// <author>Andrew Claudy</author>
+/// <email>andrew.claudy@live.com</email>
+/// <!--
+/// [current version] 1.5
+/// 1.5     Uses singleton design, revision of the GetAs8DirectionLeft and RightThumbStick().
+/// 1.4     Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>.
+/// 1.3     Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads, mouse is limited to Windows compilation target.
 /// 1.2     Adds Mouse input and mouseDelta for 3D cameraP1 usage.
 /// 1.1     4-way & 8-way arrow key creates vector2D for 2D games.
 /// 1.0     Keyboard input only.
+/// 
+/// Works with MS Visual Studio 10.0, XNA Framework 4.0
 /// -->
 namespace Claudy.Input
 {
@@ -345,6 +349,16 @@ namespace Claudy.Input
         #endif
 
         #region Xbox 360 GamePad controls
+        public bool isConnected(PlayerIndex p_)
+        {
+            return gamepadByID[((int)p_ + 1)].IsConnected;
+        }
+        public bool isConnected(int playerIndex)
+        {
+            if(playerIndex <= 0 || playerIndex > 4) throw new ArgumentOutOfRangeException("playerIndex", "Only players 1 through 4 shall be accepted.");
+            return gamepadByID[playerIndex].IsConnected;
+        }
+
         /// <summary>
         /// Returns true if that button is currently being pressed. Repeat results of true are likely.
         /// Defaults to the first player if PlayerIndex is not specified.
