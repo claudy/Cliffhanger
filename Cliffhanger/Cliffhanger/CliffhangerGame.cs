@@ -117,39 +117,57 @@ namespace Cliffhanger
                 byID);
 
             spriteBatch.DrawString(consolas,
-                "test.GamePadCurrent1.Buttons = " + buttonsPressed.ToString(),
+                "test.GamePadCurrent1.Buttons=" + buttonsPressed.ToString(),
                 new Vector2(0f, 170f),
                 byDirect);
             spriteBatch.DrawString(consolas,
-                "test.GamepadByID[1].Buttons.ToString()" + test.GamepadByID[1].Buttons.ToString(),
+                "test.GamepadByID[1].Buttons=" + test.GamepadByID[1].Buttons.ToString(),
                 new Vector2(0f, 200f),
                 byID);
-
-
+            spriteBatch.DrawString(consolas,
+                "test.isPressed(Buttons.A)=" + test.isPressed(Buttons.A).ToString(),
+                new Vector2(350f, 0f),
+                byDirect);
+            spriteBatch.DrawString(consolas,
+                "test.isPressed(Buttons.A, PlayerIndex.One)=" + test.isPressed(Buttons.A, PlayerIndex.One).ToString(),
+                new Vector2(350f, 15f),
+                byID);
+            spriteBatch.DrawString(consolas,
+                "test.isPressed(Buttons.A, PlayerIndex.One)=" + test.isPressed(Buttons.A, PlayerIndex.One).ToString(),
+                new Vector2(350f, 30f),
+                byID);
+            spriteBatch.DrawString(consolas,
+                "test.isFirstPress(Buttons.A)" + test.isFirstPress(Buttons.A).ToString(),
+                new Vector2(350f, 45f),
+                byDirect);
+            spriteBatch.DrawString(consolas,
+                "test.isFirstPress(Buttons.A, PlayerIndex.One)" + test.isFirstPress(Buttons.A, PlayerIndex.One).ToString(),
+                new Vector2(350f, 60f),
+                byID);
 
             spriteBatch.DrawString(consolas,
-                "test.GetLeftThumbStickAs8Direction()" + test.GetAs8DirectionLeftThumbStick(),
+                "test.GetLeftThumbStickAs8Direction()=" + test.GetAs8DirectionLeftThumbStick(),
                 new Vector2(0f, 300f),
                 byDirect);
             spriteBatch.DrawString(consolas,
-                "test.GetRightThumbStickAs8Direction()" + test.GetAs8DirectionRightThumbStick(),
+                "test.GetRightThumbStickAs8Direction()=" + test.GetAs8DirectionRightThumbStick(),
                 new Vector2(0f, 380f),
                 byDirect);
             spriteBatch.DrawString(consolas,
-                "test.GetLeftThumbStickAs8Direction(P_)" + test.GetAs8DirectionLeftThumbStick(PlayerIndex.One),
-                new Vector2(200f, 320f),
+                "test.GetLeftThumbStickAs8Direction(P_)=" + test.GetAs8DirectionLeftThumbStick(PlayerIndex.One),
+                new Vector2(150f, 320f),
                 byID);
             spriteBatch.DrawString(consolas,
-                "test.GetLeftThumbStickAs8Direction(int)" + test.GetAs8DirectionLeftThumbStick(1),
-                new Vector2(200f, 340f),
+                "test.GetLeftThumbStickAs8Direction(int)=" + test.GetAs8DirectionLeftThumbStick(1),
+                new Vector2(150f, 340f),
                 byID);
             spriteBatch.DrawString(consolas,
-                "test.GetRightThumbStickAs8Direction(P_)" + test.GetAs8DirectionRightThumbStick(PlayerIndex.One),
-                new Vector2(200f, 400f),
+                "test.GetRightThumbStickAs8Direction(P_)=" + test.GetAs8DirectionRightThumbStick(PlayerIndex.One),
+                new Vector2(150f, 400f),
                 byID);
             spriteBatch.DrawString(consolas,
-                "test.GetRightThumbStickAs8Direction(int)" + test.GetAs8DirectionRightThumbStick(1),
-                new Vector2(200f, 420f),
+                "test.GetRightThumbStickAs8Direction(int)=" + test.GetAs8DirectionRightThumbStick(1),
+                new Vector2(150f, 420f),
                 byID);
 
             spriteBatch.End();
