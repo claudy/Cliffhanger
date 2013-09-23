@@ -126,6 +126,7 @@ namespace Cliffhanger
                 new Vector2(0f, 425f),
                 byDirect);
 
+
             spriteBatch.End();
 
             // Claudy calls dibs on viewports drawing code.

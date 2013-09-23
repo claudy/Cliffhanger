@@ -30,6 +30,9 @@ namespace Claudy.Input
         ////////////////////////////////////////////////////////////////
 
         // Note to self: members are only public if explicitly, individually defined as public.
+        // Development choice: there are overloads for empty player index defaulting to controller one.
+        // Defaulting is faster than index resolving by a tiny bit. Also, update is slightly slower
+        // due to assignments (likely negligible impact). 
         KeyboardState keyboardCurrent;
         KeyboardState keyboardPrevious;
 
@@ -81,6 +84,7 @@ namespace Claudy.Input
         /// <summary>
         /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
         /// </summary>
+        /// <remarks>int index = (int)p_ + 1; will come in handy where p_ is of type PlayerIndex.</remarks>
         public GamePadState[] GamepadByID
         {
             get { return gamepadByID; }
@@ -89,6 +93,7 @@ namespace Claudy.Input
         /// <summary>
         /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
         /// </summary>
+        /// <remarks>int index = (int)p_ + 1; will come in handy where p_ is of type PlayerIndex.</remarks>
         public GamePadState[] PreviousGamepadByID
         {
             get { return previousGamepadByID; }
@@ -471,7 +476,7 @@ namespace Claudy.Input
         /// Adapted from the TrackAndEvade1 example code.
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
-        /// <returns>Vector2 of direction. X & Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
         public Vector2 GetAs8DirectionLeftThumbStick()
         {
             Vector2 movement = new Vector2(0f, 0f);
@@ -488,7 +493,31 @@ namespace Claudy.Input
             return movement;
         }
 
-        // TODO: Indexed overload
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick(PlayerIndex p_)
+        {
+            int index = (int)p_ + 1;
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Left.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Left.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
 
         /// <summary>
         /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
@@ -497,7 +526,7 @@ namespace Claudy.Input
         /// Adapted from the TrackAndEvade1 example code.
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
-        /// <returns>Vector2 of direction. X & Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
         public Vector2 GetAs8DirectionRightThumbStick()
         {
             Vector2 movement = new Vector2(0f, 0f);
@@ -514,7 +543,31 @@ namespace Claudy.Input
             return movement;
         }
 
-        // TODO: Indexed overload
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick(PlayerIndex p_)
+        {
+            int index = (int)p_ + 1;
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Right.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Right.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
 
         #endregion
     }
