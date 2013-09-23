@@ -187,9 +187,7 @@ namespace Claudy.Input
         /// <summary>
         /// Updates the input state. PROTIP: CALL THIS ONCE ONLY IN MAIN GAME LOOP.
         /// </summary>
-        /// <returns>Returns the current keyboard state. 
-        /// The return type is ignorable by the user of this class.</returns>
-        public KeyboardState Update()
+        public void Update()
         {
             keyboardPrevious = keyboardCurrent;
             keyboardCurrent = Keyboard.GetState();
@@ -222,8 +220,6 @@ namespace Claudy.Input
             previousGamepadByID[2] = gamePadPrevious2;
             previousGamepadByID[3] = gamePadPrevious3;
             previousGamepadByID[4] = gamePadPrevious4;
-
-            return keyboardCurrent;
         }
 
         #region Keyboard controls
