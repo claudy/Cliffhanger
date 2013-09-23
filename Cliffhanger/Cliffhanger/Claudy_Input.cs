@@ -2,23 +2,41 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+/// 
+/// <author>Andrew Claudy</author>
+/// <email>andrew.claudy@live.com</email>
+/// <!--
+/// [current version] 1.5
+/// 1.5     Uses singleton design, revision of the GetAs8DirectionLeft and RightThumbStick().
+/// 1.4     Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>.
+/// 1.3     Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads, mouse is limited to Windows compilation target.
+/// 1.2     Adds Mouse input and mouseDelta for 3D cameraP1 usage.
+/// 1.1     4-way & 8-way arrow key creates vector2D for 2D games.
+/// 1.0     Keyboard input only.
+/// 
+/// Works with MS Visual Studio 10.0, XNA Framework 4.0
+/// -->
 namespace Claudy.Input
 {
     /// <summary>
-    /// A wrapper class for listening for certain key presses. 
-    /// Stores the current and previous keyboard & mouse states so that the 
-    /// Game class doesn't need to.
+    /// A singleton wrapper class for listening for certain key presses. 
+    /// 
+    /// To initialize, write the following in your game's constructor:
+    /// ClaudyInput ci = ClaudyInput.Instance;
+    /// 
+    /// Stores the current and previous keyboard and mouse and GamePad states 
+    /// so that the Game class doesn't need to.
     /// </summary>
-    /// <author>Andrew Claudy</author>
-    /// <currentversion>1.4</currentversion><!--Adds indexing of Gamepad by int or by PlayerIndex. <device><current || previous><[index]>-->
-    /// <currentversion>1.3</currentversion><!--Adds Xbox input, Cole Stoltzfus's inspiration for individual gamepads,
-    ///                                         Mouse is limited to Windows compilation target-->
-    /// <version>1.2</version><!--Adds Mouse input and mouseDelta for 3D cameraP1 usage.-->
-    /// <version>1.1</version><!--4-way & 8-way arrow key creates vector2D for 2D games.-->
-    /// <version>1.0</version><!--Keyboard input only.-->
-    public class ClaudyInput
+    public sealed class ClaudyInput
     {
-        // Note to self: these are only public if explicitly, individually defined as public.
+        //Singleton with public field design: See http://www.dotnetperls.com/singleton
+        public static readonly ClaudyInput Instance = new ClaudyInput(); 
+        ////////////////////////////////////////////////////////////////
+
+        // Note to self: members are only public if explicitly, individually defined as public.
+        // Development choice: there are overloads for empty player index defaulting to controller one.
+        // Defaulting is faster than index resolving by a tiny bit. Also, update is slightly slower
+        // due to assignments (likely negligible impact). 
         KeyboardState keyboardCurrent;
         KeyboardState keyboardPrevious;
 
@@ -41,16 +59,17 @@ namespace Claudy.Input
         private GamePadState gamePadPrevious3;
         private GamePadState gamePadCurrent4;
         private GamePadState gamePadPrevious4;
+        
 
         public KeyboardState KeyboardCurrent
         {
             get { return keyboardCurrent; }
-            protected set { }
+            //protected set { }
         }
         public KeyboardState KeyboardPrevious
         {
             get { return keyboardPrevious; }
-            protected set { }
+            //protected set { }
         }
 
         #if WINDOWS
@@ -65,49 +84,70 @@ namespace Claudy.Input
             set { mousePrevious = value; }
         }
         #endif
+        #region GamePad Property Declarations
+        /// <summary>
+        /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
+        /// </summary>
+        /// <remarks>int index = (int)p_ + 1; will come in handy where p_ is of type PlayerIndex.</remarks>
+        public GamePadState[] GamepadByID
+        {
+            get { return gamepadByID; }
+            //protected set { }
+        }
+        /// <summary>
+        /// Indexed reference to each player's gamepad. Player 1 is [1], P2 is [2] etc... [0] is null.
+        /// </summary>
+        /// <remarks>int index = (int)p_ + 1; will come in handy where p_ is of type PlayerIndex.</remarks>
+        public GamePadState[] PreviousGamepadByID
+        {
+            get { return previousGamepadByID; }
+            //protected set { }
+        }
 
         public GamePadState GamePadCurrent1
         {
             get { return gamePadCurrent1; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious1
         {
             get { return gamePadPrevious1; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent2
         {
             get { return gamePadCurrent2; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious2
         {
             get { return gamePadPrevious2; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent3
         {
             get { return gamePadCurrent3; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious3
         {
             get { return gamePadPrevious3; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadCurrent4
         {
             get { return gamePadCurrent4; }
-            protected set { }
+            //protected set { }
         }
         public GamePadState GamePadPrevious4
         {
             get { return gamePadPrevious4; }
-            protected set { }
+            //protected set { }
         }
+        #endregion
 
-        public ClaudyInput()
+        // CTOR
+        private ClaudyInput()
         {
             keyboardPrevious = keyboardCurrent; // Initialize previous as "no action occurring".
             keyboardCurrent = Keyboard.GetState();
@@ -136,14 +176,18 @@ namespace Claudy.Input
             gamepadByID[3] = gamePadCurrent3;
             gamepadByID[4] = gamePadCurrent4;
             previousGamepadByID = new GamePadState[5];
+            previousGamepadByID[0] = new GamePadState();
+            previousGamepadByID[1] = gamePadPrevious1;
+            previousGamepadByID[2] = gamePadPrevious2;
+            previousGamepadByID[3] = gamePadPrevious3;
+            previousGamepadByID[4] = gamePadPrevious4;
+
         }
 
         /// <summary>
-        /// Updates the input state. CALL THIS ONCE ONLY IN MAIN GAME LOOP.
+        /// Updates the input state. PROTIP: CALL THIS ONCE ONLY IN MAIN GAME LOOP.
         /// </summary>
-        /// <returns>Returns the current keyboard state. 
-        /// The return type is ignorable by the user of this class.</returns>
-        public KeyboardState Update()
+        public void Update()
         {
             keyboardPrevious = keyboardCurrent;
             keyboardCurrent = Keyboard.GetState();
@@ -167,7 +211,15 @@ namespace Claudy.Input
 
             gamePadPrevious4 = gamePadCurrent4; // Initialize previous as "no action occurring".
             gamePadCurrent4 = GamePad.GetState(PlayerIndex.Four);
-            return keyboardCurrent;
+
+            gamepadByID[1] = gamePadCurrent1;
+            gamepadByID[2] = gamePadCurrent2;
+            gamepadByID[3] = gamePadCurrent3;
+            gamepadByID[4] = gamePadCurrent4;
+            previousGamepadByID[1] = gamePadPrevious1;
+            previousGamepadByID[2] = gamePadPrevious2;
+            previousGamepadByID[3] = gamePadPrevious3;
+            previousGamepadByID[4] = gamePadPrevious4;
         }
 
         #region Keyboard controls
@@ -293,6 +345,16 @@ namespace Claudy.Input
         #endif
 
         #region Xbox 360 GamePad controls
+        public bool isConnected(PlayerIndex p_)
+        {
+            return gamepadByID[((int)p_ + 1)].IsConnected;
+        }
+        public bool isConnected(int playerIndex)
+        {
+            if(playerIndex <= 0 || playerIndex > 4) throw new ArgumentOutOfRangeException("playerIndex", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
+            return gamepadByID[playerIndex].IsConnected;
+        }
+
         /// <summary>
         /// Returns true if that button is currently being pressed. Repeat results of true are likely.
         /// Defaults to the first player if PlayerIndex is not specified.
@@ -389,38 +451,186 @@ namespace Claudy.Input
             }
         }
 
+        /// <summary>
+        /// Returns True if the game should exit.
+        /// </summary>
+        /// <returns></returns>
         public bool DetectBackPressedByAnyPlayer()
         {
-            return (gamePadCurrent1.IsButtonDown(Buttons.Back) ||
+            return (keyboardCurrent.IsKeyDown(Keys.Escape) ||
+                gamePadCurrent1.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent2.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent3.IsButtonDown(Buttons.Back) ||
                 gamePadCurrent4.IsButtonDown(Buttons.Back));
         }
 
         /// <summary>
-        /// Returns the status of the arrow keys in the form of a normalized Vector2 which can
-        /// be used for multiplication of a scalar or vector velocity. Think of this in terms
-        /// of a direction filter. 8 directions of freedom.
+        /// Returns True if any controller is still connected.
+        /// Returns False if all controllers are disconnected.
+        /// </summary>
+        /// <returns></returns>
+        public bool AreAnyControllersPluggedIn()
+        {
+            return (
+                gamePadCurrent1.IsConnected ||
+                gamePadCurrent2.IsConnected ||
+                gamePadCurrent3.IsConnected ||
+                gamePadCurrent4.IsConnected
+                );
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
         /// 
         /// Adapted from the TrackAndEvade1 example code.
         /// Defaults to first player if no PlayerIndex is specified.
         /// </summary>
-        /// <returns>Vector2 of direction.</returns>
-        public Vector2 getLeftThumbStickAs8Direction()
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick()
         {
             Vector2 movement = new Vector2(0f, 0f);
-            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .50f && gamePadCurrent1.ThumbSticks.Left.Y < 0.0f)
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .99f && gamePadCurrent1.ThumbSticks.Left.Y < 0.0f)
                 movement.Y--;
-            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .50f && gamePadCurrent1.ThumbSticks.Left.Y > 0.0f)
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Left.X) < .99f && gamePadCurrent1.ThumbSticks.Left.Y > 0.0f)
                 movement.Y++;
-            if (gamePadCurrent1.ThumbSticks.Left.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .50f)
+            if (gamePadCurrent1.ThumbSticks.Left.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .99f)
                 movement.X--;
-            if (gamePadCurrent1.ThumbSticks.Left.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .50f)
+            if (gamePadCurrent1.ThumbSticks.Left.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Left.Y) < .99f)
                 movement.X++;
             if (movement != Vector2.Zero) 
                 movement.Normalize();
             return movement;
         }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick(PlayerIndex p_)
+        {
+            int index = (int)p_ + 1;
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Left.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Left.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionLeftThumbStick(int index)
+        {
+            if (index <= 0 || index > 4) throw new ArgumentOutOfRangeException("index", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Left.X) < .99f && gamepadByID[index].ThumbSticks.Left.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Left.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Left.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Left.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick()
+        {
+            Vector2 movement = new Vector2(0f, 0f);
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Right.X) < .99f && gamePadCurrent1.ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamePadCurrent1.ThumbSticks.Right.X) < .99f && gamePadCurrent1.ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamePadCurrent1.ThumbSticks.Right.X < 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamePadCurrent1.ThumbSticks.Right.X > 0.0f && Math.Abs(gamePadCurrent1.ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick(PlayerIndex p_)
+        {
+            int index = (int)p_ + 1;
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Right.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Right.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
+        /// <summary>
+        /// Returns the status of the Left Thumbstick in the form of a normalized, 8-direction Vector2.
+        /// Think of this in terms of a direction filter. 8 directions of freedom.
+        /// 
+        /// Adapted from the TrackAndEvade1 example code.
+        /// Defaults to first player if no PlayerIndex is specified.
+        /// </summary>
+        /// <returns>Vector2 of direction. X and Y values possibilities: { 0f, +-0.7071f, +-1f }</returns>
+        public Vector2 GetAs8DirectionRightThumbStick(int index)
+        {
+            if (index <= 0 || index > 4) throw new ArgumentOutOfRangeException("index", "A function argument was not between 1 and 4. Only players 1 through 4 shall be accepted.");
+            Vector2 movement = new Vector2(0f, 0f);
+
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y < 0.0f)
+                movement.Y--;
+            if (Math.Abs(gamepadByID[index].ThumbSticks.Right.X) < .99f && gamepadByID[index].ThumbSticks.Right.Y > 0.0f)
+                movement.Y++;
+            if (gamepadByID[index].ThumbSticks.Right.X < 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X--;
+            if (gamepadByID[index].ThumbSticks.Right.X > 0.0f && Math.Abs(gamepadByID[index].ThumbSticks.Right.Y) < .99f)
+                movement.X++;
+            if (movement != Vector2.Zero)
+                movement.Normalize();
+            return movement;
+        }
+
         #endregion
     }
 }
