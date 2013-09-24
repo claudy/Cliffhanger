@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bird.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Claudy_Input.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Platform.cs" />
