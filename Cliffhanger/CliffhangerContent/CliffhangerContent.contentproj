@@ -112,6 +112,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asteroid_cell64_Warspawn_OpenGameArt.png">
+      <Name>asteroid_cell64_Warspawn_OpenGameArt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="vineTop.png">
       <Name>vineTop</Name>
       <Importer>TextureImporter</Importer>

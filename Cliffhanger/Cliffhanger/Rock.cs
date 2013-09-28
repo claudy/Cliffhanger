@@ -12,42 +12,57 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cliffhanger
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
-        public Rock(Game game)
+        static readonly float ROCKGRAVITY = -.02f; // Gravity
+        public Vector2 startPosition;
+        public Vector2 currentPosition;
+        public Vector2 velocity;
+        private Rectangle rect; // Center is 0, 0; NOT upper left.
+        protected const int WH = 64; //Size of texture in pixel, Assumes Width == height
+        static Texture2D rockTex;
+
+        public Rock(Game game, float startXPos, float startYPos, Vector2 velocity)
             : base(game)
         {
-            // TODO: Construct any child components here
+            startPosition = new Vector2(startXPos, startYPos);
+            currentPosition = startPosition;
+            this.velocity = velocity;
+            rect = new Rectangle((int)startXPos,
+                (int)startYPos,
+                WH,
+                WH);
+            if (rockTex == null)
+            {
+                rockTex = Game.Content.Load<Texture2D>("asteroid_cell64_Warspawn_OpenGameArt");
+            }
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Platform ground)
         {
-            // TODO: Add your update code here
+            if (currentPosition.Y < ground.position.Y)
+                this.Dispose();
+
+            // In order for gravity to work...this must -=.
+            velocity.Y -= ROCKGRAVITY * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            currentPosition.X += velocity.X;
+            currentPosition.Y += velocity.Y;
 
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-
+            rect.X = (int)(currentPosition.X - WH / 2);
+            rect.Y = (int)(currentPosition.Y + offset.Y + WH / 2);
+            rect.Width = WH;
+            rect.Height = WH;
+            spriteBatch.Draw(rockTex, rect, Color.White);
         }
     }
 }
