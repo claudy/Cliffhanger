@@ -17,7 +17,7 @@ namespace Cliffhanger
     /// </summary>
     public class CliffhangerGame : Microsoft.Xna.Framework.Game
     {
-        enum LevelStateFSM
+        public enum LevelStateFSM
         {
             /// <summary>
             /// Similar to the alpha dog being the leader of the pack, the alpha menu leads the rest of the levels.
@@ -34,7 +34,7 @@ namespace Cliffhanger
         /// <summary>
         /// Finite State Machine of the game mode/current level.
         /// </summary>
-        LevelStateFSM currentGameState;
+        public LevelStateFSM currentGameState;
         enum MenuState 
         {
             TopMost,
@@ -87,7 +87,6 @@ namespace Cliffhanger
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             calibri = Content.Load<SpriteFont>("calibri");
             consolas = Content.Load<SpriteFont>("consolas");
@@ -96,7 +95,7 @@ namespace Cliffhanger
 
             playMenuItemPos = new Vector2(GraphicsDevice.Viewport.Width / 4.0f, GraphicsDevice.Viewport.Height / 2.0f - GraphicsDevice.Viewport.Height * 0.1f);
             helpMenuItempPos = new Vector2(GraphicsDevice.Viewport.Width / 4.0f, GraphicsDevice.Viewport.Height / 2.0f * 1.0f);
-            exitMenuItemPos =  new Vector2(GraphicsDevice.Viewport.Width/4.0f, GraphicsDevice.Viewport.Height / 2.0f + GraphicsDevice.Viewport.Height * 0.1f);
+            exitMenuItemPos =  new Vector2(GraphicsDevice.Viewport.Width / 4.0f, GraphicsDevice.Viewport.Height / 2.0f + GraphicsDevice.Viewport.Height * 0.1f);
         }
 
         protected override void UnloadContent()
@@ -145,7 +144,25 @@ namespace Cliffhanger
                                         currentlySelectedMenuChoice++;
                                     }
                                 }
-
+                                if ((input.isFirstPress(Buttons.A, PlayerIndex.One) || input.isFirstPress(Buttons.A, PlayerIndex.Two)))
+                                {
+                                    switch (currentlySelectedMenuChoice)
+                                    {
+                                        case MenuChoice.Play:
+                                            currentMenuState = MenuState.InGame;
+                                            currentGameState = LevelStateFSM.Level1;
+                                            break;
+                                        case MenuChoice.Help:
+                                            currentMenuState = MenuState.Help;
+                                            break;
+                                        case MenuChoice.Exit:
+                                            currentMenuState = MenuState.Exit;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    
+                                }
                             }
                             break;
                         case MenuState.Help:
