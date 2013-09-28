@@ -4,3 +4,5 @@
 /Cliffhanger/Cliffhanger/bin
 /Cliffhanger/Cliffhanger/obj
 /Cliffhanger/Cliffhanger/*.user
+
+*.cachefile
