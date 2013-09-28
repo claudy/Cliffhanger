@@ -39,7 +39,7 @@ namespace Cliffhanger
         LevelOne level1;
 
         public SpriteFont consolas;
-        MediaSource mediaSource;
+        Music music;
 
         public CliffhangerGame()
         {
@@ -66,6 +66,8 @@ namespace Cliffhanger
 
             level1.LoadContent();
             mainMenu = new Menu(this);
+            music = new Music(this);
+            music.playBackgroundMusic();
         }
 
         protected override void UnloadContent()
@@ -102,6 +104,12 @@ namespace Cliffhanger
                 default:
                     break;
             }
+
+
+            // Music Testing Code.
+            if (input.isPressed(Buttons.B)) music.stopBackgroundMusic();
+            if (input.isPressed(Buttons.Y)) music.playBackgroundMusic();
+            // Delete Music Testing Code once convinced of functionality of music class.
 
             base.Update(gameTime);
         }

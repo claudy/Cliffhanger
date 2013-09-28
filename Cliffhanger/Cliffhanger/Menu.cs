@@ -153,6 +153,7 @@ namespace Cliffhanger
                     break;
             }
             #endregion
+
             base.Update(gameTime);
         }
 

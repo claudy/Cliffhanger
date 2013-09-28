@@ -20,7 +20,7 @@ namespace Cliffhanger
         // CTOR
         public Music(Game game)
         {
-            backgroundMusic = game.Content.Load<Song>("TODO: NAME OF SONG");
+            backgroundMusic = game.Content.Load<Song>("Philippe_Jungle_LessScream");
             MediaPlayer.Stop();
         }
 
@@ -37,6 +37,7 @@ namespace Cliffhanger
 
         public void stopBackgroundMusic()
         {
+            MediaPlayer.Stop();
             thread.Abort();
         }
 
