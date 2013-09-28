@@ -117,7 +117,7 @@ namespace Cliffhanger
                             {
                                 case MenuChoice.Play:
                                     currentMenuState = MenuState.InGame;
-                                    game.currentGameState = CliffhangerGame.LevelStateFSM.Level2;
+                                    game.currentGameState = CliffhangerGame.LevelStateFSM.Level1;
                                     break;
                                 case MenuChoice.Help:
                                     currentMenuState = MenuState.Help;
@@ -160,8 +160,7 @@ namespace Cliffhanger
         /// 
         /// </summary>
         /// <param name="spriteBatch">The spriteBatch passed MUST have its .Begin() call first.</param>
-        public void Draw(SpriteBatch spriteBatch, 
-            SpriteFont menuFont)
+        public void Draw(SpriteBatch spriteBatch)
         {
             //Assumes SpriteBatch has begun already.
             switch (currentMenuState)
@@ -171,24 +170,24 @@ namespace Cliffhanger
                     switch (currentlySelectedMenuChoice)
                     {
                         case MenuChoice.Play:
-                            spriteBatch.DrawString(menuFont, "Play", playMenuItemPos, colorSelectYES);
-                            spriteBatch.DrawString(menuFont, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectYES);
+                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                         case MenuChoice.Help:
-                            spriteBatch.DrawString(menuFont, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Help", helpMenuItempPos, colorSelectYES);
-                            spriteBatch.DrawString(menuFont, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectYES);
+                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                         case MenuChoice.Exit:
-                            spriteBatch.DrawString(menuFont, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Exit", exitMenuItemPos, colorSelectYES);
+                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectYES);
                             break;
                         default:
-                            spriteBatch.DrawString(menuFont, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(menuFont, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                     }
                     break;

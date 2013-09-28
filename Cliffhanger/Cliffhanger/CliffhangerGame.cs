@@ -119,10 +119,7 @@ namespace Cliffhanger
             switch (currentGameState)
             {
                 case LevelStateFSM.AlphaMenu:
-                    mainMenu.Draw(spriteBatch,
-                        consolas,
-                        menuScreenTexture,
-                        helpScreenTexture);
+                    mainMenu.Draw(spriteBatch);
                     break;
                 case LevelStateFSM.Level1:
                     spriteBatch.End(); //Not quite kosher.  Refactor?
