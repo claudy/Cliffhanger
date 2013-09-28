@@ -18,8 +18,10 @@ namespace Cliffhanger
     /// </summary>
     public class Menu : Microsoft.Xna.Framework.GameComponent
     {
-        public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.SlateGray;
-        Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
+        public readonly Color colorSelectYES = Color.Red,
+            colorSelectNO = Color.SlateGray,
+            colorTitle = Color.Gold;
+        Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos, titleMenuItemPos;
         private ClaudyInput input;
 
         enum MenuState
@@ -61,6 +63,8 @@ namespace Cliffhanger
                 Game.GraphicsDevice.Viewport.Height / 2.0f - Game.GraphicsDevice.Viewport.Height * 0.1f);
             exitMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 6.0f, 
                 Game.GraphicsDevice.Viewport.Height / 2.0f + Game.GraphicsDevice.Viewport.Height * 0.0f);
+            titleMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2.0f - Game.GraphicsDevice.Viewport.Width * 0.1f,
+                Game.GraphicsDevice.Viewport.Height * 0.05f);
 
             helpScreenTexture = Game.Content.Load<Texture2D>("helpScreenTexture");
             menuScreenTexture = Game.Content.Load<Texture2D>("menuScreenTexture");
@@ -168,6 +172,7 @@ namespace Cliffhanger
             {
                 case MenuState.TopMost:
                     spriteBatch.Draw(menuScreenTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+                    spriteBatch.DrawString(tahoma, "Cliffhanger", titleMenuItemPos, colorTitle);
                     switch (currentlySelectedMenuChoice)
                     {
                         case MenuChoice.Play:
