@@ -54,10 +54,10 @@ namespace Cliffhanger
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             rect.X = (int)(currentPosition.X - WH / 2);
-            rect.Y = (int)(currentPosition.Y + WH / 2);
+            rect.Y = (int)(currentPosition.Y + offset.Y + WH / 2);
             rect.Width = WH;
             rect.Height = WH;
             spriteBatch.Draw(rockTex, rect, Color.White);

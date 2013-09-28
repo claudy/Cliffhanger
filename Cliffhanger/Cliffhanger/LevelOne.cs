@@ -149,7 +149,7 @@ namespace Cliffhanger
                 ground.Draw(spriteBatch, offsetTop);
                 foreach (Rock r in rocks)
                 {
-                    r.Draw(spriteBatch);
+                    r.Draw(spriteBatch, offsetTop);
                 }
             }
             #endregion //Top Viewport
@@ -170,7 +170,7 @@ namespace Cliffhanger
                 ground.Draw(spriteBatch, offsetBottom);
                 foreach (Rock r in rocks)
                 {
-                    r.Draw(spriteBatch);
+                    r.Draw(spriteBatch, offsetBottom);
                 }
             }
             #endregion //Bottom Viewport
