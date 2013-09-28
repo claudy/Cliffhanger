@@ -24,14 +24,33 @@ namespace Cliffhanger
         static int platformEdge = 17;
         static int mailmanThresh = 20;
 
-        public static bool PlayerPlatformCollision(Player mailman, Platform platform)
+        public static bool PlayerPlatformCollision(Player player, Platform platform)
         {
-            if ((mailman.position.Y + mailman.hitbox.Height > platform.position.Y) && mailman.position.Y + mailman.hitbox.Height - mailmanThresh < platform.position.Y)
+            if ((player.position.Y + player.hitbox.Height > platform.position.Y) && player.position.Y + player.hitbox.Height - mailmanThresh < platform.position.Y)
             {
-                if ((mailman.position.X + mailman.hitbox.Width > platform.position.X + platformEdge) && mailman.position.X < platform.position.X + platform.platformRect.Width - platformEdge)
+                if ((player.position.X + player.hitbox.Width > platform.position.X + platformEdge) && player.position.X < platform.position.X + platform.platformRect.Width - platformEdge)
                 {
-                    mailman.position.Y = platform.position.Y - mailman.hitbox.Height;
-                    mailman.vel.Y = 0;
+                    player.position.Y = platform.position.Y - player.hitbox.Height;
+                    player.vel.Y = 0;
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
+        static int vineThreshold = 10;
+        public static bool PlayerVineCollision(Player player, Vine vine, GameTime gameTime)
+        {
+            if ((player.position.X + player.hitbox.Width/2 < vine.lane * 100 + vine.vineRect.Width/2 + 75 + vineThreshold)
+                && (player.position.X + player.hitbox.Width / 2 > vine.lane * 100 + 75 - vineThreshold))
+            {
+                if ((player.position.Y + player.hitbox.Height > vine.vineRect.Y) && (player.position.Y + player.hitbox.Height < vine.vineRect.Y + vine.vineRect.Height))
+                {
+                    //player.position.Y = platform.position.Y - player.hitbox.Height;
+                    player.position.Y -= player.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
+                    player.vel.X *= .5f;
+                    player.vel.Y = 0;
                     return true;
                 }
                 else return false;

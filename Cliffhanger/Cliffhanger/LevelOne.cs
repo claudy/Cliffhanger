@@ -78,14 +78,14 @@ namespace Cliffhanger
             //Vine
             vines = new List<Vine>();
             vines.Add(new Vine(Game, -200, 10, 0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, -200, 11, 1));
+            vines.Add(new Vine(Game, -200, 12, 1));
             vines.Add(new Vine(Game, -200, 9, 2));
             vines.Add(new Vine(Game, -200, 10, 3));
-            vines.Add(new Vine(Game, -200, 11, 4));
+            vines.Add(new Vine(Game, -200, 12, 4));
             vines.Add(new Vine(Game, -200, 9, 5));
-            vines.Add(new Vine(Game, -200, 10, 6));
-            vines.Add(new Vine(Game, -200, 11, 7));
-            vines.Add(new Vine(Game, -200, 11, 8));
+            vines.Add(new Vine(Game, -200, 12, 6));
+            vines.Add(new Vine(Game, -200, 12, 7));
+            vines.Add(new Vine(Game, -200, 12, 8));
             
             foreach(Vine vine in vines)
             {
@@ -116,6 +116,7 @@ namespace Cliffhanger
             player1.Update(gameTime);
             ground.Update(gameTime);
 
+            #region Platform Collision
             foreach (Platform platform in platforms)
             {
                 if (player1.vel.Y >= 0)
@@ -133,6 +134,27 @@ namespace Cliffhanger
                     }
                 }
             }
+            #endregion //Platform Collision
+
+            #region Vine Collision
+            foreach (Vine vine in vines)
+            {
+                if (player1.vel.Y >= 0)
+                {
+                    if (Collision.PlayerVineCollision(player1, vine, gameTime))
+                    {
+                        //state = PlayerState.standing;
+                        player1.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        //player1.canjump = false;
+                    }
+                }
+            }
+            #endregion //Vine Collision
 
             base.Update(gameTime);
         }

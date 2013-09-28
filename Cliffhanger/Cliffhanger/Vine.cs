@@ -23,6 +23,7 @@ namespace Cliffhanger
         public Rectangle vineRect;
         public Vector2 position;
         int height, width;
+        public int lane;
 
         public Vine(Game game, int y, int heightUnits, int lane)
             : base(game)
@@ -31,6 +32,7 @@ namespace Cliffhanger
             position.Y = y;
             height = heightUnits * 32;
             width = 32;
+            this.lane = lane;
             // TODO: Construct any child components here
         }
 
