@@ -18,8 +18,9 @@ namespace Cliffhanger
         public Vector2 startPosition;
         public Vector2 currentPosition;
         public Vector2 velocity;
-        private Rectangle rect;
+        private Rectangle rect; // Center is 0, 0; NOT upper left.
         protected const int WH = 64; //Size of texture in pixel, Assumes Width == height
+        static Texture2D rockTex;
 
         public Rock(Game game, float startXPos, float startYPos, Vector2 velocity)
             : base(game)
@@ -31,6 +32,10 @@ namespace Cliffhanger
                 (int)startYPos,
                 WH,
                 WH);
+            if (rockTex == null)
+            {
+                rockTex = Game.Content.Load<Texture2D>("asteroid_cell64_Warspawn_OpenGameArt");
+            }
         }
 
         public override void Initialize()
@@ -49,13 +54,13 @@ namespace Cliffhanger
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D rockTexture)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            rect.X = (int)currentPosition.X;
-            rect.Y = (int)currentPosition.Y;
+            rect.X = (int)(currentPosition.X - WH / 2);
+            rect.Y = (int)(currentPosition.Y + WH / 2);
             rect.Width = WH;
             rect.Height = WH;
-            spriteBatch.Draw(rockTexture, rect, Color.White);
+            spriteBatch.Draw(rockTex, rect, Color.White);
         }
     }
 }

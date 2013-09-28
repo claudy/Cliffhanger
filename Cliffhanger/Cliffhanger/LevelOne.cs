@@ -34,10 +34,14 @@ namespace Cliffhanger
 
         //Player Stuff
         Player player1;
+        //? Player player2;
 
         //Platform
         List<Platform> platforms;
         Platform ground;
+
+        //Rock
+        List<Rock> rocks;
 
         //Vine
         Vine vine;
@@ -47,7 +51,6 @@ namespace Cliffhanger
         public LevelOne(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
         }
 
 
@@ -65,6 +68,8 @@ namespace Cliffhanger
             //Player
             player1 = new Player(Game);
             player1.Initialize();
+            //player2 = new Player(Game);
+            //player2.Initialize();
 
             //Platform
             platforms = new List<Platform>();
@@ -72,6 +77,10 @@ namespace Cliffhanger
             ground.Initialize();
             platforms.Add(ground);
 
+            //Rock
+            rocks = new List<Rock>();
+            //Testrock
+            rocks.Add(new Rock(Game, 0.0f, 0.0f, new Vector2(-0.01f, 0.01f)));
 
             //Vine
             vine = new Vine(Game, 100, 100, 100, 0);
@@ -84,7 +93,6 @@ namespace Cliffhanger
         {
             cliffTex = Game.Content.Load<Texture2D>("cliff");
             cliffRect = new Rectangle(0, GraphicsDevice.Viewport.Height - cliffTex.Height * 2, GraphicsDevice.Viewport.Width * 2, cliffTex.Height * 2);
-            
         }
 
         public void Update(GameTime gameTime, ClaudyInput input)
@@ -119,6 +127,11 @@ namespace Cliffhanger
                 }
             }
 
+            foreach (Rock r in rocks)
+            {
+                r.Update(gameTime, ground);
+            }
+
             base.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -134,6 +147,10 @@ namespace Cliffhanger
                 vine.Draw(spriteBatch, offsetTop);
                 player1.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
+                foreach (Rock r in rocks)
+                {
+                    r.Draw(spriteBatch);
+                }
             }
             #endregion //Top Viewport
 
@@ -151,6 +168,10 @@ namespace Cliffhanger
                 vine.Draw(spriteBatch, offsetBottom);
                 player1.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
+                foreach (Rock r in rocks)
+                {
+                    r.Draw(spriteBatch);
+                }
             }
             #endregion //Bottom Viewport
 
@@ -161,6 +182,7 @@ namespace Cliffhanger
             spriteBatch.Begin();
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
+
             spriteBatch.End();
 
         }
