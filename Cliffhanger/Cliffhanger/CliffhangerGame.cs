@@ -46,7 +46,11 @@ namespace Cliffhanger
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             input = ClaudyInput.Instance;
-            graphics.IsFullScreen = true; //TODO: MAKE TRUE ON SATURDAY AFTERNOON
+#if WINDOWS
+            graphics.PreferredBackBufferWidth = 980;
+            graphics.PreferredBackBufferHeight = 540;
+            graphics.IsFullScreen = false; //TODO: MAKE TRUE ON SATURDAY AFTERNOON
+#endif
         }
 
         protected override void Initialize()
