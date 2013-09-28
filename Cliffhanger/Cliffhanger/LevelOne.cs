@@ -40,7 +40,8 @@ namespace Cliffhanger
         Platform ground;
 
         //Vine
-        Vine vine;
+        List<Vine> vines;
+        Vine vine1;
 
         GraphicsDevice GraphicsDevice;
 
@@ -65,6 +66,7 @@ namespace Cliffhanger
             //Player
             player1 = new Player(Game);
             player1.Initialize();
+            player1.position = new Vector2(100, -100);
 
             //Platform
             platforms = new List<Platform>();
@@ -74,8 +76,21 @@ namespace Cliffhanger
 
 
             //Vine
-            vine = new Vine(Game, 100, 100, 100, 0);
-            vine.Initialize();
+            vines = new List<Vine>();
+            vines.Add(new Vine(Game, -200, 10, 0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game, -200, 11, 1));
+            vines.Add(new Vine(Game, -200, 9, 2));
+            vines.Add(new Vine(Game, -200, 10, 3));
+            vines.Add(new Vine(Game, -200, 11, 4));
+            vines.Add(new Vine(Game, -200, 9, 5));
+            vines.Add(new Vine(Game, -200, 10, 6));
+            vines.Add(new Vine(Game, -200, 11, 7));
+            vines.Add(new Vine(Game, -200, 11, 8));
+            
+            foreach(Vine vine in vines)
+            {
+                vine.Initialize();
+            }
 
             base.Initialize();
         }
@@ -131,7 +146,13 @@ namespace Cliffhanger
             #region Top Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetTop.Y, cliffRect.Width, cliffRect.Height), Color.White);
-                vine.Draw(spriteBatch, offsetTop);
+                
+                //Vines
+                foreach (Vine vine in vines)
+                {
+                    vine.Draw(spriteBatch, offsetTop);
+                }
+
                 player1.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
             }
@@ -148,7 +169,13 @@ namespace Cliffhanger
             #region Bottom Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetBottom.Y, cliffRect.Width, cliffRect.Height), Color.White);
-                vine.Draw(spriteBatch, offsetBottom);
+                
+                //Vines
+                foreach (Vine vine in vines)
+                {
+                    vine.Draw(spriteBatch, offsetBottom);
+                }
+
                 player1.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
             }
