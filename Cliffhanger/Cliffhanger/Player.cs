@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Claudy.Input;
 
 
 namespace Cliffhanger
@@ -24,7 +25,7 @@ namespace Cliffhanger
         int rundrawmodifier = 0;
         int timeinrunning = 0;
         int timeinrunningmax = 30;
-        const int MAX_SPEED = 10;
+        const int MAX_SPEED = 5;
         public Vector2 pos, vel, accel, fric, gravity, jumpvel;
         public Vector2 center, position, jumpstartposition;
         Point frameSize;
@@ -32,15 +33,21 @@ namespace Cliffhanger
         public bool canjump = true;
         const int defaultMillisecondsPerFrame = 16;
         enum PlayerDirection { left, right };
-        enum PlayerAction { standing, running, jumping };
+        enum PlayerAction { standing, running, jumping, climbing};
         PlayerAction playerAction = PlayerAction.standing;
         PlayerDirection facingDirection = PlayerDirection.right;
         KeyboardState pkbs = new KeyboardState();
         KeyboardState nkbs = new KeyboardState();
-        public Player(Game game)
+
+        //Input
+        ClaudyInput input;
+        int playerNum;
+
+        public Player(Game game, int playerNumber)
             : base(game)
         {
             // TODO: Construct any child components here
+            playerNum = playerNumber;
         }
 
         /// <summary>
@@ -64,6 +71,9 @@ namespace Cliffhanger
             gravity = new Vector2(0f, .05F);
             fric = new Vector2(.1F, 0);
 
+            //Input
+            input = ClaudyInput.Instance;
+
             base.Initialize();
         }
 
@@ -82,7 +92,7 @@ namespace Cliffhanger
             timeinrunning += gameTime.ElapsedGameTime.Milliseconds;
             #region keystatelogic
 
-            if (nkbs.IsKeyDown(Keys.Right))
+            if (nkbs.IsKeyDown(Keys.Right) || input.GetAs8DirectionLeftThumbStick(playerNum).X > 0)
             {
                 facingDirection = PlayerDirection.right;
                 playerAction = PlayerAction.running;
@@ -92,7 +102,7 @@ namespace Cliffhanger
                     vel.X = MAX_SPEED;
                 }
             }
-            else if (!nkbs.IsKeyDown(Keys.Left) && vel.X > 0)
+            else if (!(nkbs.IsKeyDown(Keys.Left)||input.GetAs8DirectionLeftThumbStick(playerNum).X < 0) && vel.X > 0)
             {
                 vel -= fric * gameTime.ElapsedGameTime.Milliseconds;
                 if (vel.X < 0 && vel.X > -1.5)
@@ -100,7 +110,7 @@ namespace Cliffhanger
                     vel.X = 0;
                 }
             }
-            else if (nkbs.IsKeyDown(Keys.Left))
+            else if (nkbs.IsKeyDown(Keys.Left) || input.GetAs8DirectionLeftThumbStick(playerNum).X < 0)
             {
                 facingDirection = PlayerDirection.left;
                 playerAction = PlayerAction.running;
@@ -110,7 +120,7 @@ namespace Cliffhanger
                     vel.X = -MAX_SPEED;
                 }
             }
-            else if (!nkbs.IsKeyDown(Keys.Right) && vel.X < 0)
+            else if (!(nkbs.IsKeyDown(Keys.Right)|| input.GetAs8DirectionLeftThumbStick(playerNum).X > 0) && vel.X < 0)
             {
                 vel += fric * gameTime.ElapsedGameTime.Milliseconds;
                 if (vel.X > 0 && vel.X < 1.5)
@@ -124,7 +134,7 @@ namespace Cliffhanger
                 playerAction = PlayerAction.standing;
             }
 
-            if (nkbs.IsKeyDown(Keys.Up) && pkbs.IsKeyUp(Keys.Up))
+            if ((nkbs.IsKeyDown(Keys.Up) && pkbs.IsKeyUp(Keys.Up)) || input.isFirstPress(Buttons.A, playerNum))
             {
                 rundrawmodifier = 0;
                 Jump(gameTime);
@@ -143,7 +153,7 @@ namespace Cliffhanger
             {
                 playerAction = PlayerAction.jumping;
                 vel.X = vel.X / 1.1F;
-                if (nkbs.IsKeyDown(Keys.Left) && pkbs.IsKeyUp(Keys.Left))
+                if ((nkbs.IsKeyDown(Keys.Left) && pkbs.IsKeyUp(Keys.Left)))
                 {
                     if (vel.X > 0)
                     {
@@ -202,12 +212,12 @@ namespace Cliffhanger
                 if (playerAction == PlayerAction.standing)
                 {
                     rundrawmodifier = 0;
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)0 * (int)frameSize.X, (int)0 * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)0 * (int)frameSize.X, (playerNum-1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)rundrawmodifier * (int)frameSize.X, (int)0 * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)rundrawmodifier * (int)frameSize.X, (playerNum - 1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
                     if (rundrawmodifier < sheetSize.X-1) 
                     { 
                         if (timeinrunning > timeinrunningmax) 
@@ -226,7 +236,7 @@ namespace Cliffhanger
                 }
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 0 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion
@@ -236,12 +246,12 @@ namespace Cliffhanger
                 //static
                 if (playerAction == PlayerAction.standing)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(rundrawmodifier * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(rundrawmodifier * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                     if (rundrawmodifier < sheetSize.X-1) 
                     { 
                         if (timeinrunning > timeinrunningmax) 
@@ -262,7 +272,7 @@ namespace Cliffhanger
                 //static
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion

@@ -34,6 +34,7 @@ namespace Cliffhanger
 
         //Player Stuff
         Player player1;
+        Player player2;
 
         //Platform
         List<Platform> platforms;
@@ -41,7 +42,7 @@ namespace Cliffhanger
 
         //Vine
         List<Vine> vines;
-        Vine vine1;
+
 
         GraphicsDevice GraphicsDevice;
 
@@ -64,9 +65,12 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game);
+            player1 = new Player(Game, 1);
             player1.Initialize();
             player1.position = new Vector2(100, -100);
+            player2 = new Player(Game, 2);
+            player2.Initialize();
+            player2.position = new Vector2(400, -100);
 
             //Platform
             platforms = new List<Platform>();
@@ -105,8 +109,8 @@ namespace Cliffhanger
         public void Update(GameTime gameTime, ClaudyInput input)
         {
             //cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y * 10);
-            offsetTop.Y += (int)(input.GetAs8DirectionLeftThumbStick().Y * 5);
-            offsetBottom.Y += (int)(input.GetAs8DirectionRightThumbStick().Y * 5);
+            offsetTop.Y += (int)(input.GetAs8DirectionLeftThumbStick().Y * 2);
+            offsetBottom.Y += (int)(input.GetAs8DirectionRightThumbStick().Y * 2);
 
             if (cliffTop < 500)
                 cliffBottom = cliffTop;
@@ -114,6 +118,9 @@ namespace Cliffhanger
                 cliffBottom = 500;
 
             player1.Update(gameTime);
+
+            player2.Update(gameTime);
+
             ground.Update(gameTime);
 
             #region Platform Collision
@@ -134,6 +141,23 @@ namespace Cliffhanger
                     }
                 }
             }
+            foreach (Platform platform in platforms)
+            {
+                if (player2.vel.Y >= 0)
+                {
+                    if (Collision.PlayerPlatformCollision(player2, platform))
+                    {
+                        //state = PlayerState.standing;
+                        player2.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        player2.canjump = false;
+                    }
+                }
+            }
             #endregion //Platform Collision
 
             #region Vine Collision
@@ -151,6 +175,23 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.falling;
                         //player1.canjump = false;
+                    }
+                }
+            }
+            foreach (Vine vine in vines)
+            {
+                if (player2.vel.Y >= 0)
+                {
+                    if (Collision.PlayerVineCollision(player2, vine, gameTime))
+                    {
+                        //state = PlayerState.standing;
+                        player2.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        //player2.canjump = false;
                     }
                 }
             }
@@ -176,6 +217,7 @@ namespace Cliffhanger
                 }
 
                 player1.Draw(spriteBatch, offsetTop);
+                player2.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
             }
             #endregion //Top Viewport
@@ -199,6 +241,7 @@ namespace Cliffhanger
                 }
 
                 player1.Draw(spriteBatch, offsetBottom);
+                player2.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
             }
             #endregion //Bottom Viewport
