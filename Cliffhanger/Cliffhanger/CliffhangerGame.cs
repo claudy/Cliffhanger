@@ -36,13 +36,10 @@ namespace Cliffhanger
         SpriteBatch spriteBatch;
         public ClaudyInput input;
 
-        //Textures
-        Texture2D helpScreenTexture;
-        Texture2D menuScreenTexture;
-
         LevelOne level1;
 
-        public SpriteFont calibri, consolas;
+        public SpriteFont consolas;
+        MediaSource mediaSource;
 
         public CliffhangerGame()
         {
@@ -56,7 +53,7 @@ namespace Cliffhanger
         {
             level1 = new LevelOne(this);
             level1.Initialize(GraphicsDevice);
-
+            
             currentGameState = LevelStateFSM.AlphaMenu;
 
             base.Initialize();
@@ -65,11 +62,7 @@ namespace Cliffhanger
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            calibri = Content.Load<SpriteFont>("calibri");
             consolas = Content.Load<SpriteFont>("consolas");
-
-            helpScreenTexture = Content.Load<Texture2D>("helpScreenTexture");
-            menuScreenTexture = Content.Load<Texture2D>("menuScreenTexture");
 
             level1.LoadContent();
             mainMenu = new Menu(this);
