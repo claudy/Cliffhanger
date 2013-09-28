@@ -14,10 +14,12 @@ namespace Cliffhanger
 {
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
-        static readonly float ROCKGRAVITY = -.02f; // Gravity
+        public static readonly float ROCKGRAVITY = -.02f; // Gravity
         public Vector2 startPosition;
         public Vector2 currentPosition;
         public Vector2 velocity;
+        public static readonly Vector2 SUGGESTED_L_VELOCITY = new Vector2(-4.5f, -8.2f);
+        public static readonly Vector2 SUGGESTED_R_VELOCITY = new Vector2(4.5f, -8.2f);
         private Rectangle rect; // Center is 0, 0; NOT upper left.
         protected const int WH = 64; //Size of texture in pixel, Assumes Width == height
         static Texture2D rockTex;

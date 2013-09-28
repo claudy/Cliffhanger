@@ -209,6 +209,30 @@ namespace Cliffhanger
             }
             #endregion //Vine Collision
 
+            #region Throw Rocks (requires knowledge of player & of the rock list)
+
+            
+            if (input.GamepadByID[1].Triggers.Left > 0.5f &&
+                input.PreviousGamepadByID[1].Triggers.Left <= 0.5f)
+            {
+                Rock r = new Rock(Game,
+                    player1.position.X, player1.position.Y,
+                    Rock.SUGGESTED_L_VELOCITY);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.GamepadByID[1].Triggers.Right > 0.5f &&
+                input.PreviousGamepadByID[1].Triggers.Right <= 0.5f)
+            {
+                Rock r = new Rock(Game,
+                    player1.position.X, player1.position.Y,
+                    Rock.SUGGESTED_R_VELOCITY);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            
+            #endregion
+
             base.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
