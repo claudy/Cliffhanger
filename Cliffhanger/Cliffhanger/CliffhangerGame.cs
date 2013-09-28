@@ -286,7 +286,7 @@ namespace Cliffhanger
 
 
 
-            levelOne.Draw(spriteBatch, graphics);
+            //levelOne.Draw(spriteBatch, graphics);
             base.Draw(gameTime);
         }
     }
