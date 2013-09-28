@@ -39,7 +39,7 @@ namespace Cliffhanger
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            platform = Game.Content.Load<Texture2D>("Platform");
+            platform = Game.Content.Load<Texture2D>("blankTex");
             platformRect = new Rectangle((int)position.X, (int)position.Y, width, height);
 
             base.Initialize();
@@ -55,9 +55,9 @@ namespace Cliffhanger
 
             base.Update(gameTime);
         }
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            spriteBatch.Draw(platform, platformRect, Color.Wheat);
+            spriteBatch.Draw(platform, new Rectangle(platformRect.X, platformRect.Y + (int)offset.Y, platformRect.Width, platformRect.Height), Color.Wheat);
         }
     }
 }

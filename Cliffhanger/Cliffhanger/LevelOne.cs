@@ -25,14 +25,19 @@ namespace Cliffhanger
         RenderTarget2D bottomScreen;
         int bottomOffset;
 
-        //Test texture
-        Texture2D blankTex;
-        Rectangle test;
-
         //Cliff
         Texture2D cliffTex;
         Rectangle cliffRect;
         int cliffTop, cliffBottom;
+        Vector2 offsetTop;
+        Vector2 offsetBottom;
+
+        //Player Stuff
+        Player player1;
+
+        //Platform
+        List<Platform> platforms;
+        Platform ground;
 
         GraphicsDevice GraphicsDevice;
 
@@ -48,15 +53,27 @@ namespace Cliffhanger
             GraphicsDevice = gd;
             topScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
             bottomScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
-            test = new Rectangle(0, 50, 100, 100);
             cliffTop = 0;
             cliffBottom = 0;
+
+            offsetTop = Vector2.Zero;
+            offsetBottom = new Vector2(0, -topScreen.Height);
+
+            //Player
+            player1 = new Player(Game);
+            player1.Initialize();
+
+            //Platform
+            platforms = new List<Platform>();
+            ground = new Platform(Game, 10, 200, 800, 100);
+            ground.Initialize();
+            platforms.Add(ground);
+
             base.Initialize();
         }
 
         public void LoadContent()
         {
-            blankTex = Game.Content.Load<Texture2D>("blankTex");
             cliffTex = Game.Content.Load<Texture2D>("cliff");
             cliffRect = new Rectangle(0, GraphicsDevice.Viewport.Height - cliffTex.Height * 2, GraphicsDevice.Viewport.Width * 2, cliffTex.Height * 2);
             
@@ -64,8 +81,9 @@ namespace Cliffhanger
 
         public void Update(GameTime gameTime, ClaudyInput input)
         {
-            test.X += (int)(input.GetAs8DirectionLeftThumbStick().X * 10);
-            cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y * 10);
+            //cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y * 10);
+            offsetTop.Y += (int)(input.GetAs8DirectionLeftThumbStick().Y * 5);
+            offsetBottom.Y += (int)(input.GetAs8DirectionRightThumbStick().Y * 5);
 
             
             if (cliffTop < 500)
@@ -73,6 +91,26 @@ namespace Cliffhanger
             else
                 cliffBottom = 500;
 
+            player1.Update(gameTime);
+            ground.Update(gameTime);
+
+            foreach (Platform platform in platforms)
+            {
+                if (player1.vel.Y >= 0)
+                {
+                    if (Collision.PlayerPlatformCollision(player1, platform))
+                    {
+                        //state = PlayerState.standing;
+                        player1.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        player1.canjump = false;
+                    }
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -82,17 +120,31 @@ namespace Cliffhanger
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
             spriteBatch.Begin();
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + cliffTop, cliffRect.Width, cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, test, Color.Red);
+
+            #region Top Viewport
+            {
+                spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetTop.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                player1.Draw(spriteBatch, offsetTop);
+                ground.Draw(spriteBatch, offsetTop);
+            }
+            #endregion //Top Viewport
+
             spriteBatch.End();
 
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
             spriteBatch.Begin();
+
             bottomOffset = GraphicsDevice.Viewport.Height;
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y - bottomOffset + cliffBottom, cliffRect.Width, cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, new Rectangle(test.X, test.Y - bottomOffset, test.Width, test.Height), Color.Blue);
+
+            #region Bottom Viewport
+            {
+                spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetBottom.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                player1.Draw(spriteBatch, offsetBottom);
+                ground.Draw(spriteBatch, offsetBottom);
+            }
+            #endregion //Bottom Viewport
 
             spriteBatch.End();
 
