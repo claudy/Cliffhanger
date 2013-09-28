@@ -70,8 +70,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calibri.spritefont">
-      <Name>Calibri</Name>
+    <Compile Include="Tahoma.spritefont">
+      <Name>Tahoma</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
@@ -84,7 +84,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="menuScreenTexture.png">
+    <Compile Include="Philippe_Jungle_LessScream.mp3">
+      <Name>Philippe_Jungle_LessScream</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="menuScreenTexture.jpg">
       <Name>menuScreenTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

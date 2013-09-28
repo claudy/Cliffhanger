@@ -114,6 +114,7 @@
     <Compile Include="LevelOne.cs" />
     <Compile Include="LevelTwo.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Music.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

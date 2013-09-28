@@ -18,7 +18,7 @@ namespace Cliffhanger
     /// </summary>
     public class Menu : Microsoft.Xna.Framework.GameComponent
     {
-        public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.White;
+        public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.SlateGray;
         Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
         private ClaudyInput input;
 
@@ -47,7 +47,7 @@ namespace Cliffhanger
         Texture2D helpScreenTexture;
         Texture2D menuScreenTexture;
 
-        SpriteFont calibri, consolas;
+        SpriteFont tahoma, consolas;
 
         public Menu(CliffhangerGame game)
             : base(game)
@@ -55,16 +55,16 @@ namespace Cliffhanger
             currentMenuState = MenuState.TopMost;
             currentlySelectedMenuChoice = MenuChoice.Help;
 
-            playMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 4.0f,
+            playMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 6.0f,
+                Game.GraphicsDevice.Viewport.Height / 2.0f - Game.GraphicsDevice.Viewport.Height * 0.2f);
+            helpMenuItempPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 6.0f,
                 Game.GraphicsDevice.Viewport.Height / 2.0f - Game.GraphicsDevice.Viewport.Height * 0.1f);
-            helpMenuItempPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 4.0f,
-                Game.GraphicsDevice.Viewport.Height / 2.0f * 1.0f);
-            exitMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 4.0f, 
-                Game.GraphicsDevice.Viewport.Height / 2.0f + Game.GraphicsDevice.Viewport.Height * 0.1f);
+            exitMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 6.0f, 
+                Game.GraphicsDevice.Viewport.Height / 2.0f + Game.GraphicsDevice.Viewport.Height * 0.0f);
 
             helpScreenTexture = Game.Content.Load<Texture2D>("helpScreenTexture");
             menuScreenTexture = Game.Content.Load<Texture2D>("menuScreenTexture");
-            calibri = Game.Content.Load<SpriteFont>("calibri");
+            tahoma = Game.Content.Load<SpriteFont>("Tahoma");
             consolas = Game.Content.Load<SpriteFont>("consolas");
 
             input = game.input;
@@ -153,6 +153,7 @@ namespace Cliffhanger
                     break;
             }
             #endregion
+
             base.Update(gameTime);
         }
 
@@ -170,24 +171,24 @@ namespace Cliffhanger
                     switch (currentlySelectedMenuChoice)
                     {
                         case MenuChoice.Play:
-                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectYES);
-                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Play", playMenuItemPos, colorSelectYES);
+                            spriteBatch.DrawString(tahoma, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                         case MenuChoice.Help:
-                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectYES);
-                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Help", helpMenuItempPos, colorSelectYES);
+                            spriteBatch.DrawString(tahoma, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                         case MenuChoice.Exit:
-                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectYES);
+                            spriteBatch.DrawString(tahoma, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Exit", exitMenuItemPos, colorSelectYES);
                             break;
                         default:
-                            spriteBatch.DrawString(calibri, "Play", playMenuItemPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Help", helpMenuItempPos, colorSelectNO);
-                            spriteBatch.DrawString(calibri, "Exit", exitMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Play", playMenuItemPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Help", helpMenuItempPos, colorSelectNO);
+                            spriteBatch.DrawString(tahoma, "Exit", exitMenuItemPos, colorSelectNO);
                             break;
                     }
                     break;
