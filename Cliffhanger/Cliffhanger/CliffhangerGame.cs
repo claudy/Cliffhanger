@@ -38,12 +38,16 @@ namespace Cliffhanger
 
         LevelOne level1;
 
+        Rectangle titleSafeRect;
+
         public SpriteFont consolas;
         Music music;
 
         public CliffhangerGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1200;
             Content.RootDirectory = "Content";
             input = ClaudyInput.Instance;
 #if WINDOWS
@@ -59,6 +63,9 @@ namespace Cliffhanger
             level1.Initialize(GraphicsDevice);
             
             currentGameState = LevelStateFSM.AlphaMenu;
+
+            //titleSafe
+            titleSafeRect = GraphicsDevice.Viewport.TitleSafeArea;
 
             base.Initialize();
         }
@@ -93,7 +100,7 @@ namespace Cliffhanger
                     mainMenu.Update(gameTime, this);
                     break;
                 case LevelStateFSM.Level1:
-                    level1.Update(gameTime, input);
+                    level1.Update(gameTime, input, titleSafeRect);
                     break;
                 case LevelStateFSM.Level1Ending:
                     break;
