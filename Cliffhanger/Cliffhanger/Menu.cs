@@ -19,7 +19,7 @@ namespace Cliffhanger
     public class Menu : Microsoft.Xna.Framework.GameComponent
     {
         public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.White;
-        public Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
+        Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
         private ClaudyInput input;
 
         enum MenuState
@@ -44,6 +44,10 @@ namespace Cliffhanger
 
         MenuChoice currentlySelectedMenuChoice;
 
+        Texture2D helpScreenTexture;
+        Texture2D menuScreenTexture;
+
+        SpriteFont calibri, consolas;
 
         public Menu(CliffhangerGame game)
             : base(game)
@@ -57,6 +61,11 @@ namespace Cliffhanger
                 Game.GraphicsDevice.Viewport.Height / 2.0f * 1.0f);
             exitMenuItemPos = new Vector2(Game.GraphicsDevice.Viewport.Width / 4.0f, 
                 Game.GraphicsDevice.Viewport.Height / 2.0f + Game.GraphicsDevice.Viewport.Height * 0.1f);
+
+            helpScreenTexture = Game.Content.Load<Texture2D>("helpScreenTexture");
+            menuScreenTexture = Game.Content.Load<Texture2D>("menuScreenTexture");
+            calibri = Game.Content.Load<SpriteFont>("calibri");
+            consolas = Game.Content.Load<SpriteFont>("consolas");
 
             input = game.input;
         }
@@ -152,15 +161,13 @@ namespace Cliffhanger
         /// </summary>
         /// <param name="spriteBatch">The spriteBatch passed MUST have its .Begin() call first.</param>
         public void Draw(SpriteBatch spriteBatch, 
-            SpriteFont menuFont, 
-            Texture2D backgroundTex, 
-            Texture2D helpBackgroundTex)
+            SpriteFont menuFont)
         {
             //Assumes SpriteBatch has begun already.
             switch (currentMenuState)
             {
                 case MenuState.TopMost:
-                    spriteBatch.Draw(backgroundTex, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+                    spriteBatch.Draw(menuScreenTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
                     switch (currentlySelectedMenuChoice)
                     {
                         case MenuChoice.Play:
@@ -187,7 +194,7 @@ namespace Cliffhanger
                     break;
                 case MenuState.Help:
                     //TODO: Draw 1920x1080 texture which explains how to play the game.
-                    spriteBatch.Draw(helpBackgroundTex, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+                    spriteBatch.Draw(helpScreenTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
                     break;
                 case MenuState.Exit:
                     break;
