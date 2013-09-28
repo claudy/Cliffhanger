@@ -126,7 +126,7 @@ namespace Cliffhanger
             //Draw stuff in the top renderTarget
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             #region Top Viewport
             {
@@ -141,7 +141,7 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
