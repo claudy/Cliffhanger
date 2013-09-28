@@ -67,6 +67,7 @@ namespace Cliffhanger
             test.X += (int)(input.GetAs8DirectionLeftThumbStick().X * 10);
             cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y * 10);
 
+            
             if (cliffTop < 500)
                 cliffBottom = cliffTop;
             else
@@ -84,6 +85,7 @@ namespace Cliffhanger
             spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + cliffTop, cliffRect.Width, cliffRect.Height), Color.White);
             spriteBatch.Draw(blankTex, test, Color.Red);
             spriteBatch.End();
+
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
