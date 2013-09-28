@@ -54,7 +54,7 @@ namespace Cliffhanger
             //jumpingeffect = Game.Content.Load<SoundEffect>("Jumping");
             jumpstartposition = new Vector2(0);
             position = new Vector2(50, 10);
-            frameSize = new Point(36, 74);
+            frameSize = new Point(32, 67);
             sheetSize = new Point(16, 2);
             center = new Vector2(frameSize.X / 2, frameSize.Y / 2);
             hitbox = new Rectangle(0, 0, frameSize.X - 2, frameSize.Y - 2);
