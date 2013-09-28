@@ -38,12 +38,17 @@ namespace Cliffhanger
 
         LevelOne level1;
 
+        Rectangle titleSafeRect;
+        Texture2D titleSafeTex;
+
         public SpriteFont consolas;
         Music music;
 
         public CliffhangerGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1200;
             Content.RootDirectory = "Content";
             input = ClaudyInput.Instance;
             graphics.IsFullScreen = false; //TODO: MAKE TRUE ON SATURDAY AFTERNOON
@@ -55,6 +60,10 @@ namespace Cliffhanger
             level1.Initialize(GraphicsDevice);
             
             currentGameState = LevelStateFSM.AlphaMenu;
+
+            //titleSafe
+            titleSafeRect = GraphicsDevice.Viewport.TitleSafeArea;
+            titleSafeTex = Content.Load<Texture2D>("titleSafe");
 
             base.Initialize();
         }
@@ -89,7 +98,7 @@ namespace Cliffhanger
                     mainMenu.Update(gameTime, this);
                     break;
                 case LevelStateFSM.Level1:
-                    level1.Update(gameTime, input);
+                    level1.Update(gameTime, input, titleSafeRect);
                     break;
                 case LevelStateFSM.Level1Ending:
                     break;
