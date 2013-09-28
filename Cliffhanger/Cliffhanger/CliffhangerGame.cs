@@ -49,7 +49,7 @@ namespace Cliffhanger
 #if WINDOWS
             graphics.PreferredBackBufferWidth = 980;
             graphics.PreferredBackBufferHeight = 540;
-            graphics.IsFullScreen = false; //TODO: MAKE TRUE ON SATURDAY AFTERNOON
+            graphics.IsFullScreen = false;
 #endif
         }
 
