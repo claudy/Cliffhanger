@@ -99,7 +99,8 @@ namespace Cliffhanger
                         {
                             if ((input.GamepadByID[pi].DPad.Up == ButtonState.Pressed && input.PreviousGamepadByID[pi].DPad.Up == ButtonState.Released) ||
                                 (input.GamepadByID[pi].ThumbSticks.Left.Y > 0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Left.Y <= 0.5f) ||
-                                (input.GamepadByID[pi].ThumbSticks.Right.Y > 0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y <= 0.5f))
+                                (input.GamepadByID[pi].ThumbSticks.Right.Y > 0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y <= 0.5f) ||
+                                input.isFirstPress(Keys.Up))
                             {
                                 if (currentlySelectedMenuChoice != MenuChoice.Play)
                                     currentlySelectedMenuChoice--;
@@ -109,7 +110,8 @@ namespace Cliffhanger
                         {
                             if (input.GamepadByID[pi].DPad.Down == ButtonState.Pressed && input.PreviousGamepadByID[pi].DPad.Down == ButtonState.Released ||
                                 (input.GamepadByID[pi].ThumbSticks.Left.Y < -0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Left.Y >= -0.5f) ||
-                                (input.GamepadByID[pi].ThumbSticks.Right.Y < -0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y >= -0.5f))
+                                (input.GamepadByID[pi].ThumbSticks.Right.Y < -0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y >= -0.5f) ||
+                                input.isFirstPress(Keys.Down))
                             {
                                 if (currentlySelectedMenuChoice != MenuChoice.Exit)
                                     currentlySelectedMenuChoice++;
