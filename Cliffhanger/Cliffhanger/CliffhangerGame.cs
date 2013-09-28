@@ -61,19 +61,7 @@ namespace Cliffhanger
         SpriteBatch spriteBatch;
         ClaudyInput input;
 
-        //Viewport stuff
-        RenderTarget2D topScreen;
-        RenderTarget2D bottomScreen;
-        int bottomOffset;
-
-        //Test texture
-        Texture2D blankTex;
-        Rectangle test;
-
-        //Cliff
-        Texture2D cliffTex;
-        Rectangle cliffRect;
-        int cliffTop, cliffBottom;
+        
 
         #region Textures
         Texture2D helpScreenTexture;
@@ -83,32 +71,30 @@ namespace Cliffhanger
         Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
         readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.White;
 
+        LevelOne levelOne;
         public CliffhangerGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             input = ClaudyInput.Instance;
-            graphics.IsFullScreen = true;
         }
 
         protected override void Initialize()
         {
-            topScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
-            bottomScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
-            test = new Rectangle(0, 50, 100, 100);
-            cliffTop = 0;
-            cliffBottom = 0;
+            levelOne = new LevelOne(this);
+            levelOne.Initialize(GraphicsDevice);
+            
             currentGameState = LevelStateFSM.AlphaMenu;
             currentMenuState = MenuState.TopMost;
-            currentlySelectedMenuChoice = MenuChoice.Help;            base.Initialize();
+            currentlySelectedMenuChoice = MenuChoice.Help;            
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            blankTex = Content.Load<Texture2D>("blankTex");
-            cliffTex = Content.Load<Texture2D>("cliff");
-            cliffRect = new Rectangle(0, GraphicsDevice.Viewport.Height - cliffTex.Height*2, GraphicsDevice.Viewport.Width * 2, cliffTex.Height * 2);
+            levelOne.LoadContent();
+
             calibri = Content.Load<SpriteFont>("calibri");
             consolas = Content.Load<SpriteFont>("consolas");
 
@@ -224,15 +210,7 @@ namespace Cliffhanger
                     break;
             }
 
-            test.X += (int)(input.GetAs8DirectionLeftThumbStick().X*10);
-            cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y*10);
-
-            if (cliffTop < 500)
-                cliffBottom = cliffTop;
-            else
-                cliffBottom = 500;
-
-
+            levelOne.Update(gameTime, input);
             base.Update(gameTime);
         }
 
@@ -307,30 +285,8 @@ namespace Cliffhanger
 			spriteBatch.End();
 
 
-            //Draw stuff in the top renderTarget
-            graphics.GraphicsDevice.SetRenderTarget(topScreen);
-            GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X,cliffRect.Y + cliffTop, cliffRect.Width,cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, test, Color.Red);
-            spriteBatch.End();
-            //Draw stuff in the bottom renderTarget; Use an offset
-            graphics.GraphicsDevice.SetRenderTarget(bottomScreen);
-            GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
-            bottomOffset = GraphicsDevice.Viewport.Height;
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X,cliffRect.Y - bottomOffset + cliffBottom, cliffRect.Width, cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, new Rectangle(test.X,test.Y - bottomOffset,test.Width,test.Height), Color.Blue);
-            
-            spriteBatch.End();
 
-            //Draw the renderTargets
-            graphics.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin();
-            spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
-            spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
-            spriteBatch.End();
-
+            levelOne.Draw(spriteBatch, graphics);
             base.Draw(gameTime);
         }
     }
