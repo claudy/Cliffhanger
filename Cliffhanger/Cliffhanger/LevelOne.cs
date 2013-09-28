@@ -39,6 +39,9 @@ namespace Cliffhanger
         List<Platform> platforms;
         Platform ground;
 
+        //Vine
+        Vine vine;
+
         GraphicsDevice GraphicsDevice;
 
         public LevelOne(Game game)
@@ -65,9 +68,14 @@ namespace Cliffhanger
 
             //Platform
             platforms = new List<Platform>();
-            ground = new Platform(Game, 10, 200, 800, 100);
+            ground = new Platform(Game, 10, 256, 800, 100);
             ground.Initialize();
             platforms.Add(ground);
+
+
+            //Vine
+            vine = new Vine(Game, 100, 100, 100, 0);
+            vine.Initialize();
 
             base.Initialize();
         }
@@ -118,11 +126,12 @@ namespace Cliffhanger
             //Draw stuff in the top renderTarget
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             #region Top Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetTop.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                vine.Draw(spriteBatch, offsetTop);
                 player1.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
             }
@@ -132,13 +141,14 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
             #region Bottom Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetBottom.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                vine.Draw(spriteBatch, offsetBottom);
                 player1.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
             }
