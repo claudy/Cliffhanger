@@ -70,8 +70,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calibri.spritefont">
-      <Name>Calibri</Name>
+    <Compile Include="Tahoma.spritefont">
+      <Name>Tahoma</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
