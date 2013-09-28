@@ -14,7 +14,7 @@ namespace Cliffhanger
 {
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
-        public const float ROCKGRAVITY = -10f; // Gravity
+        static readonly float ROCKGRAVITY = -.02f; // Gravity
         public Vector2 startPosition;
         public Vector2 currentPosition;
         public Vector2 velocity;
@@ -48,6 +48,8 @@ namespace Cliffhanger
             if (currentPosition.Y < ground.position.Y)
                 this.Dispose();
 
+            // In order for gravity to work...this must -=.
+            velocity.Y -= ROCKGRAVITY * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             currentPosition.X += velocity.X;
             currentPosition.Y += velocity.Y;
 

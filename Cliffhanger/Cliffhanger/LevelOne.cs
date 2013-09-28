@@ -81,6 +81,8 @@ namespace Cliffhanger
             rocks = new List<Rock>();
             //Testrock
             rocks.Add(new Rock(Game, 0.0f, 0.0f, new Vector2(-0.01f, 0.01f)));
+            rocks[0].Initialize();
+            rocks[0].velocity = new Vector2(5.2f, 0.5f);
 
             //Vine
             vine = new Vine(Game, 100, 100, 100, 0);
