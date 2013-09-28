@@ -12,36 +12,27 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cliffhanger
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
-        public Rock(Game game)
+        public const float ROCKGRAVITY = -10f; // Gravity
+        public Vector2 startPosition;
+        public float currentPosition;
+        public float velocity;
+
+
+        public Rock(Game game, float startXPos, float startYPos)
             : base(game)
         {
-            // TODO: Construct any child components here
+            startPosition = new Vector2(startXPos, startYPos);
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
             base.Update(gameTime);
         }
 
