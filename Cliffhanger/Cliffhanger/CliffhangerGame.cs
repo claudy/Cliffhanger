@@ -44,7 +44,6 @@ namespace Cliffhanger
         //Viewport stuff
         RenderTarget2D topScreen;
         RenderTarget2D bottomScreen;
-        int bottomOffset;
 
         //Test texture
         Texture2D blankTex;
@@ -153,23 +152,6 @@ namespace Cliffhanger
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //Draw stuff in the top renderTarget
-            graphics.GraphicsDevice.SetRenderTarget(topScreen);
-            GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + cliffTop, cliffRect.Width, cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, test, Color.Red);
-            spriteBatch.End();
-            //Draw stuff in the bottom renderTarget; Use an offset
-            graphics.GraphicsDevice.SetRenderTarget(bottomScreen);
-            GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
-            bottomOffset = GraphicsDevice.Viewport.Height;
-            spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y - bottomOffset + cliffBottom, cliffRect.Width, cliffRect.Height), Color.White);
-            spriteBatch.Draw(blankTex, new Rectangle(test.X, test.Y - bottomOffset, test.Width, test.Height), Color.Blue);
-
-            spriteBatch.End();
-
             //Draw the renderTargets
             graphics.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin();

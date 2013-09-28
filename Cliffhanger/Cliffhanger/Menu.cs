@@ -108,7 +108,7 @@ namespace Cliffhanger
                             {
                                 case MenuChoice.Play:
                                     currentMenuState = MenuState.InGame;
-                                    game.currentGameState = CliffhangerGame.LevelStateFSM.Level1;
+                                    game.currentGameState = CliffhangerGame.LevelStateFSM.Level2;
                                     break;
                                 case MenuChoice.Help:
                                     currentMenuState = MenuState.Help;
