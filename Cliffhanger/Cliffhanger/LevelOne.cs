@@ -211,7 +211,7 @@ namespace Cliffhanger
 
             #region Throw Rocks (requires knowledge of player & of the rock list)
 
-            
+            //PLAYER 1
             if (input.GamepadByID[1].Triggers.Left > 0.5f &&
                 input.PreviousGamepadByID[1].Triggers.Left <= 0.5f)
             {
@@ -230,7 +230,26 @@ namespace Cliffhanger
                 r.Initialize();
                 rocks.Add(r);
             }
-            
+            //PLAYER 2
+            if (input.GamepadByID[2].Triggers.Left > 0.5f &&
+                input.PreviousGamepadByID[2].Triggers.Left <= 0.5f)
+            {
+                Rock r = new Rock(Game,
+                    player2.position.X, player2.position.Y,
+                    Rock.SUGGESTED_L_VELOCITY);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.GamepadByID[2].Triggers.Right > 0.5f &&
+                input.PreviousGamepadByID[2].Triggers.Right <= 0.5f)
+            {
+                Rock r = new Rock(Game,
+                    player2.position.X, player2.position.Y,
+                    Rock.SUGGESTED_R_VELOCITY);
+                r.Initialize();
+                rocks.Add(r);
+            }
+
             #endregion
 
             base.Update(gameTime);
