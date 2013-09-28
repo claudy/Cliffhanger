@@ -75,17 +75,17 @@ namespace Cliffhanger
 
             base.Update(gameTime);
         }
-        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public void Draw(SpriteBatch spriteBatch)
         {
             //Draw stuff in the top renderTarget
-            graphics.GraphicsDevice.SetRenderTarget(topScreen);
+            GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
             spriteBatch.Begin();
             spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + cliffTop, cliffRect.Width, cliffRect.Height), Color.White);
             spriteBatch.Draw(blankTex, test, Color.Red);
             spriteBatch.End();
             //Draw stuff in the bottom renderTarget; Use an offset
-            graphics.GraphicsDevice.SetRenderTarget(bottomScreen);
+            GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
             spriteBatch.Begin();
             bottomOffset = GraphicsDevice.Viewport.Height;
@@ -95,7 +95,7 @@ namespace Cliffhanger
             spriteBatch.End();
 
             //Draw the renderTargets
-            graphics.GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin();
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
