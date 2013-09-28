@@ -35,10 +35,11 @@ namespace Cliffhanger
         /// Finite State Machine of the game mode/current level.
         /// </summary>
         LevelStateFSM currentGameState;
-        enum MenuState
+        enum MenuState 
         {
             TopMost,
             Help,
+            InGame,
             Exit
         }
 
@@ -46,7 +47,16 @@ namespace Cliffhanger
         /// Finite State Machine of the menu.
         /// </summary>
         MenuState currentMenuState;
-        
+
+        enum MenuChoice // THIS ENUMERATION MUST BE IN ORDER.
+        {
+            Play, 
+            Help,
+            Exit // THIS MUST BE LAST.
+        }
+
+        MenuChoice currentlySelectedMenuChoice;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ClaudyInput input;
@@ -54,6 +64,11 @@ namespace Cliffhanger
         #region Textures
         Texture2D helpScreenTexture;
         #endregion
+
+        SpriteFont calibri, consolas;
+        Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
+        readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.White;
+
 
         public CliffhangerGame()
         {
@@ -66,6 +81,7 @@ namespace Cliffhanger
         {
             currentGameState = LevelStateFSM.AlphaMenu;
             currentMenuState = MenuState.TopMost;
+            currentlySelectedMenuChoice = MenuChoice.Help;
             base.Initialize();
         }
 
@@ -73,8 +89,14 @@ namespace Cliffhanger
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            calibri = Content.Load<SpriteFont>("calibri");
+            consolas = Content.Load<SpriteFont>("consolas");
 
             helpScreenTexture = Content.Load<Texture2D>("helpScreenTexture");
+
+            playMenuItemPos = new Vector2(GraphicsDevice.Viewport.Width / 4.0f, GraphicsDevice.Viewport.Height / 2.0f - GraphicsDevice.Viewport.Height * 0.1f);
+            helpMenuItempPos = new Vector2(GraphicsDevice.Viewport.Width / 4.0f, GraphicsDevice.Viewport.Height / 2.0f * 1.0f);
+            exitMenuItemPos =  new Vector2(GraphicsDevice.Viewport.Width/4.0f, GraphicsDevice.Viewport.Height / 2.0f + GraphicsDevice.Viewport.Height * 0.1f);
         }
 
         protected override void UnloadContent()
@@ -101,8 +123,44 @@ namespace Cliffhanger
                     switch (currentMenuState)
 	                {
                         case MenuState.TopMost:
+                            for (int pi = 1; pi <= 2; pi++)
+                            {
+                                if (input.GamepadByID[pi].IsConnected)
+                                {
+                                    if ((input.GamepadByID[pi].DPad.Up == ButtonState.Pressed && input.PreviousGamepadByID[pi].DPad.Up == ButtonState.Released) ||
+                                        (input.GamepadByID[pi].ThumbSticks.Left.Y > 0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Left.Y <= 0.5f) ||
+                                        (input.GamepadByID[pi].ThumbSticks.Right.Y > 0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y <= 0.5f))
+                                    {
+                                        if (currentlySelectedMenuChoice != MenuChoice.Play)
+                                            currentlySelectedMenuChoice--;
+                                    }
+                                }
+                                if (input.GamepadByID[pi].IsConnected)
+                                {
+                                    if (input.GamepadByID[pi].DPad.Down == ButtonState.Pressed && input.PreviousGamepadByID[pi].DPad.Down == ButtonState.Released||
+                                        (input.GamepadByID[pi].ThumbSticks.Left.Y < -0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Left.Y >= -0.5f) ||
+                                        (input.GamepadByID[pi].ThumbSticks.Right.Y < -0.5f && input.PreviousGamepadByID[pi].ThumbSticks.Right.Y >= -0.5f))
+                                    {
+                                        if (currentlySelectedMenuChoice != MenuChoice.Exit)
+                                        currentlySelectedMenuChoice++;
+                                    }
+                                }
+
+                            }
                             break;
                         case MenuState.Help:
+                            for (int pi = 1; pi <= 4; pi++)
+                            {
+                                if (input.GamepadByID[pi].IsConnected)
+                                {
+                                    if (input.isFirstPress(Buttons.B))
+                                    {
+                                        currentGameState = LevelStateFSM.AlphaMenu;
+                                        currentMenuState = MenuState.TopMost;
+                                        currentlySelectedMenuChoice = MenuChoice.Play;
+                                    }
+                                }
+                            }
                             break;
                         case MenuState.Exit:
                             this.Exit();
@@ -131,6 +189,7 @@ namespace Cliffhanger
             base.Update(gameTime);
         }
 
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -147,6 +206,30 @@ namespace Cliffhanger
                     switch (currentMenuState)
                     {
                         case MenuState.TopMost:
+                            //TODO: BACKGROUND TEXTURE spriteBatch.Draw(menuScreenTexture, GraphicsDevice.Viewport.Bounds, Color.White);
+                            switch (currentlySelectedMenuChoice)
+	                        {
+		                    case MenuChoice.Play:
+                                spriteBatch.DrawString(consolas, "Play", playMenuItemPos, colorSelectYES);
+                                spriteBatch.DrawString(consolas, "Help", helpMenuItempPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Exit", exitMenuItemPos, colorSelectNO);
+                                break;
+                            case MenuChoice.Help:
+                                spriteBatch.DrawString(consolas, "Play", playMenuItemPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Help", helpMenuItempPos, colorSelectYES);
+                                spriteBatch.DrawString(consolas, "Exit", exitMenuItemPos, colorSelectNO);
+                                break;
+                            case MenuChoice.Exit:
+                                spriteBatch.DrawString(consolas, "Play", playMenuItemPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Help", helpMenuItempPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Exit", exitMenuItemPos, colorSelectYES);
+                                break;
+                            default:
+                                spriteBatch.DrawString(consolas, "Play", playMenuItemPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Help", helpMenuItempPos, colorSelectNO);
+                                spriteBatch.DrawString(consolas, "Exit", exitMenuItemPos, colorSelectNO);
+                                break;
+                            }
                             break;
                         case MenuState.Help:
                             //TODO: Draw 1920x1080 texture which explains how to play the game.
