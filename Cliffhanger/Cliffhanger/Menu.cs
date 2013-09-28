@@ -18,7 +18,7 @@ namespace Cliffhanger
     /// </summary>
     public class Menu : Microsoft.Xna.Framework.GameComponent
     {
-        public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.White;
+        public readonly Color colorSelectYES = Color.Red, colorSelectNO = Color.SlateGray;
         Vector2 playMenuItemPos, helpMenuItempPos, exitMenuItemPos;
         private ClaudyInput input;
 

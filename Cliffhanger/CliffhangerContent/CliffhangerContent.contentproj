@@ -84,17 +84,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="menuScreenTexture.png">
-      <Name>menuScreenTexture</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Philippe_Jungle_LessScream.mp3">
       <Name>Philippe_Jungle_LessScream</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="menuScreenTexture.jpg">
+      <Name>menuScreenTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
