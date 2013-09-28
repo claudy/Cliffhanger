@@ -23,8 +23,8 @@ namespace Cliffhanger
         public float radius;
         int rundrawmodifier = 0;
         int timeinrunning = 0;
-        int timeinrunningmax = 25;
-        const int MAX_SPEED = 8;
+        int timeinrunningmax = 30;
+        const int MAX_SPEED = 10;
         public Vector2 pos, vel, accel, fric, gravity, jumpvel;
         public Vector2 center, position, jumpstartposition;
         Point frameSize;
@@ -50,12 +50,12 @@ namespace Cliffhanger
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            celsheet = Game.Content.Load<Texture2D>("Cellsheet");
-            jumpingeffect = Game.Content.Load<SoundEffect>("Jumping");
+            celsheet = Game.Content.Load<Texture2D>("spritesheet_half");
+            //jumpingeffect = Game.Content.Load<SoundEffect>("Jumping");
             jumpstartposition = new Vector2(0);
-            position = new Vector2(50, 200);
-            frameSize = new Point(54, 94);
-            sheetSize = new Point(4, 7);
+            position = new Vector2(50, 10);
+            frameSize = new Point(36, 74);
+            sheetSize = new Point(16, 2);
             center = new Vector2(frameSize.X / 2, frameSize.Y / 2);
             hitbox = new Rectangle(0, 0, frameSize.X - 2, frameSize.Y - 2);
             radius = frameSize.X / 2;
@@ -186,14 +186,14 @@ namespace Cliffhanger
             if (canjump)
             {
                 jumpvel = vel;
-                vel.Y -= (float).37 * gameTime.ElapsedGameTime.Milliseconds;
-                jumpingeffect.Play();
+                vel.Y -= .25f * gameTime.ElapsedGameTime.Milliseconds;
+                //jumpingeffect.Play();
                 canjump = false;
             }
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             //based on some arbitrary information, display a particular subset of the celsheet
             #region left
@@ -202,18 +202,31 @@ namespace Cliffhanger
                 if (playerAction == PlayerAction.standing)
                 {
                     rundrawmodifier = 0;
-                    spriteBatch.Draw(celsheet, position, new Rectangle((int)2 * (int)frameSize.X, (int)0 * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)0 * (int)frameSize.X, (int)0 * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position, new Rectangle((int)0 * (int)frameSize.X, (int)rundrawmodifier * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
-                    if (rundrawmodifier < 6) { if (timeinrunning > timeinrunningmax) { rundrawmodifier++; timeinrunning = 0; } }
-                    else { if (timeinrunning > timeinrunningmax) { rundrawmodifier = 0; timeinrunning = 0; } }
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)rundrawmodifier * (int)frameSize.X, (int)0 * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    if (rundrawmodifier < sheetSize.X-1) 
+                    { 
+                        if (timeinrunning > timeinrunningmax) 
+                        { 
+                            rundrawmodifier++; 
+                            timeinrunning = 0; 
+                        } 
+                    }
+                    else { 
+                        if (timeinrunning > timeinrunningmax) 
+                        { 
+                            rundrawmodifier = 0; 
+                            timeinrunning = 0; 
+                        } 
+                    }
                 }
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position, new Rectangle(2 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 0 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion
@@ -223,19 +236,33 @@ namespace Cliffhanger
                 //static
                 if (playerAction == PlayerAction.standing)
                 {
-                    spriteBatch.Draw(celsheet, position, new Rectangle(3 * frameSize.X, 0 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position, new Rectangle(1 * frameSize.X, rundrawmodifier * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
-                    if (rundrawmodifier < 6) { if (timeinrunning > timeinrunningmax) { rundrawmodifier++; timeinrunning = 0; } }
-                    else { if (timeinrunning > timeinrunningmax) { rundrawmodifier = 0; timeinrunning = 0; } }
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(rundrawmodifier * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    if (rundrawmodifier < sheetSize.X-1) 
+                    { 
+                        if (timeinrunning > timeinrunningmax) 
+                        { 
+                            rundrawmodifier++; 
+                            timeinrunning = 0; 
+                        } 
+                    }
+                    else 
+                    { 
+                        if (timeinrunning > timeinrunningmax) 
+                        { 
+                            rundrawmodifier = 0; 
+                            timeinrunning = 0; 
+                        } 
+                    }
                 }
                 //static
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position, new Rectangle(3 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, 1 * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion
