@@ -418,6 +418,24 @@ namespace Claudy.Input
             }
         }
 
+        public bool isFirstPress(Buttons b_, int p_)
+        {
+            switch (p_)
+            {
+                case 1:
+                    return gamePadCurrent1.IsButtonDown(b_) && gamePadPrevious1.IsButtonUp(b_);
+                case 2:
+                    return gamePadCurrent2.IsButtonDown(b_) && gamePadPrevious2.IsButtonUp(b_);
+                case 3:
+                    return gamePadCurrent3.IsButtonDown(b_) && gamePadPrevious3.IsButtonUp(b_);
+                case 4:
+                    return gamePadCurrent4.IsButtonDown(b_) && gamePadPrevious4.IsButtonUp(b_);
+                default:
+                    return false;
+            }
+        }
+
+
         /// <summary>
         /// "Debounced" detection. Returns true upon the release of button b_. Will not repeat true.
         /// Defaults to first player if PlayerIndex is not specified.

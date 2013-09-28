@@ -18,17 +18,21 @@ namespace Cliffhanger
     public class Vine : Microsoft.Xna.Framework.GameComponent
     {
         Texture2D vine;
+        Texture2D vineTop;
+        Texture2D vineBottom;
         public Rectangle vineRect;
         public Vector2 position;
         int height, width;
+        public int lane;
 
-        public Vine(Game game, int x, int y, int w, int h, int lane)
+        public Vine(Game game, int y, int heightUnits, int lane)
             : base(game)
         {
-            position.X = x;
+            position.X = 100 * lane + 75 ;
             position.Y = y;
-            height = h;
-            width = w;
+            height = heightUnits * 32;
+            width = 32;
+            this.lane = lane;
             // TODO: Construct any child components here
         }
 
@@ -39,7 +43,9 @@ namespace Cliffhanger
         public override void Initialize()
         {
             // TODO: Add your initialization code here
-            vine = Game.Content.Load<Texture2D>("blankTex");
+            vine = Game.Content.Load<Texture2D>("vine");
+            vineTop = Game.Content.Load<Texture2D>("vineTop");
+            vineBottom = Game.Content.Load<Texture2D>("vineBottom");
             vineRect = new Rectangle((int)position.X, (int)position.Y, width, height);
 
             base.Initialize();
@@ -56,8 +62,14 @@ namespace Cliffhanger
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
+            Rectangle drawRect = new Rectangle(vineRect.X, vineRect.Y + (int)offset.Y, vineRect.Width, vineRect.Height);
+            
+            spriteBatch.Draw(vine, drawRect, new Rectangle(0, 0, vineRect.Width, vineRect.Height), Color.White);
+            spriteBatch.Draw(vineTop, new Vector2(drawRect.X, drawRect.Y - 8), Color.White);
+            spriteBatch.Draw(vineBottom, new Vector2(drawRect.X, drawRect.Y + drawRect.Height), Color.White);
+
         }
     }
 }

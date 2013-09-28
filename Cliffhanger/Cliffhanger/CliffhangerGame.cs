@@ -39,7 +39,6 @@ namespace Cliffhanger
         LevelOne level1;
 
         Rectangle titleSafeRect;
-        Texture2D titleSafeTex;
 
         public SpriteFont consolas;
         Music music;
@@ -51,7 +50,11 @@ namespace Cliffhanger
             graphics.PreferredBackBufferWidth = 1200;
             Content.RootDirectory = "Content";
             input = ClaudyInput.Instance;
-            graphics.IsFullScreen = false; //TODO: MAKE TRUE ON SATURDAY AFTERNOON
+#if WINDOWS
+            graphics.PreferredBackBufferWidth = 980;
+            graphics.PreferredBackBufferHeight = 540;
+            graphics.IsFullScreen = false;
+#endif
         }
 
         protected override void Initialize()
@@ -63,7 +66,6 @@ namespace Cliffhanger
 
             //titleSafe
             titleSafeRect = GraphicsDevice.Viewport.TitleSafeArea;
-            titleSafeTex = Content.Load<Texture2D>("titleSafe");
 
             base.Initialize();
         }

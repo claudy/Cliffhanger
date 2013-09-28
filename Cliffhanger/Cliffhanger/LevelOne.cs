@@ -43,10 +43,18 @@ namespace Cliffhanger
 
         //Player Stuff
         Player player1;
+        Player player2;
 
         //Platform
         List<Platform> platforms;
         Platform ground;
+
+        //Rock
+        List<Rock> rocks;
+
+        //Vine
+        List<Vine> vines;
+
 
         GraphicsDevice GraphicsDevice;
         
@@ -54,7 +62,6 @@ namespace Cliffhanger
         public LevelOne(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
         }
 
 
@@ -68,12 +75,16 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game);
+            player1 = new Player(Game, 1);
             player1.Initialize();
+            player1.position = new Vector2(100, -100);
+            player2 = new Player(Game, 2);
+            player2.Initialize();
+            player2.position = new Vector2(400, -100);
 
             //Platform
             platforms = new List<Platform>();
-            ground = new Platform(Game, 10, GraphicsDevice.Viewport.Height - 100, 800, 100);
+            ground = new Platform(Game, 10, 256, 800, 100);
             ground.Initialize();
             platforms.Add(ground);
 
@@ -90,6 +101,31 @@ namespace Cliffhanger
             p1 = Color.Red;
             p2 = Color.Blue;
             swapped = false;
+
+
+            //Rock
+            rocks = new List<Rock>();
+            //Testrock
+            rocks.Add(new Rock(Game, 0.0f, 0.0f, new Vector2(-0.01f, 0.01f)));
+            rocks[0].Initialize();
+            rocks[0].velocity = new Vector2(5.2f, 0.5f);
+
+            //Vine
+            vines = new List<Vine>();
+            vines.Add(new Vine(Game, -200, 10, 0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game, -200, 12, 1));
+            vines.Add(new Vine(Game, -200, 9, 2));
+            vines.Add(new Vine(Game, -200, 10, 3));
+            vines.Add(new Vine(Game, -200, 12, 4));
+            vines.Add(new Vine(Game, -200, 9, 5));
+            vines.Add(new Vine(Game, -200, 12, 6));
+            vines.Add(new Vine(Game, -200, 12, 7));
+            vines.Add(new Vine(Game, -200, 12, 8));
+            
+            foreach(Vine vine in vines)
+            {
+                vine.Initialize();
+            }
 
             base.Initialize();
         }
@@ -231,8 +267,12 @@ namespace Cliffhanger
             
 
             player1.Update(gameTime);
+
+            player2.Update(gameTime);
+
             ground.Update(gameTime);
 
+            #region Platform Collision
             foreach (Platform platform in platforms)
             {
                 if (player1.vel.Y >= 0)
@@ -250,6 +290,66 @@ namespace Cliffhanger
                     }
                 }
             }
+            foreach (Platform platform in platforms)
+            {
+                if (player2.vel.Y >= 0)
+                {
+                    if (Collision.PlayerPlatformCollision(player2, platform))
+                    {
+                        //state = PlayerState.standing;
+                        player2.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        player2.canjump = false;
+                    }
+                }
+            }
+            #endregion //Platform Collision
+
+            foreach (Rock r in rocks)
+            {
+                r.Update(gameTime, ground);
+            }
+
+            #region Vine Collision
+            foreach (Vine vine in vines)
+            {
+                if (player1.vel.Y >= 0)
+                {
+                    if (Collision.PlayerVineCollision(player1, vine, gameTime))
+                    {
+                        //state = PlayerState.standing;
+                        player1.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        //player1.canjump = false;
+                    }
+                }
+            }
+            foreach (Vine vine in vines)
+            {
+                if (player2.vel.Y >= 0)
+                {
+                    if (Collision.PlayerVineCollision(player2, vine, gameTime))
+                    {
+                        //state = PlayerState.standing;
+                        player2.canjump = true;
+                        break;
+                    }
+                    else
+                    {
+                        //state = PlayerState.falling;
+                        //player2.canjump = false;
+                    }
+                }
+            }
+            #endregion //Vine Collision
 
             base.Update(gameTime);
         }
@@ -258,13 +358,25 @@ namespace Cliffhanger
             //Draw stuff in the top renderTarget
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             #region Top Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetTop.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                
+                //Vines
+                foreach (Vine vine in vines)
+                {
+                    vine.Draw(spriteBatch, offsetTop);
+                }
+
                 player1.Draw(spriteBatch, offsetTop);
+                player2.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
+                foreach (Rock r in rocks)
+                {
+                    r.Draw(spriteBatch, offsetTop);
+                }
             }
             #endregion //Top Viewport
 
@@ -273,15 +385,27 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
             #region Bottom Viewport
             {
                 spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, cliffRect.Y + (int)offsetBottom.Y, cliffRect.Width, cliffRect.Height), Color.White);
+                
+                //Vines
+                foreach (Vine vine in vines)
+                {
+                    vine.Draw(spriteBatch, offsetBottom);
+                }
+
                 player1.Draw(spriteBatch, offsetBottom);
+                player2.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
+                foreach (Rock r in rocks)
+                {
+                    r.Draw(spriteBatch, offsetBottom);
+                }
             }
             #endregion //Bottom Viewport
 
