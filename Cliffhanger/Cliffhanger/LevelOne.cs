@@ -194,6 +194,13 @@ namespace Cliffhanger
             {
                 r.Update(gameTime, ground);
             }
+            for (int i = 0; i < rocks.Count; i++)
+            {
+                if (!rocks[i].Enabled) // Remove any rocks deemed to be disposed of.
+                {
+                    rocks.RemoveAt(i); 
+                }
+            }
 
             #region Vine Collision
             foreach (Vine vine in vines)

@@ -14,9 +14,10 @@ namespace Cliffhanger
 {
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
+        private const int TIME_TO_LIVE = 5; // In seconds.
         public static readonly Vector2 SUGGESTED_L_VELOCITY = new Vector2(-4.5f, -8.2f);
         public static readonly Vector2 SUGGESTED_R_VELOCITY = new Vector2(4.5f, -8.2f);
-        public static readonly float ROCKGRAVITY = -.02f; // Gravity
+        public const float ROCKGRAVITY = -.02f; // Gravity
 
         public Vector2 startPosition;
         public Vector2 currentPosition;
@@ -32,7 +33,9 @@ namespace Cliffhanger
         public bool hasCollidedWithAPlayer = false;
         protected int indexOfPlayerWhoThrewMe = 0;
         public int IndexOfPlayerWhoThrewMe { get { return indexOfPlayerWhoThrewMe; } protected set {} }
- 
+
+        private TimeSpan secondsAlive;
+
         public Rock(Game game, float startXPos, float startYPos, Vector2 velocity, int playerIndex)
             : base(game)
         {
@@ -48,6 +51,8 @@ namespace Cliffhanger
             {
                 rockTex = Game.Content.Load<Texture2D>("asteroid_cell64_Warspawn_OpenGameArt");
             }
+            
+            Initialize();
         }
 
         public override void Initialize()
@@ -57,8 +62,11 @@ namespace Cliffhanger
 
         public void Update(GameTime gameTime, Platform ground)
         {
-            if (currentPosition.Y < ground.position.Y)
-                this.Dispose();
+            secondsAlive += gameTime.ElapsedGameTime;
+            if (secondsAlive.TotalSeconds > TIME_TO_LIVE)
+            {
+                this.Enabled = false; // Deem this rock ready to be disposed.
+            }
 
             // In order for gravity to work...this must -=.
             velocity.Y -= ROCKGRAVITY * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
