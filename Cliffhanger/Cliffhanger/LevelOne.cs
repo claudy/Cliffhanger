@@ -359,7 +359,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY);
+                    Rock.SUGGESTED_L_VELOCITY,
+                    player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -368,7 +369,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY);
+                    Rock.SUGGESTED_R_VELOCITY,
+                    player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -378,7 +380,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY);
+                    Rock.SUGGESTED_L_VELOCITY,
+                    player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -387,12 +390,15 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY);
+                    Rock.SUGGESTED_R_VELOCITY,
+                    player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
 
             #endregion
+
+
 
             base.Update(gameTime);
         }
