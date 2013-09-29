@@ -70,11 +70,11 @@ namespace Cliffhanger
                 if ((player.position.X + player.hitbox.Width / 2 > rock.HitBox.X - rock.HitBox.Width / 2) &&
                    (player.position.X - player.hitbox.Width / 2 < rock.HitBox.X + rock.HitBox.Width / 2))
                 {
-                    if ((player.position.Y + player.hitbox.Height / 2 > rock.HitBox.Y - rock.HitBox.Height / 2) &&
-                        (player.position.Y - player.hitbox.Height / 2 < rock.HitBox.Y + rock.HitBox.Height / 2))
+                    if ((player.position.Y + player.hitbox.Height / 2 > rock.currentPosition.Y - rock.HitBox.Height / 2) &&
+                        (player.position.Y - player.hitbox.Height / 2 < rock.currentPosition.Y + rock.HitBox.Height / 2))
                     {
                         //Affect player
-                        player.vel.X += rock.velocity.X / 2f;
+                        player.vel.X += rock.velocity.X /*/ 2f*/;
                         rock.velocity.X -= rock.velocity.X / 2f;
                         
                         rock.hasCollidedWithAPlayer = true;
