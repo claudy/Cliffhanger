@@ -30,7 +30,7 @@ namespace Cliffhanger
             {
                 if ((player.position.X + player.hitbox.Width > platform.position.X + platformEdge) && player.position.X < platform.position.X + platform.platformRect.Width - platformEdge)
                 {
-                    player.position.Y = platform.position.Y - player.hitbox.Height;
+                    player.position.Y = platform.position.Y - player.hitbox.Height + 2;
                     player.vel.Y = 0;
                     return true;
                 }

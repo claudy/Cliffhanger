@@ -39,6 +39,7 @@ namespace Cliffhanger
         Boolean screenSplit;
         Color p1, p2;
         Boolean swapped;
+        Rectangle playerBounds;
 
 
         //Player Stuff
@@ -56,8 +57,9 @@ namespace Cliffhanger
         List<Vine> vines;
 
 
+
         GraphicsDevice GraphicsDevice;
-        
+        SpriteFont font;
 
         public LevelOne(Game game)
             : base(game)
@@ -75,12 +77,12 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game, 1);
+            player1 = new Player(Game, 2);
             player1.Initialize();
-            player1.position = new Vector2(100, -100);
-            player2 = new Player(Game, 2);
+            player1.position = new Vector2(100, 0);
+            player2 = new Player(Game, 1);
             player2.Initialize();
-            player2.position = new Vector2(400, -100);
+            player2.position = new Vector2(400, 0);
 
             //Platform
             platforms = new List<Platform>();
@@ -90,12 +92,13 @@ namespace Cliffhanger
 
 
             //Test players
-            p1ScreenPos = new Vector2(200, 200);
-            p2ScreenPos = new Vector2(400, 200);
+            p1ScreenPos = new Vector2(100, 20);
+            p2ScreenPos = new Vector2(400, 20);
             p1ScreenVel = new Vector2(0, 0);
             p2ScreenVel = new Vector2(0, 0);
             playerDifference = new Vector2(0, 0);
-
+            //changes the screen bounds of where the player is.
+            playerBounds = new Rectangle(0, 0, 50, 50);
             screenSplit = false;
 
             p1 = Color.Red;
@@ -113,7 +116,7 @@ namespace Cliffhanger
             //Vine
             vines = new List<Vine>();
             vines.Add(new Vine(Game, -200, 10, 0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, -200, 12, 1));
+            vines.Add(new Vine(Game, -2800, 150, 1));
             vines.Add(new Vine(Game, -200, 9, 2));
             vines.Add(new Vine(Game, -200, 10, 3));
             vines.Add(new Vine(Game, -200, 12, 4));
@@ -134,153 +137,34 @@ namespace Cliffhanger
         {
             cliffTex = Game.Content.Load<Texture2D>("cliff");
             cliffRect = new Rectangle(0, GraphicsDevice.Viewport.Height - cliffTex.Height * 2, GraphicsDevice.Viewport.Width * 2, cliffTex.Height * 2);
-
+            font = Game.Content.Load<SpriteFont>("Consolas");
             test = Game.Content.Load<Texture2D>("blankTex");
         }
 
         public void Update(GameTime gameTime, ClaudyInput input, Rectangle  titleSafeRect)
         {
-            //cliffTop += (int)(input.GetAs8DirectionLeftThumbStick().Y * 10);
-            //offsetTop.Y += (int)(input.GetAs8DirectionLeftThumbStick().Y * 5);
-            //offsetBottom.Y += (int)(input.GetAs8DirectionRightThumbStick().Y * 5);
-
-            
-            p1ScreenVel.Y = input.GetAs8DirectionRightThumbStick().Y * 5;
-
-            p2ScreenVel.Y = input.GetAs8DirectionLeftThumbStick().Y * 5;
-
-
-            p1ScreenPos.Y -= p1ScreenVel.Y;
-
-            p2ScreenPos.Y -= p2ScreenVel.Y;
-
-            playerDifference.Y += p1ScreenVel.Y;
-
-            if (p1ScreenPos.Y < titleSafeRect.Y )
-            {
-                p1ScreenPos.Y = titleSafeRect.Y;
-                offsetTop.Y += p1ScreenVel.Y;
-
-                if (p2ScreenPos.Y > titleSafeRect.Height - 55)
-                {
-                    screenSplit = true;
-                }
-
-                if (!screenSplit)
-                {
-                    p2ScreenPos.Y += p1ScreenVel.Y;
-                    offsetBottom.Y += p1ScreenVel.Y;
-                }   
-            }
-            if (p2ScreenPos.Y < titleSafeRect.Y)
-            {
-                p2ScreenPos.Y = titleSafeRect.Y;
-                offsetTop.Y += p2ScreenVel.Y;
-
-                if (p1ScreenPos.Y > titleSafeRect.Height - 55 && !screenSplit)
-                {
-                    screenSplit = true;
-                }
-
-                if (!screenSplit)
-                {
-                    p1ScreenPos.Y += p2ScreenVel.Y;
-                    offsetBottom.Y += p2ScreenVel.Y;
-                }
-            }
-            else if (p2ScreenPos.Y > titleSafeRect.Height - 50)
-            {
-                offsetBottom.Y += p2ScreenVel.Y;
-                p2ScreenPos.Y = titleSafeRect.Height - 50;
-                if (p1ScreenPos.Y < titleSafeRect.Y && !screenSplit)
-                {
-                    screenSplit = true;
-                }
-
-                if (!screenSplit)
-                {
-                    p1ScreenPos.Y += p2ScreenVel.Y;
-                    offsetTop.Y += p2ScreenVel.Y;
-                }
-            }
-            if (p1ScreenPos.Y > titleSafeRect.Height - 50)
-            {
-                offsetBottom.Y += p1ScreenVel.Y;
-                p1ScreenPos.Y = titleSafeRect.Height - 50;
-                if (p2ScreenPos.Y < titleSafeRect.Y && !screenSplit)
-                {
-                    screenSplit = true;
-                }
-
-                if (!screenSplit)
-                {
-                    p2ScreenPos.Y += p1ScreenVel.Y;
-                    offsetTop.Y += p1ScreenVel.Y;
-                }
-            }
-           
-
-            if (screenSplit)
-            {
-                if (p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - 50 && p1ScreenPos.Y < GraphicsDevice.Viewport.Height /2 - 30)
-                {
-                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 - 50;
-                    offsetTop.Y += p1ScreenVel.Y;
-                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
-                        screenSplit = false;
-
-                }
-                if (p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - 50 && p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 - 30)
-                {
-                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 - 50;
-                    offsetTop.Y += p2ScreenVel.Y;
-                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
-                        screenSplit = false;
-
-                }
-                if (p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - 20)
-                {
-                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
-                    offsetBottom.Y += p2ScreenVel.Y;
-                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
-                        screenSplit = false;
-
-                }
-                if (p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - 20)
-                {
-                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
-                    offsetBottom.Y += p1ScreenVel.Y;
-                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
-                        screenSplit = false;
-
-                }
-            }
-
-
-
-
-            if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
-            {
-                screenSplit = false;
-                offsetBottom.Y = offsetTop.Y - GraphicsDevice.Viewport.Height / 2;
-            }
             
 
             player1.Update(gameTime);
+            
 
             player2.Update(gameTime);
 
             ground.Update(gameTime);
+
+            
 
             #region Platform Collision
             foreach (Platform platform in platforms)
             {
                 if (player1.vel.Y >= 0)
                 {
+                    
                     if (Collision.PlayerPlatformCollision(player1, platform))
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
+                        p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
                         break;
                     }
                     else
@@ -298,6 +182,7 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player2.canjump = true;
+                        p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
                         break;
                     }
                     else
@@ -394,6 +279,128 @@ namespace Cliffhanger
 
             #endregion
 
+
+
+            p1ScreenVel.Y = -player1.vel.Y;
+
+            p2ScreenVel.Y = -player2.vel.Y;
+
+            p1ScreenPos.Y -= p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+            p2ScreenPos.Y -= p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+
+
+            #region splitScreen Movement
+            if (p1ScreenPos.Y < titleSafeRect.Y + 20)
+            {
+                p1ScreenPos.Y = titleSafeRect.Y + 20;
+                offsetTop.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+
+                if (p2ScreenPos.Y > titleSafeRect.Height - playerBounds.Height - 5)
+                {
+                    screenSplit = true;
+                }
+
+                if (!screenSplit)
+                {
+                    p2ScreenPos.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    offsetBottom.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                }
+            }
+            if (p2ScreenPos.Y < titleSafeRect.Y + 20)
+            {
+                p2ScreenPos.Y = titleSafeRect.Y + 20;
+                offsetTop.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+
+                if (p1ScreenPos.Y > titleSafeRect.Height - playerBounds.Height - 5 && !screenSplit)
+                {
+                    screenSplit = true;
+                }
+
+                if (!screenSplit)
+                {
+                    p1ScreenPos.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    offsetBottom.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                }
+            }
+            else if (p2ScreenPos.Y > titleSafeRect.Height - playerBounds.Height)
+            {
+                offsetBottom.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                p2ScreenPos.Y = titleSafeRect.Height - playerBounds.Height;
+                if (p1ScreenPos.Y < titleSafeRect.Y && !screenSplit)
+                {
+                    screenSplit = true;
+                }
+
+                if (!screenSplit)
+                {
+                    p1ScreenPos.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    offsetTop.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                }
+            }
+            if (p1ScreenPos.Y > titleSafeRect.Height - playerBounds.Height)
+            {
+                offsetBottom.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                p1ScreenPos.Y = titleSafeRect.Height - playerBounds.Height;
+                if (p2ScreenPos.Y < titleSafeRect.Y && !screenSplit)
+                {
+                    screenSplit = true;
+                }
+
+                if (!screenSplit)
+                {
+                    p2ScreenPos.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    offsetTop.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                }
+            }
+
+
+            if (screenSplit)
+            {
+                if (p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - playerBounds.Height && p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2)
+                {
+                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 - playerBounds.Height;
+                    offsetTop.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
+                        screenSplit = false;
+
+                }
+                if (p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2 - playerBounds.Height && p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2)
+                {
+                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 - playerBounds.Height;
+                    offsetTop.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
+                        screenSplit = false;
+
+                }
+                if (p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
+                {
+                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
+                    offsetBottom.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
+                        screenSplit = false;
+
+                }
+                if (p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
+                {
+                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
+                    offsetBottom.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
+                    if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
+                        screenSplit = false;
+
+                }
+            }
+
+
+
+
+            if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
+            {
+                screenSplit = false;
+                offsetBottom.Y = offsetTop.Y - GraphicsDevice.Viewport.Height / 2;
+            }
+            #endregion
+
+
             base.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -461,6 +468,7 @@ namespace Cliffhanger
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
             spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+
 
             spriteBatch.End();
 

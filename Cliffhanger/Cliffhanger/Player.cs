@@ -181,11 +181,13 @@ namespace Cliffhanger
                 vel += gravity * gameTime.ElapsedGameTime.Milliseconds * gameTime.ElapsedGameTime.Milliseconds / 100;
             }
 
-            position += vel * gameTime.ElapsedGameTime.Milliseconds / 10;
             if (vel.Y > 10)
             {
                 vel.Y = 10;
             }
+            
+            position += vel * gameTime.ElapsedGameTime.Milliseconds / 10;
+
             #endregion
             base.Update(gameTime);
 
