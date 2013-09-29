@@ -63,7 +63,9 @@ namespace Cliffhanger
 
         public static bool PlayerRockCollision(Player player, Rock rock)
         {
-            if (!rock.hasCollidedWithAPlayer)
+            // Don't bother testing if the rock already collided with someone.
+            // Don't bother testing if the player who being checked threw the rock.
+            if (!rock.hasCollidedWithAPlayer && rock.IndexOfPlayerWhoThrewMe != player.Num)
             {
                 if ((player.position.X + player.hitbox.Width / 2 > rock.HitBox.X - rock.HitBox.Width / 2) &&
                    (player.position.X - player.hitbox.Width / 2 < rock.HitBox.X + rock.HitBox.Width / 2))
@@ -71,8 +73,12 @@ namespace Cliffhanger
                     if ((player.position.Y + player.hitbox.Height / 2 > rock.HitBox.Y - rock.HitBox.Height / 2) &&
                         (player.position.Y - player.hitbox.Height / 2 < rock.HitBox.Y + rock.HitBox.Height))
                     {
+                        //Affect player
+                        player.vel.X = rock.velocity.X / 2f;
+                        rock.velocity.X = rock.velocity.X / 2f;
+                        
                         rock.hasCollidedWithAPlayer = true;
-                        rock.shade = Color.Red;
+                        rock.shade = Color.DeepPink; //Change rock for debug purposes
                     }
                 }
             }

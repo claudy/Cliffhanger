@@ -39,14 +39,14 @@ namespace Cliffhanger
 
         //Input
         ClaudyInput input;
-        int playerNum;
-        public int Num { get { return playerNum; } protected set { } }
+        int playerNumber;
+        public int Num { get { return playerNumber; } protected set { } }
 
         public Player(Game game, int playerNumber)
             : base(game)
         {
             // TODO: Construct any child components here
-            playerNum = playerNumber;
+            this.playerNumber = playerNumber;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Cliffhanger
             timeinrunning += gameTime.ElapsedGameTime.Milliseconds;
             #region keystatelogic
 
-            if (input.isPressed(Keys.Right) || input.GetAs8DirectionLeftThumbStick(playerNum).X > 0)
+            if (input.isPressed(Keys.Right) || input.GetAs8DirectionLeftThumbStick(playerNumber).X > 0)
             {
                 facingDirection = PlayerDirection.right;
                 playerAction = PlayerAction.running;
@@ -99,7 +99,7 @@ namespace Cliffhanger
                     vel.X = MAX_SPEED;
                 }
             }
-            else if (!(input.isPressed(Keys.Left)||input.GetAs8DirectionLeftThumbStick(playerNum).X < 0) && vel.X > 0)
+            else if (!(input.isPressed(Keys.Left)||input.GetAs8DirectionLeftThumbStick(playerNumber).X < 0) && vel.X > 0)
             {
                 vel -= fric * gameTime.ElapsedGameTime.Milliseconds;
                 if (vel.X < 0 && vel.X > -1.5)
@@ -107,7 +107,7 @@ namespace Cliffhanger
                     vel.X = 0;
                 }
             }
-            else if (input.isPressed(Keys.Left) || input.GetAs8DirectionLeftThumbStick(playerNum).X < 0)
+            else if (input.isPressed(Keys.Left) || input.GetAs8DirectionLeftThumbStick(playerNumber).X < 0)
             {
                 facingDirection = PlayerDirection.left;
                 playerAction = PlayerAction.running;
@@ -117,7 +117,7 @@ namespace Cliffhanger
                     vel.X = -MAX_SPEED;
                 }
             }
-            else if (!(input.isPressed(Keys.Right) || input.GetAs8DirectionLeftThumbStick(playerNum).X > 0) && vel.X < 0)
+            else if (!(input.isPressed(Keys.Right) || input.GetAs8DirectionLeftThumbStick(playerNumber).X > 0) && vel.X < 0)
             {
                 vel += fric * gameTime.ElapsedGameTime.Milliseconds;
                 if (vel.X > 0 && vel.X < 1.5)
@@ -131,7 +131,7 @@ namespace Cliffhanger
                 playerAction = PlayerAction.standing;
             }
 
-            if ((input.isFirstPress(Keys.Up) || input.isFirstPress(Buttons.A, playerNum)))
+            if ((input.isFirstPress(Keys.Up) || input.isFirstPress(Buttons.A, playerNumber)))
             {
                 rundrawmodifier = 0;
                 Jump(gameTime);
@@ -208,12 +208,12 @@ namespace Cliffhanger
                 if (playerAction == PlayerAction.standing)
                 {
                     rundrawmodifier = 0;
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)0 * (int)frameSize.X, (playerNum-1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)0 * (int)frameSize.X, (playerNumber-1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)rundrawmodifier * (int)frameSize.X, (playerNum - 1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle((int)rundrawmodifier * (int)frameSize.X, (playerNumber - 1) * (int)frameSize.Y, (int)frameSize.X, (int)frameSize.Y), Color.Wheat);
                     if (rundrawmodifier < sheetSize.X-1) 
                     { 
                         if (timeinrunning > timeinrunningmax) 
@@ -232,7 +232,7 @@ namespace Cliffhanger
                 }
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion
@@ -242,12 +242,12 @@ namespace Cliffhanger
                 //static
                 if (playerAction == PlayerAction.standing)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
                 //running needs to have a sort of update
                 if (playerAction == PlayerAction.running)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(rundrawmodifier * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(rundrawmodifier * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                     if (rundrawmodifier < sheetSize.X-1) 
                     { 
                         if (timeinrunning > timeinrunningmax) 
@@ -268,7 +268,7 @@ namespace Cliffhanger
                 //static
                 if (playerAction == PlayerAction.jumping)
                 {
-                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNum - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
                 }
             }
             #endregion

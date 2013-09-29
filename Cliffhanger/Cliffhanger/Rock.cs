@@ -43,6 +43,7 @@ namespace Cliffhanger
                 (int)startYPos,
                 WH,
                 WH);
+            indexOfPlayerWhoThrewMe = playerIndex;
             if (rockTex == null)
             {
                 rockTex = Game.Content.Load<Texture2D>("asteroid_cell64_Warspawn_OpenGameArt");
