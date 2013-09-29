@@ -108,10 +108,6 @@ namespace Cliffhanger
 
             //Rock
             rocks = new List<Rock>();
-            //Testrock
-            rocks.Add(new Rock(Game, 0.0f, 0.0f, new Vector2(-0.01f, 0.01f)));
-            rocks[0].Initialize();
-            rocks[0].velocity = new Vector2(5.2f, 0.5f);
 
             //Vine
             vines = new List<Vine>();
@@ -244,7 +240,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY);
+                    Rock.SUGGESTED_L_VELOCITY,
+                    player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -253,7 +250,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY);
+                    Rock.SUGGESTED_R_VELOCITY,
+                    player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -263,7 +261,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY);
+                    Rock.SUGGESTED_L_VELOCITY,
+                    player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -272,7 +271,8 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY);
+                    Rock.SUGGESTED_R_VELOCITY,
+                    player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
@@ -399,6 +399,21 @@ namespace Cliffhanger
                 offsetBottom.Y = offsetTop.Y - GraphicsDevice.Viewport.Height / 2;
             }
             #endregion
+
+
+            #region Rock Collisions
+            foreach (Rock r in rocks)
+            {
+                if (Collision.PlayerRockCollision(player1, r))
+                {
+                    continue;
+                }
+                else
+                {
+                    Collision.PlayerRockCollision(player2, r);
+                }
+            }
+            #endregion // Rock Collisions
 
 
             base.Update(gameTime);
