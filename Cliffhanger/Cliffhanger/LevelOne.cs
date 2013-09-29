@@ -77,10 +77,10 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game, 2);
+            player1 = new Player(Game, 1);
             player1.Initialize();
             player1.position = new Vector2(100, 0);
-            player2 = new Player(Game, 1);
+            player2 = new Player(Game, 2);
             player2.Initialize();
             player2.position = new Vector2(400, 0);
 
@@ -466,8 +466,8 @@ namespace Cliffhanger
             spriteBatch.Begin();
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
-            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
+            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
 
 
             spriteBatch.End();
