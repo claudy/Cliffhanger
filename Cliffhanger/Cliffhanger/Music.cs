@@ -27,7 +27,7 @@ namespace Cliffhanger
 #if XBOX
             //DO NOT USE threads #0 or #2
             int[] hardwareThread = new int[] { 3 };
-            Thread.CurrentThread.SetProcessorAffinity(hardwareThread)
+            Thread.CurrentThread.SetProcessorAffinity(hardwareThread);
 #endif
             thread.Start();
         }

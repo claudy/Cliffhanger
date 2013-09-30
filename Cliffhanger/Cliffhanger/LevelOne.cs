@@ -302,7 +302,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.RightShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player1.position.Y,
+                    player2.position.X, player2.position.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -311,7 +311,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.LeftShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player1.position.Y,
+                    player2.position.X, player2.position.Y,
                     Rock.SUGGESTED_UP_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -518,8 +518,8 @@ namespace Cliffhanger
             spriteBatch.Begin();
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
-            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
+            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
 
 
             spriteBatch.End();
