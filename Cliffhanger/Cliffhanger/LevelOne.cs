@@ -262,7 +262,7 @@ namespace Cliffhanger
                 r.Initialize();
                 rocks.Add(r);
             }
-            if (input.isFirstPress(Buttons.RightShoulder))
+            if (input.isFirstPress(Buttons.RightShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
@@ -271,7 +271,7 @@ namespace Cliffhanger
                 r.Initialize();
                 rocks.Add(r);
             }
-            if (input.isFirstPress(Buttons.LeftShoulder))
+            if (input.isFirstPress(Buttons.LeftShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
@@ -286,7 +286,7 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_UP_L_VELOCITY,
+                    Rock.SUGGESTED_SIDE_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
                 rocks.Add(r);
@@ -296,7 +296,25 @@ namespace Cliffhanger
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
+                    Rock.SUGGESTED_SIDE_R_VELOCITY,
+                    player2.Num);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.isFirstPress(Buttons.RightShoulder, player2.Num))
+            {
+                Rock r = new Rock(Game,
+                    player2.position.X, player1.position.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
+                    player2.Num);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.isFirstPress(Buttons.LeftShoulder, player2.Num))
+            {
+                Rock r = new Rock(Game,
+                    player2.position.X, player1.position.Y,
+                    Rock.SUGGESTED_UP_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
                 rocks.Add(r);
