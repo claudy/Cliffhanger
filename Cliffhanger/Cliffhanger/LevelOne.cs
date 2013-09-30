@@ -411,7 +411,7 @@ namespace Cliffhanger
                 }
                 if (p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 + playerBounds.Height && p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
                 {
-                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
+                    p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 + playerBounds.Height;
                     offsetBottom.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
                     if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
                         screenSplit = false;
@@ -419,7 +419,7 @@ namespace Cliffhanger
                 }
                 if (p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 + playerBounds.Height && p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
                 {
-                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
+                    p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2 + playerBounds.Height;
                     offsetBottom.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
                     if (offsetTop.Y <= offsetBottom.Y + GraphicsDevice.Viewport.Height / 2)
                         screenSplit = false;
