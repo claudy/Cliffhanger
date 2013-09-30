@@ -13,9 +13,6 @@ using Claudy.Input;
 
 namespace Cliffhanger
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Player : Microsoft.Xna.Framework.GameComponent
     {
         SoundEffect jumpingeffect;
@@ -55,7 +52,6 @@ namespace Cliffhanger
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
             celsheet = Game.Content.Load<Texture2D>("spritesheet_half");
             //jumpingeffect = Game.Content.Load<SoundEffect>("Jumping");
             jumpstartposition = new Vector2(0);
@@ -76,16 +72,11 @@ namespace Cliffhanger
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             hitbox.X = (int)position.X;
             hitbox.Y = (int)position.Y;
-            // TODO: Add your update code here
-            //based on keyboard state, swithc what is displayed
+            //based on keyboard state, switch what is displayed
             timeinrunning += gameTime.ElapsedGameTime.Milliseconds;
             #region keystatelogic
 

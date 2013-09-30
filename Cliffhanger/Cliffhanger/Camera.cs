@@ -12,9 +12,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cliffhanger
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Camera : Microsoft.Xna.Framework.GameComponent
     {
         public Matrix view { get; set; }

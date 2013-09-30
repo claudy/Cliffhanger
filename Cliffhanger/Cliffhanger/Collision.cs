@@ -1,7 +1,6 @@
 ﻿/*******************************************************************
- * Clayton Sandham & Pat Neville
- * COMP 441 - Project 2: Going Postal
- * Date: 2012, Nov 12
+ * Originally: Clayton Sandham & Pat Neville
+ * Adapted from the COMP 441 - Project 2: Going Postal
  * 
  * Details: This file contains the implementation of collides, which is a collection of collision functions
  ******************************************************************/

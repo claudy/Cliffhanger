@@ -9,9 +9,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Cliffhanger
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Music
     {
         Song backgroundMusic;

@@ -13,11 +13,6 @@ using Claudy.Input;
 
 namespace Cliffhanger
 {
-
-
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class LevelOne : Microsoft.Xna.Framework.GameComponent
     {
         //Viewport stuff
@@ -111,16 +106,19 @@ namespace Cliffhanger
 
             //Vine
             vines = new List<Vine>();
-            vines.Add(new Vine(Game, -200, 10, 0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, -2800, 150, 1));
-            vines.Add(new Vine(Game, -200, 9, 2));
-            vines.Add(new Vine(Game, -200, 10, 3));
-            vines.Add(new Vine(Game, -200, 12, 4));
-            vines.Add(new Vine(Game, -200, 9, 5));
-            vines.Add(new Vine(Game, -200, 12, 6));
-            vines.Add(new Vine(Game, -200, 12, 7));
-            vines.Add(new Vine(Game, -200, 12, 8));
+            vines.Add(new Vine(Game, -288,  18,     0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game, -10,   7,      1));
+            vines.Add(new Vine(Game, -160,  11,      2));
+            vines.Add(new Vine(Game, -100,  1,      3));
+            vines.Add(new Vine(Game, -150,  1,      3));
+            vines.Add(new Vine(Game, -704,  4,      3));
+            vines.Add(new Vine(Game, -384,  15,     4));
+            vines.Add(new Vine(Game, -704,  15,     5));
+            vines.Add(new Vine(Game, -544,  10,     1));
+            vines.Add(new Vine(Game, -544,  5,      2));
+            vines.Add(new Vine(Game, -704,  8,      4));
             
+
             foreach(Vine vine in vines)
             {
                 vine.Initialize();
