@@ -15,8 +15,8 @@ namespace Cliffhanger
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
         private const int TIME_TO_LIVE = 5; // In seconds.
-        public static readonly Vector2 SUGGESTED_UP_L_VELOCITY = new Vector2(-2f, -10f);
-        public static readonly Vector2 SUGGESTED_UP_R_VELOCITY = new Vector2(2f, -10f);
+        public static readonly Vector2 SUGGESTED_UP_L_VELOCITY = new Vector2(-5f, -12f);
+        public static readonly Vector2 SUGGESTED_UP_R_VELOCITY = new Vector2(5f, -12f);
         public static readonly Vector2 SUGGESTED_SIDE_L_VELOCITY = new Vector2(-30f, -4f);
         public static readonly Vector2 SUGGESTED_SIDE_R_VELOCITY = new Vector2(30f, -4f);
         public const float ROCKGRAVITY = -.02f; // Gravity
