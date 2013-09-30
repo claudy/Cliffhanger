@@ -28,6 +28,7 @@ namespace Cliffhanger
         Point frameSize;
         Point sheetSize;
         public bool canjump = true;
+        public bool canClimb = false;
         const int defaultMillisecondsPerFrame = 16;
         enum PlayerDirection { left, right };
         enum PlayerAction { standing, running, jumping, climbing };
@@ -129,8 +130,11 @@ namespace Cliffhanger
                 //add logic to stop from doing other running functions
             }
 
+            
+
             if (canjump)
             {
+
                 vel += gravity * gameTime.ElapsedGameTime.Milliseconds * gameTime.ElapsedGameTime.Milliseconds / 100;
                 if (vel.Y > 10)
                 {
@@ -173,9 +177,15 @@ namespace Cliffhanger
             {
                 vel.Y = 10;
             }
-            
+
+            if (vel.Y > 0 && vel.Y < .3f && canjump)
+            {
+                
+                vel.Y = 0;
+            }
             position += vel * gameTime.ElapsedGameTime.Milliseconds / 10;
 
+            
             #endregion
             base.Update(gameTime);
 
@@ -185,7 +195,7 @@ namespace Cliffhanger
         {
             if (canjump)
             {
-                jumpvel = vel;
+                //jumpvel = vel;
                 vel.Y -= .25f * gameTime.ElapsedGameTime.Milliseconds;
                 //jumpingeffect.Play();
                 canjump = false;

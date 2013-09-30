@@ -139,7 +139,7 @@ namespace Cliffhanger
         {
             
 
-            player1.Update(gameTime);
+            
             
 
             player2.Update(gameTime);
@@ -203,20 +203,41 @@ namespace Cliffhanger
             #region Vine Collision
             foreach (Vine vine in vines)
             {
+                if (Collision.PlayerVineCollision(player1, vine, gameTime) && input.GetAs8DirectionLeftThumbStick(player1.Num).Y > 0)
+                {
+                    player1.canClimb = true;
+                    //player1.position.Y -= player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
+                    player1.vel.Y = -2;
+                    //p1ScreenVel.Y = -player1.vel.Y;
+                    //player1.position.Y += player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 100;
+                    player1.vel.X *= .5f;
+                    
+                }
+                else
+                {
+                    player1.canClimb = false;
+                }
+                
                 if (player1.vel.Y >= 0)
                 {
                     if (Collision.PlayerVineCollision(player1, vine, gameTime))
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
+                        //player1.position.Y -= player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
+                        player1.vel.X *= .5f;
+                        player1.vel.Y = 0;
                         break;
                     }
                     else
                     {
                         //state = PlayerState.falling;
                         //player1.canjump = false;
+                        
                     }
+                    
                 }
+
             }
             foreach (Vine vine in vines)
             {
@@ -236,7 +257,7 @@ namespace Cliffhanger
                 }
             }
             #endregion //Vine Collision
-
+            player1.Update(gameTime);
             #region Throw Rocks (requires knowledge of player & of the rock list)
 
             //PLAYER 1
@@ -318,6 +339,7 @@ namespace Cliffhanger
                 rocks.Add(r);
             }
             #endregion
+
 
             p1ScreenVel.Y = -player1.vel.Y;
             p2ScreenVel.Y = -player2.vel.Y;
@@ -520,7 +542,8 @@ namespace Cliffhanger
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
             spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
-
+            spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
+            spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
 
             spriteBatch.End();
 

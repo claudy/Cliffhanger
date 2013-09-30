@@ -49,15 +49,12 @@ namespace Cliffhanger
                 if ((player.position.Y + player.hitbox.Height > vine.vineRect.Y) &&
                     (player.position.Y + player.hitbox.Height < vine.vineRect.Y + vine.vineRect.Height))
                 {
-                    //player.position.Y = platform.position.Y - player.hitbox.Height;
-                    player.position.Y -= player.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
-                    player.vel.X *= .5f;
-                    player.vel.Y = 0;
+                   
                     return true;
                 }
-                else return false;
+                
             }
-            else return false;
+            return false;
         }
 
         public static bool PlayerRockCollision(Player player, Rock rock)
