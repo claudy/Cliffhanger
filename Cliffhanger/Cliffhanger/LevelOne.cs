@@ -287,7 +287,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.RightShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
-                    player1.hitbox.X + player1.hitbox.Width, player1.hitbox.Y,
+                    player1.hitbox.X, player1.hitbox.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -296,7 +296,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.LeftShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
-                    player1.hitbox.X, player1.hitbox.Y,
+                    player1.hitbox.X + player1.hitbox.Width, player1.hitbox.Y,
                     Rock.SUGGESTED_UP_L_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -326,7 +326,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.RightShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.hitbox.X + player2.hitbox.Width, player2.hitbox.Y,
+                    player2.hitbox.X, player2.hitbox.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -335,7 +335,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.LeftShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.hitbox.X, player2.hitbox.Y,
+                    player2.hitbox.X + player2.hitbox.Width, player2.hitbox.Y,
                     Rock.SUGGESTED_UP_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
