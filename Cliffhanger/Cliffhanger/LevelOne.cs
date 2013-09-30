@@ -409,7 +409,7 @@ namespace Cliffhanger
                         screenSplit = false;
 
                 }
-                if (p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
+                if (p2ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 + playerBounds.Height && p2ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
                 {
                     p2ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
                     offsetBottom.Y += p2ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
@@ -417,7 +417,7 @@ namespace Cliffhanger
                         screenSplit = false;
 
                 }
-                if (p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 && p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
+                if (p1ScreenPos.Y < GraphicsDevice.Viewport.Height / 2 + playerBounds.Height && p1ScreenPos.Y > GraphicsDevice.Viewport.Height / 2)
                 {
                     p1ScreenPos.Y = GraphicsDevice.Viewport.Height / 2;
                     offsetBottom.Y += p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;
