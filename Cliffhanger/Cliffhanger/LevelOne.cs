@@ -106,18 +106,15 @@ namespace Cliffhanger
 
             //Vine
             vines = new List<Vine>();
-            vines.Add(new Vine(Game, -288,  18,     0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, -10,   7,      1));
-            vines.Add(new Vine(Game, -160,  11,      2));
-            vines.Add(new Vine(Game, -100,  1,      3));
-            vines.Add(new Vine(Game, -150,  1,      3));
-            vines.Add(new Vine(Game, -704,  4,      3));
-            vines.Add(new Vine(Game, -384,  15,     4));
-            vines.Add(new Vine(Game, -704,  15,     5));
-            vines.Add(new Vine(Game, -544,  10,     1));
-            vines.Add(new Vine(Game, -544,  5,      2));
-            vines.Add(new Vine(Game, -704,  8,      4));
-            
+            vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game,   64,  5,      1)); // Ground is some where about 224 .
+            vines.Add(new Vine(Game,    0,  5,      2));
+            vines.Add(new Vine(Game, -224,  14,     4));
+            vines.Add(new Vine(Game, -384,  10,     1));
+
+            vines.Add(new Vine(Game, -384,  5,      2));
+            //vines.Add(new Vine(Game, -384,  15,     4));
+           
 
             foreach(Vine vine in vines)
             {
