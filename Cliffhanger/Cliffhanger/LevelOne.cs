@@ -242,54 +242,68 @@ namespace Cliffhanger
             #region Throw Rocks (requires knowledge of player & of the rock list)
 
             //PLAYER 1
-            if (input.GamepadByID[1].Triggers.Left > 0.5f &&
-                input.PreviousGamepadByID[1].Triggers.Left <= 0.5f)
+            if (input.GamepadByID[player1.Num].Triggers.Left > 0.5f &&
+                input.PreviousGamepadByID[player1.Num].Triggers.Left <= 0.5f)
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY,
+                    Rock.SUGGESTED_SIDE_L_VELOCITY,
                     player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
-            if (input.GamepadByID[1].Triggers.Right > 0.5f &&
-                input.PreviousGamepadByID[1].Triggers.Right <= 0.5f)
+            if (input.GamepadByID[player1.Num].Triggers.Right > 0.5f &&
+                input.PreviousGamepadByID[player1.Num].Triggers.Right <= 0.5f)
             {
                 Rock r = new Rock(Game,
                     player1.position.X, player1.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY,
+                    Rock.SUGGESTED_SIDE_R_VELOCITY,
+                    player1.Num);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.isFirstPress(Buttons.RightShoulder))
+            {
+                Rock r = new Rock(Game,
+                    player1.position.X, player1.position.Y,
+                    Rock.SUGGESTED_UP_R_VELOCITY,
+                    player1.Num);
+                r.Initialize();
+                rocks.Add(r);
+            }
+            if (input.isFirstPress(Buttons.LeftShoulder))
+            {
+                Rock r = new Rock(Game,
+                    player1.position.X, player1.position.Y,
+                    Rock.SUGGESTED_UP_L_VELOCITY,
                     player1.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
             //PLAYER 2
-            if (input.GamepadByID[2].Triggers.Left > 0.5f &&
-                input.PreviousGamepadByID[2].Triggers.Left <= 0.5f)
+            if (input.GamepadByID[player2.Num].Triggers.Left > 0.5f &&
+                input.PreviousGamepadByID[player2.Num].Triggers.Left <= 0.5f)
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_L_VELOCITY,
+                    Rock.SUGGESTED_UP_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
-            if (input.GamepadByID[2].Triggers.Right > 0.5f &&
-                input.PreviousGamepadByID[2].Triggers.Right <= 0.5f)
+            if (input.GamepadByID[player2.Num].Triggers.Right > 0.5f &&
+                input.PreviousGamepadByID[player2.Num].Triggers.Right <= 0.5f)
             {
                 Rock r = new Rock(Game,
                     player2.position.X, player2.position.Y,
-                    Rock.SUGGESTED_R_VELOCITY,
+                    Rock.SUGGESTED_UP_R_VELOCITY,
                     player2.Num);
                 r.Initialize();
                 rocks.Add(r);
             }
-
             #endregion
 
-
-
             p1ScreenVel.Y = -player1.vel.Y;
-
             p2ScreenVel.Y = -player2.vel.Y;
 
             p1ScreenPos.Y -= p1ScreenVel.Y * gameTime.ElapsedGameTime.Milliseconds / 10f;

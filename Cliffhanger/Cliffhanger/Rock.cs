@@ -15,9 +15,12 @@ namespace Cliffhanger
     public class Rock : Microsoft.Xna.Framework.GameComponent
     {
         private const int TIME_TO_LIVE = 5; // In seconds.
-        public static readonly Vector2 SUGGESTED_L_VELOCITY = new Vector2(-4.5f, -5.2f);
-        public static readonly Vector2 SUGGESTED_R_VELOCITY = new Vector2(4.5f, -5.2f);
-        public const float ROCKGRAVITY = -.01f; // Gravity
+        public static readonly Vector2 SUGGESTED_UP_L_VELOCITY = new Vector2(-2f, -10f);
+        public static readonly Vector2 SUGGESTED_UP_R_VELOCITY = new Vector2(2f, -10f);
+        public static readonly Vector2 SUGGESTED_SIDE_L_VELOCITY = new Vector2(-30f, -4f);
+        public static readonly Vector2 SUGGESTED_SIDE_R_VELOCITY = new Vector2(30f, -4f);
+        public const float ROCKGRAVITY = -.02f; // Gravity
+        public const float ROCK_X_SIDE_SLOW_FACTOR = 0.30f; // Slows the X direction.
 
         public Vector2 startPosition;
         public Vector2 currentPosition;
@@ -70,7 +73,7 @@ namespace Cliffhanger
 
             // In order for gravity to work...this must -=.
             velocity.Y -= ROCKGRAVITY * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            currentPosition.X += velocity.X / 1.1f;
+            currentPosition.X += velocity.X * ROCK_X_SIDE_SLOW_FACTOR;
             currentPosition.Y += velocity.Y;
 
             base.Update(gameTime);

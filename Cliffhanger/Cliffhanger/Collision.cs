@@ -74,7 +74,7 @@ namespace Cliffhanger
                         (player.position.Y - player.hitbox.Height / 2 < rock.currentPosition.Y + rock.HitBox.Height / 2))
                     {
                         //Affect player
-                        player.vel.X += rock.velocity.X /*/ 2f*/;
+                        player.vel.X += 10f * Math.Sign(rock.velocity.X); //4f is the impact constant.
                         rock.velocity.X -= rock.velocity.X / 2f;
                         
                         rock.hasCollidedWithAPlayer = true;
