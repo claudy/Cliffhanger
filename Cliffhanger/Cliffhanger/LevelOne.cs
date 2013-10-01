@@ -53,6 +53,7 @@ namespace Cliffhanger
 
         const int FINISH = -3180;
         public bool isCompleted;
+        public int victorPlayerNum;
 
         GraphicsDevice GraphicsDevice;
         SpriteFont font;
@@ -189,6 +190,7 @@ namespace Cliffhanger
 
 
             isCompleted = false;
+            victorPlayerNum = 0;
 
 
             base.Initialize();
@@ -575,8 +577,13 @@ namespace Cliffhanger
             #endregion // Rock Collisions
 
             if (player1.position.Y <= FINISH || player2.position.Y <= FINISH)
+            {
                 isCompleted = true;
-
+                if (player1.position.Y < player2.position.Y)
+                    victorPlayerNum = 1;
+                else if (player2.position.Y < player1.position.Y)
+                    victorPlayerNum = 2;
+            }
             base.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)

@@ -37,10 +37,12 @@ namespace Cliffhanger
         public ClaudyInput input;
 
         LevelOne level1;
+        LevelOne level2;
 
         Rectangle titleSafeRect;
 
         public SpriteFont consolas;
+        public SpriteFont tahoma;
         Music music;
 
         public CliffhangerGame()
@@ -59,6 +61,7 @@ namespace Cliffhanger
 
         protected override void Initialize()
         {
+            
             level1 = new LevelOne(this);
             level1.Initialize(GraphicsDevice);
             
@@ -74,7 +77,7 @@ namespace Cliffhanger
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             consolas = Content.Load<SpriteFont>("consolas");
-
+            tahoma = Content.Load<SpriteFont>("Tahoma");
             level1.LoadContent();
             mainMenu = new Menu(this);
             music = new Music(this);
@@ -103,11 +106,18 @@ namespace Cliffhanger
                             currentGameState = LevelStateFSM.Level1;
                             break;
                         case LevelStateFSM.Level1:
+                            currentGameState = LevelStateFSM.Level1Ending;
+                            break;
+                        case LevelStateFSM.Level1Ending:
                             currentGameState = LevelStateFSM.Level2;
                             break;
                         case LevelStateFSM.Level2:
-                            //currentGameState = LevelStateFSM.Level3;
-                            break; // Disabled until level 3 is implemented.
+                            currentGameState = LevelStateFSM.Level2Ending;
+                            break;
+                        case LevelStateFSM.Level2Ending:
+                            currentGameState = LevelStateFSM.Level1;
+                            break;
+                        // Disabled until level 3 is implemented.
                         case LevelStateFSM.Level3:
                             break; // Disabled on level 3.
                         default:
@@ -128,11 +138,22 @@ namespace Cliffhanger
                         currentGameState = LevelStateFSM.Level1Ending;
                     break;
                 case LevelStateFSM.Level1Ending:
-                    level1.reset();
+                    //level1.victorPlayerNum;
+                    level1.Dispose();
+                    level2 = new LevelOne(this);
+                    level2.Initialize(GraphicsDevice);
+                    level2.LoadContent();
                     break;
                 case LevelStateFSM.Level2:
+                    level2.Update(gameTime, input, titleSafeRect);
+                    if (level2.isCompleted)
+                        currentGameState = LevelStateFSM.Level2Ending;
                     break;
                 case LevelStateFSM.Level2Ending:
+                    level2.Dispose();
+                    level1 = new LevelOne(this);
+                    level1.Initialize(GraphicsDevice);
+                    level1.LoadContent();
                     break;
                 case LevelStateFSM.Level3:
                     break;
@@ -166,10 +187,16 @@ namespace Cliffhanger
                     spriteBatch.Begin(); // Refactor?
                     break;
                 case LevelStateFSM.Level1Ending:
+                    spriteBatch.DrawString(tahoma, "Congrats", new Vector2(titleSafeRect.Width / 2, titleSafeRect.Height / 2), Color.Yellow);
                     break;
                 case LevelStateFSM.Level2:
+                    spriteBatch.End(); //Not quite kosher.  Refactor?
+                    level2.Draw(spriteBatch);
+                    spriteBatch.Begin();
                     break;
                 case LevelStateFSM.Level2Ending:
+                    int bob = 5/2;
+                    spriteBatch.DrawString(tahoma, "Congrats 2 also" + bob.ToString(), new Vector2(titleSafeRect.Width / 2, titleSafeRect.Height / 2), Color.Yellow);
                     break;
                 case LevelStateFSM.Level3:
                     break;
