@@ -18,6 +18,7 @@ namespace Cliffhanger
         public const int COOLDOWN = 3; // In seconds.
         private readonly Color active = Color.White, inactive = Color.Gray;
         public Rectangle rect;
+        private static SoundEffect rockMachineSFX;
         private static Texture2D rockMachineTex;
         private bool isActive = true;
         public bool IsActive { get { return isActive; } protected set { } }
@@ -31,6 +32,10 @@ namespace Cliffhanger
             if (rockMachineTex == null)
             {
                 rockMachineTex = Game.Content.Load<Texture2D>("RockMachine_kentz_96");
+            }
+            if (rockMachineSFX == null)
+            {
+                rockMachineSFX = Game.Content.Load<SoundEffect>("afi-obsession_endrock");
             }
             this.Initialize();
         }
@@ -55,7 +60,7 @@ namespace Cliffhanger
         {
             isActive = false;
             secondsCooldown = gameTime.ElapsedGameTime;
-            // TODO: Play a cool guitar sound here.
+            rockMachineSFX.Play();
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
