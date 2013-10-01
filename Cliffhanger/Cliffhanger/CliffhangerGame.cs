@@ -37,7 +37,7 @@ namespace Cliffhanger
         public ClaudyInput input;
 
         LevelOne level1;
-        LevelOne level2;
+        LevelTwo level2;
 
         Rectangle titleSafeRect;
 
@@ -161,7 +161,7 @@ namespace Cliffhanger
                         playerVictorNumber = 2;
                         level1.victorPlayerNum = 0;
                     }
-                    level2 = new LevelOne(this);
+                    level2 = new LevelTwo(this);
                     level2.Initialize(GraphicsDevice);
                     level2.LoadContent();
                     break;
