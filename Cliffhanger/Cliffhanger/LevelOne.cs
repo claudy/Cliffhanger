@@ -81,7 +81,7 @@ namespace Cliffhanger
 
             //Platform
             platforms = new List<Platform>();
-            ground = new Platform(Game, -20, 456, 2000, 1000);
+            ground = new Platform(Game, -20, 400, 2000, 1000);
             ground.Initialize();
             platforms.Add(ground);
 
@@ -106,10 +106,10 @@ namespace Cliffhanger
 
             //Vine
             vines = new List<Vine>();
-            vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game,   64,  5,      1)); // Ground is some where about 224 .
-            vines.Add(new Vine(Game,    0,  6,      2));
-            vines.Add(new Vine(Game, -224,  14,     4));
+            //vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game,   64,  10,      1)); // Ground is some where about 224 .
+            vines.Add(new Vine(Game,    0,  8,      2));
+            vines.Add(new Vine(Game, -224,  22,     4));
             vines.Add(new Vine(Game, -352,  10,     1));
             vines.Add(new Vine(Game, -352,  5,      2));
 
@@ -119,9 +119,9 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -554, 14, 5));
             vines.Add(new Vine(Game, -554, 4, 6));
             vines.Add(new Vine(Game, -554, 2, 7));
-            vines.Add(new Vine(Game, -554, 4, 8));
+            //vines.Add(new Vine(Game, -554, 4, 8));
 
-            vines.Add(new Vine(Game, -736, 7, 0));
+            //vines.Add(new Vine(Game, -736, 7, 0));
             vines.Add(new Vine(Game, -736, 5, 1));
             vines.Add(new Vine(Game, -960, 2, 0));
             vines.Add(new Vine(Game, -864, 9, 3));
@@ -129,9 +129,9 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1056, 4, 4));
             vines.Add(new Vine(Game, -992,  7, 5));
             vines.Add(new Vine(Game, -1056, 4, 7));
-            vines.Add(new Vine(Game, -1056, 15, 8));
+            //vines.Add(new Vine(Game, -1056, 15, 8));
 
-            vines.Add(new Vine(Game, -1216, 3, 8));
+            //vines.Add(new Vine(Game, -1216, 3, 8));
             vines.Add(new Vine(Game, -1248, 3, 7));
             vines.Add(new Vine(Game, -1280, 3, 6));
             vines.Add(new Vine(Game, -1344, 3, 5));
@@ -139,7 +139,7 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1280, 5, 3));
             vines.Add(new Vine(Game, -1344, 4, 2));
             vines.Add(new Vine(Game, -1280, 4, 1));
-            vines.Add(new Vine(Game, -1248, 7, 0));
+            //vines.Add(new Vine(Game, -1248, 7, 0));
 
 
 
@@ -175,7 +175,14 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
-                        p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        if (screenSplit)
+                        {
+                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y + 20;
+                        }
+                        else
+                        {
+                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y ;
+                        }
                         break;
                     }
                     else
@@ -193,7 +200,14 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player2.canjump = true;
-                        p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        if (screenSplit)
+                        {
+                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y + 20;
+                        }
+                        else
+                        {
+                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        }
                         break;
                     }
                     else
@@ -513,7 +527,7 @@ namespace Cliffhanger
             //Draw stuff in the top renderTarget
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             #region Top Viewport
             {
@@ -540,7 +554,7 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
@@ -572,10 +586,10 @@ namespace Cliffhanger
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             //Debugging draw statements
-            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
-            //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
-            //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
+            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
+            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
+            spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
 
             spriteBatch.DrawString(font, player1.position.Y.ToString(), new Vector2(0f, 200f), Color.Yellow);
             spriteBatch.End();
