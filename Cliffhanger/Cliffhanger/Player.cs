@@ -43,14 +43,9 @@ namespace Cliffhanger
         public Player(Game game, int playerNumber)
             : base(game)
         {
-            // TODO: Construct any child components here
             this.playerNumber = playerNumber;
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             celsheet = Game.Content.Load<Texture2D>("spritesheet_half");
@@ -283,5 +278,19 @@ namespace Cliffhanger
             #endregion
         }
 
+        /// <summary>
+        /// Call this function only if the index of the controller controlling this avatar has changed.
+        /// </summary>
+        /// <param name="newPlayerIndex">Should only be a 1 or a 2 for the Cliffhanger game.</param>
+        public void ChangePlayerIndex(int newPlayerIndex)
+        {
+            //if (!(newPlayerIndex == 1 || newPlayerIndex == 2 || newPlayerIndex == 3 || newPlayerIndex == 4))
+            if (!(newPlayerIndex == 1 || newPlayerIndex == 2))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            
+            playerNumber = newPlayerIndex;
+        }
     }
 }

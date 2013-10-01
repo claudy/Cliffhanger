@@ -106,18 +106,42 @@ namespace Cliffhanger
 
             //Vine
             vines = new List<Vine>();
-            vines.Add(new Vine(Game, -288,  18,     0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, -10,   7,      1));
-            vines.Add(new Vine(Game, -160,  11,      2));
-            vines.Add(new Vine(Game, -100,  1,      3));
-            vines.Add(new Vine(Game, -150,  1,      3));
-            vines.Add(new Vine(Game, -704,  4,      3));
-            vines.Add(new Vine(Game, -384,  15,     4));
-            vines.Add(new Vine(Game, -704,  15,     5));
-            vines.Add(new Vine(Game, -544,  10,     1));
-            vines.Add(new Vine(Game, -544,  5,      2));
-            vines.Add(new Vine(Game, -704,  8,      4));
-            
+            vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game,   64,  5,      1)); // Ground is some where about 224 .
+            vines.Add(new Vine(Game,    0,  6,      2));
+            vines.Add(new Vine(Game, -224,  14,     4));
+            vines.Add(new Vine(Game, -352,  10,     1));
+            vines.Add(new Vine(Game, -352,  5,      2));
+
+            vines.Add(new Vine(Game, -554, 3, 2));
+            vines.Add(new Vine(Game, -554, 4, 3));
+            vines.Add(new Vine(Game, -554, 8, 4));
+            vines.Add(new Vine(Game, -554, 14, 5));
+            vines.Add(new Vine(Game, -554, 4, 6));
+            vines.Add(new Vine(Game, -554, 2, 7));
+            vines.Add(new Vine(Game, -554, 4, 8));
+
+            vines.Add(new Vine(Game, -736, 7, 0));
+            vines.Add(new Vine(Game, -736, 5, 1));
+            vines.Add(new Vine(Game, -960, 2, 0));
+            vines.Add(new Vine(Game, -864, 9, 3));
+            vines.Add(new Vine(Game, -928, 4, 2));
+            vines.Add(new Vine(Game, -1056, 4, 4));
+            vines.Add(new Vine(Game, -992,  7, 5));
+            vines.Add(new Vine(Game, -1056, 4, 7));
+            vines.Add(new Vine(Game, -1056, 15, 8));
+
+            vines.Add(new Vine(Game, -1216, 3, 8));
+            vines.Add(new Vine(Game, -1248, 3, 7));
+            vines.Add(new Vine(Game, -1280, 3, 6));
+            vines.Add(new Vine(Game, -1344, 3, 5));
+            vines.Add(new Vine(Game, -1312, 3, 4));
+            vines.Add(new Vine(Game, -1280, 5, 3));
+            vines.Add(new Vine(Game, -1344, 4, 2));
+            vines.Add(new Vine(Game, -1280, 4, 1));
+            vines.Add(new Vine(Game, -1248, 7, 0));
+
+
 
             foreach(Vine vine in vines)
             {
@@ -272,7 +296,7 @@ namespace Cliffhanger
                 input.PreviousGamepadByID[player1.Num].Triggers.Left <= 0.5f)
             {
                 Rock r = new Rock(Game,
-                    player1.position.X, player1.position.Y,
+                    player1.hitbox.X, player1.hitbox.Y,
                     Rock.SUGGESTED_SIDE_L_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -282,7 +306,7 @@ namespace Cliffhanger
                 input.PreviousGamepadByID[player1.Num].Triggers.Right <= 0.5f)
             {
                 Rock r = new Rock(Game,
-                    player1.position.X, player1.position.Y,
+                    player1.hitbox.X + player1.hitbox.Width, player1.hitbox.Y,
                     Rock.SUGGESTED_SIDE_R_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -291,7 +315,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.RightShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
-                    player1.position.X, player1.position.Y,
+                    player1.hitbox.X, player1.hitbox.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -300,7 +324,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.LeftShoulder, player1.Num))
             {
                 Rock r = new Rock(Game,
-                    player1.position.X, player1.position.Y,
+                    player1.hitbox.X + player1.hitbox.Width, player1.hitbox.Y,
                     Rock.SUGGESTED_UP_L_VELOCITY,
                     player1.Num);
                 r.Initialize();
@@ -311,7 +335,7 @@ namespace Cliffhanger
                 input.PreviousGamepadByID[player2.Num].Triggers.Left <= 0.5f)
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player2.position.Y,
+                    player2.hitbox.X, player2.hitbox.Y,
                     Rock.SUGGESTED_SIDE_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -321,7 +345,7 @@ namespace Cliffhanger
                 input.PreviousGamepadByID[player2.Num].Triggers.Right <= 0.5f)
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player2.position.Y,
+                    player2.hitbox.X + player2.hitbox.Width, player2.hitbox.Y,
                     Rock.SUGGESTED_SIDE_R_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -330,7 +354,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.RightShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player2.position.Y,
+                    player2.hitbox.X, player2.hitbox.Y,
                     Rock.SUGGESTED_UP_R_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -339,7 +363,7 @@ namespace Cliffhanger
             if (input.isFirstPress(Buttons.LeftShoulder, player2.Num))
             {
                 Rock r = new Rock(Game,
-                    player2.position.X, player2.position.Y,
+                    player2.hitbox.X + player2.hitbox.Width, player2.hitbox.Y,
                     Rock.SUGGESTED_UP_L_VELOCITY,
                     player2.Num);
                 r.Initialize();
@@ -547,11 +571,13 @@ namespace Cliffhanger
             spriteBatch.Begin();
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
-            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
-            spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
-            spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
+            //Debugging draw statements
+            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
+            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
+            //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
 
+            spriteBatch.DrawString(font, player1.position.Y.ToString(), new Vector2(0f, 200f), Color.Yellow);
             spriteBatch.End();
 
         }
