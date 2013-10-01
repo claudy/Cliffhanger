@@ -108,7 +108,7 @@ namespace Cliffhanger
             vines = new List<Vine>();
             vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
             vines.Add(new Vine(Game,   64,  5,      1)); // Ground is some where about 224 .
-            vines.Add(new Vine(Game,    0,  6,      2));
+            vines.Add(new Vine(Game,    0,  12,      2));
             vines.Add(new Vine(Game, -224,  14,     4));
             vines.Add(new Vine(Game, -352,  10,     1));
             vines.Add(new Vine(Game, -352,  5,      2));
@@ -175,7 +175,10 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
-                        p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        if(!screenSplit)
+                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        else
+                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetBottom.Y + GraphicsDevice.Viewport.Height / 2;
                         break;
                     }
                     else
@@ -193,7 +196,10 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player2.canjump = true;
-                        p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        if(!screenSplit)
+                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
+                        else
+                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetBottom.Y + GraphicsDevice.Viewport.Height/2;
                         break;
                     }
                     else
@@ -572,8 +578,8 @@ namespace Cliffhanger
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             //Debugging draw statements
-            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
+            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
             //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
             //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
 
