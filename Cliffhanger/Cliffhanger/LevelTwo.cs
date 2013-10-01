@@ -118,12 +118,12 @@ namespace Cliffhanger
             //Vine
             vines = new List<Vine>();
             //vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game, 96, 9, 5)); // Ground is some where about 224 .
-            vines.Add(new Vine(Game, 256, 2, 1));
-            vines.Add(new Vine(Game, -32, 8,    2));
+            vines.Add(new Vine(Game, 96,    9,  5)); // Ground is some where about 224 .
+            vines.Add(new Vine(Game, 256,   2,  1));
+            vines.Add(new Vine(Game, -32,   8,  2));
             vines.Add(new Vine(Game, -160, 11,  4));
-            vines.Add(new Vine(Game, 0, 2,     6));
-            vines.Add(new Vine(Game, -96, 2,    7));
+            vines.Add(new Vine(Game,   0,   2,  6));
+            vines.Add(new Vine(Game, -96,   2,  7));
 
             vines.Add(new Vine(Game, -480, 12, 5));
             vines.Add(new Vine(Game, -576, 8, 7));
@@ -138,15 +138,16 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -960, 2, 0));
 
             //Over 1000
-            vines.Add(new Vine(Game, -1056, 15, 4));
-            vines.Add(new Vine(Game, -928, 4, 2));
-            vines.Add(new Vine(Game, -, 15, 4));
-            vines.Add(new Vine(Game, -992, 7, 5));
-            vines.Add(new Vine(Game, -1056, 4, 7));
-            //vines.Add(new Vine(Game, -1056, 15, 8));
+            vines.Add(new Vine(Game, -1024, 15, 5));
+            vines.Add(new Vine(Game, -1056, 6,  3));
+            vines.Add(new Vine(Game, -1120, 4,  4));
+            vines.Add(new Vine(Game, -1152, 6,  7));
+            vines.Add(new Vine(Game, -1216, 4,  1));
+            vines.Add(new Vine(Game, -1248, 2,  7));
+            vines.Add(new Vine(Game, -1344, 2,  7));
+            vines.Add(new Vine(Game, -1440, 1,  7));
 
-            //vines.Add(new Vine(Game, -1216, 3, 8));
-            vines.Add(new Vine(Game, -1248, 3, 7));
+            ///
             vines.Add(new Vine(Game, -1280, 3, 6));
             vines.Add(new Vine(Game, -1344, 3, 5));
             vines.Add(new Vine(Game, -1312, 3, 4));
@@ -162,16 +163,9 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1568, 1, 4));
             vines.Add(new Vine(Game, -1600, 1, 3));
             vines.Add(new Vine(Game, -1664, 1, 4));
-            vines.Add(new Vine(Game, -1696, 1, 3));
-            vines.Add(new Vine(Game, -1824, 1, 3));
-            vines.Add(new Vine(Game, -1792, 1, 4));
-            vines.Add(new Vine(Game, -1760, 1, 4));
-            vines.Add(new Vine(Game, -1792, 1, 3));
-
-            vines.Add(new Vine(Game, -1760, 12, 1));
-            vines.Add(new Vine(Game, -1728, 9, 7));
-            vines.Add(new Vine(Game, -1984, 10, 6));
-            vines.Add(new Vine(Game, -1952, 5, 1));
+            vines.Add(new Vine(Game, -1952, 7, 4));
+            vines.Add(new Vine(Game, -2016, 8, 1));
+            vines.Add(new Vine(Game, -1824, 6, 2));
 
             //After 2000
             vines.Add(new Vine(Game, -2016, 4, 4));
@@ -186,10 +180,11 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -2560, 3, 6));
             vines.Add(new Vine(Game, -2688, 5, 3));
             vines.Add(new Vine(Game, -2720, 6, 4));
-            vines.Add(new Vine(Game, -2784, 4, 5));
-            vines.Add(new Vine(Game, -2784, 4, 7));
+            vines.Add(new Vine(Game, -2784, 5, 5));
+            vines.Add(new Vine(Game, -2784, 6, 7));
 
-            vines.Add(new Vine(Game, -2848, 1, 6));
+            vines.Add(new Vine(Game, -2800, 3, 2));
+            vines.Add(new Vine(Game, -2848, 3, 6));
             vines.Add(new Vine(Game, -2944, 5, 1));
             vines.Add(new Vine(Game, -2848, 3, 7));
             vines.Add(new Vine(Game, -3008, 4, 2));
