@@ -132,7 +132,7 @@ namespace Cliffhanger
                     {
                         if (input.GamepadByID[pi].IsConnected)
                         {
-                            if (input.isFirstPress(Buttons.B))
+                            if (input.isFirstPress(Buttons.B, pi))
                             {
                                 game.currentGameState = CliffhangerGame.LevelStateFSM.AlphaMenu;
                                 currentMenuState = MenuState.TopMost;
