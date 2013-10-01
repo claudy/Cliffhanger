@@ -124,8 +124,11 @@ namespace Cliffhanger
                     break;
                 case LevelStateFSM.Level1:
                     level1.Update(gameTime, input, titleSafeRect);
+                    if (level1.isCompleted)
+                        currentGameState = LevelStateFSM.Level1Ending;
                     break;
                 case LevelStateFSM.Level1Ending:
+                    level1.reset();
                     break;
                 case LevelStateFSM.Level2:
                     break;
