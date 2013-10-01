@@ -115,7 +115,7 @@ namespace Cliffhanger
 
             vines.Add(new Vine(Game, -554, 3, 2));
             vines.Add(new Vine(Game, -554, 4, 3));
-            vines.Add(new Vine(Game, -554, 8, 4));
+            vines.Add(new Vine(Game, -554, 7, 4));
             vines.Add(new Vine(Game, -554, 14, 5));
             vines.Add(new Vine(Game, -554, 4, 6));
             vines.Add(new Vine(Game, -554, 2, 7));
@@ -124,7 +124,7 @@ namespace Cliffhanger
             //vines.Add(new Vine(Game, -736, 7, 0));
             vines.Add(new Vine(Game, -736, 5, 1));
             vines.Add(new Vine(Game, -960, 2, 0));
-            vines.Add(new Vine(Game, -864, 9, 3));
+            vines.Add(new Vine(Game, -864, 7, 3));
             vines.Add(new Vine(Game, -928, 4, 2));
             vines.Add(new Vine(Game, -1056, 4, 4));
             vines.Add(new Vine(Game, -992,  7, 5));
@@ -141,6 +141,23 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1280, 4, 1));
             //vines.Add(new Vine(Game, -1248, 7, 0));
 
+            //After 1400
+            vines.Add(new Vine(Game, -1440, 2, 6));
+            vines.Add(new Vine(Game, -1504, 1, 2));
+            vines.Add(new Vine(Game, -1536, 2, 5));
+            vines.Add(new Vine(Game, -1568, 1, 4));
+            vines.Add(new Vine(Game, -1600, 1, 3));
+            vines.Add(new Vine(Game, -1664, 1, 4));
+            vines.Add(new Vine(Game, -1696, 1, 3));
+            vines.Add(new Vine(Game, -1824, 1, 3));
+            vines.Add(new Vine(Game, -1792, 1, 4));
+            vines.Add(new Vine(Game, -1760, 1, 4));
+            vines.Add(new Vine(Game, -1792, 1, 3));
+
+            vines.Add(new Vine(Game, -1760, 12, 1));
+            vines.Add(new Vine(Game, -1728, 9,  7));
+            vines.Add(new Vine(Game, -1984, 10, 6));
+            vines.Add(new Vine(Game, -1952, 5,  1));
 
 
             foreach(Vine vine in vines)
