@@ -37,6 +37,7 @@ namespace Cliffhanger
         public ClaudyInput input;
 
         LevelOne level1;
+        LevelOne level2;
 
         Rectangle titleSafeRect;
 
@@ -59,6 +60,7 @@ namespace Cliffhanger
 
         protected override void Initialize()
         {
+            
             level1 = new LevelOne(this);
             level1.Initialize(GraphicsDevice);
             
@@ -105,11 +107,22 @@ namespace Cliffhanger
                         currentGameState = LevelStateFSM.Level1Ending;
                     break;
                 case LevelStateFSM.Level1Ending:
-                    level1.reset();
+                    //level1.victorPlayerNum;
+                    level1.Dispose();
+                    level2 = new LevelOne(this);
+                    level2.Initialize(GraphicsDevice);
+                    level2.LoadContent();
                     break;
                 case LevelStateFSM.Level2:
+                    level2.Update(gameTime, input, titleSafeRect);
+                    if (level2.isCompleted)
+                        currentGameState = LevelStateFSM.Level2Ending;
                     break;
                 case LevelStateFSM.Level2Ending:
+                    level2.Dispose();
+                    level1 = new LevelOne(this);
+                    level1.Initialize(GraphicsDevice);
+                    level1.LoadContent();
                     break;
                 case LevelStateFSM.Level3:
                     break;
