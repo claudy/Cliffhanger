@@ -92,6 +92,29 @@ namespace Cliffhanger
             // Allows the game to exit
             if (input.DetectBackPressedByAnyPlayer())
                 this.Exit();
+            for (int pi = 1; pi <= 4; pi++)
+            {
+                if (input.isFirstPress(Buttons.Start, pi))
+                {
+                    //CHEAT CODE: Advance Level.
+                    switch (currentGameState)
+                    {
+                        case LevelStateFSM.AlphaMenu:
+                            currentGameState = LevelStateFSM.Level1;
+                            break;
+                        case LevelStateFSM.Level1:
+                            currentGameState = LevelStateFSM.Level2;
+                            break;
+                        case LevelStateFSM.Level2:
+                            //currentGameState = LevelStateFSM.Level3;
+                            break; // Disabled until level 3 is implemented.
+                        case LevelStateFSM.Level3:
+                            break; // Disabled on level 3.
+                        default:
+                            break; // Default is do nothing. (e.g. when on a victory screen.)
+                    }
+                }
+            }
             //////////////////////////////////////
 
             switch (currentGameState)
