@@ -31,8 +31,8 @@ namespace Cliffhanger
         public bool canClimb = false;
         const int defaultMillisecondsPerFrame = 16;
         enum PlayerDirection { left, right };
-        enum PlayerAction { standing, running, jumping, climbing };
-        PlayerAction playerAction = PlayerAction.standing;
+        public enum PlayerAction { standing, running, jumping, climbing };
+        public PlayerAction playerAction = PlayerAction.standing;
         PlayerDirection facingDirection = PlayerDirection.right;
 
         SoundEffect jumpSound;
@@ -173,7 +173,11 @@ namespace Cliffhanger
             {
                 vel.Y = 5;
             }
-
+            if (vel.Y <= 0 && input.GetAs8DirectionLeftThumbStick(playerNumber).Y > 0)
+            {
+                facingDirection = PlayerDirection.right;
+                playerAction = Player.PlayerAction.climbing;
+            }
             if (vel.Y > 0 && vel.Y < .3f && canjump)
             {
                 vel.Y = 0;
@@ -276,10 +280,33 @@ namespace Cliffhanger
                         } 
                     }
                 }
+                
                 //static
+
                 if (playerAction == PlayerAction.jumping)
                 {
                     spriteBatch.Draw(celsheet, position + offset, new Rectangle(0 * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                }
+                if (playerAction == PlayerAction.climbing)
+                {
+                    int cell = (int)position.Y % 512;
+                    spriteBatch.Draw(celsheet, position + offset, new Rectangle(cell  * frameSize.X, (playerNumber - 1) * frameSize.Y, frameSize.X, frameSize.Y), Color.Wheat);
+                    if (rundrawmodifier < sheetSize.X - 1)
+                    {
+                        if (timeinrunning > timeinrunningmax)
+                        {
+                            rundrawmodifier++;
+                            timeinrunning = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (timeinrunning > timeinrunningmax)
+                        {
+                            rundrawmodifier = 0;
+                            timeinrunning = 0;
+                        }
+                    }
                 }
             }
             #endregion
