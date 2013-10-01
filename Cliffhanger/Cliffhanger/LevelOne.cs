@@ -158,9 +158,31 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1728, 9,  7));
             vines.Add(new Vine(Game, -1984, 10, 6));
             vines.Add(new Vine(Game, -1952, 5,  1));
+            
+            //After 2000
+            vines.Add(new Vine(Game, -2016, 4, 4));
+            vines.Add(new Vine(Game, -2112, 4, 2));
+            vines.Add(new Vine(Game, -2176, 3, 3));
+            vines.Add(new Vine(Game, -2176, 3, 7));
+            vines.Add(new Vine(Game, -2336, 12, 6));
 
+            vines.Add(new Vine(Game, -2464, 4, 7));
+            vines.Add(new Vine(Game, -2464, 7, 1));
+            vines.Add(new Vine(Game, -2560, 11, 2));
+            vines.Add(new Vine(Game, -2560, 3, 6));
+            vines.Add(new Vine(Game, -2688, 5, 3));
+            vines.Add(new Vine(Game, -2720, 6, 4));
+            vines.Add(new Vine(Game, -2784, 4, 5));
+            vines.Add(new Vine(Game, -2784, 4, 7));
 
-            foreach(Vine vine in vines)
+            vines.Add(new Vine(Game, -2848, 1, 6));
+            vines.Add(new Vine(Game, -2944, 5, 1));
+            vines.Add(new Vine(Game, -2848, 3, 7));
+            vines.Add(new Vine(Game, -3008, 4, 2));
+            vines.Add(new Vine(Game, -3136, 7, 3));
+            vines.Add(new Vine(Game, -3136, 7, 5));
+
+            foreach (Vine vine in vines)
             {
                 vine.Initialize();
             }
