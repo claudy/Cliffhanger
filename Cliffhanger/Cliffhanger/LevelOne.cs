@@ -51,7 +51,8 @@ namespace Cliffhanger
         //Vine
         List<Vine> vines;
 
-
+        const int FINISH = -3180;
+        public bool isCompleted;
 
         GraphicsDevice GraphicsDevice;
         SpriteFont font;
@@ -88,17 +89,16 @@ namespace Cliffhanger
 
             //Screen Representation of players
             p1ScreenPos = new Vector2(100, 20);
-            p2ScreenPos = new Vector2(400, 20);
+            p2ScreenPos = new Vector2(GraphicsDevice.Viewport.Width - 100, 20);
             p1ScreenVel = new Vector2(0, 0);
             p2ScreenVel = new Vector2(0, 0);
-            playerDifference = new Vector2(0, 0);
             //changes the screen bounds of where the player is.
-            playerBounds = new Rectangle(0, 0, 50, 50);
+            playerBounds = new Rectangle(0, 0, 10, 60);
             screenSplit = false;
 
             p1 = Color.Red;
             p2 = Color.Blue;
-            swapped = false;
+            
 
 
             //Rock
@@ -187,6 +187,10 @@ namespace Cliffhanger
                 vine.Initialize();
             }
 
+
+            isCompleted = false;
+
+
             base.Initialize();
         }
 
@@ -198,6 +202,26 @@ namespace Cliffhanger
             test = Game.Content.Load<Texture2D>("blankTex");
         }
 
+        public void reset()
+        {
+            offsetTop = Vector2.Zero;
+            offsetBottom = new Vector2(0, -topScreen.Height);
+
+            //Player
+            player1 = new Player(Game, 1);
+            player1.Initialize();
+            player1.position = new Vector2(100, 0);
+            player2 = new Player(Game, 2);
+            player2.Initialize();
+            player2.position = new Vector2(400, 0);
+            //Screen Representation of players
+            p1ScreenPos = new Vector2(100, 20);
+            p2ScreenPos = new Vector2(GraphicsDevice.Viewport.Width - 100, 20);
+            p1ScreenVel = new Vector2(0, 0);
+            p2ScreenVel = new Vector2(0, 0);
+            screenSplit = false;
+            isCompleted = false;
+        }
         public void Update(GameTime gameTime, ClaudyInput input, Rectangle  titleSafeRect)
         {
             
@@ -550,6 +574,8 @@ namespace Cliffhanger
             }
             #endregion // Rock Collisions
 
+            if (player1.position.Y <= FINISH || player2.position.Y <= FINISH)
+                isCompleted = true;
 
             base.Update(gameTime);
         }
@@ -617,8 +643,8 @@ namespace Cliffhanger
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             //Debugging draw statements
-            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, 50, 50), p1);
-            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, 50, 50), p2);
+            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, playerBounds.Width, playerBounds.Height), p1);
+            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, playerBounds.Width, playerBounds.Height), p2);
             //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
             //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
 
