@@ -179,11 +179,13 @@ namespace Cliffhanger
 
             if (position.X < titleSafe.Left)
             {
-                position.X = 0;
+                position.X = titleSafe.Left;
+                vel.X = 0;
             }
             if (position.X + hitbox.Width > titleSafe.Right)
             {
                 position.X = titleSafe.Right - hitbox.Width;
+                vel.X = 0;
             }
 
 

@@ -81,7 +81,7 @@ namespace Cliffhanger
 
             //Platform
             platforms = new List<Platform>();
-            ground = new Platform(Game, -20, 456, 2000, 1000);
+            ground = new Platform(Game, -20, 400, 2000, 1000);
             ground.Initialize();
             platforms.Add(ground);
 
@@ -106,32 +106,32 @@ namespace Cliffhanger
 
             //Vine
             vines = new List<Vine>();
-            vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
-            vines.Add(new Vine(Game,   64,  5,      1)); // Ground is some where about 224 .
-            vines.Add(new Vine(Game,    0,  12,      2));
-            vines.Add(new Vine(Game, -224,  14,     4));
+            //vines.Add(new Vine(Game, -128,  11,     0)); // (Game, Position Y, Height/32, Lane)
+            vines.Add(new Vine(Game,   64,  10,      1)); // Ground is some where about 224 .
+            vines.Add(new Vine(Game,    0,  8,      2));
+            vines.Add(new Vine(Game, -224,  22,     4));
             vines.Add(new Vine(Game, -352,  10,     1));
             vines.Add(new Vine(Game, -352,  5,      2));
 
             vines.Add(new Vine(Game, -554, 3, 2));
             vines.Add(new Vine(Game, -554, 4, 3));
-            vines.Add(new Vine(Game, -554, 8, 4));
+            vines.Add(new Vine(Game, -554, 7, 4));
             vines.Add(new Vine(Game, -554, 14, 5));
             vines.Add(new Vine(Game, -554, 4, 6));
             vines.Add(new Vine(Game, -554, 2, 7));
-            vines.Add(new Vine(Game, -554, 4, 8));
+            //vines.Add(new Vine(Game, -554, 4, 8));
 
-            vines.Add(new Vine(Game, -736, 7, 0));
+            //vines.Add(new Vine(Game, -736, 7, 0));
             vines.Add(new Vine(Game, -736, 5, 1));
             vines.Add(new Vine(Game, -960, 2, 0));
-            vines.Add(new Vine(Game, -864, 9, 3));
+            vines.Add(new Vine(Game, -864, 7, 3));
             vines.Add(new Vine(Game, -928, 4, 2));
             vines.Add(new Vine(Game, -1056, 4, 4));
             vines.Add(new Vine(Game, -992,  7, 5));
             vines.Add(new Vine(Game, -1056, 4, 7));
-            vines.Add(new Vine(Game, -1056, 15, 8));
+            //vines.Add(new Vine(Game, -1056, 15, 8));
 
-            vines.Add(new Vine(Game, -1216, 3, 8));
+            //vines.Add(new Vine(Game, -1216, 3, 8));
             vines.Add(new Vine(Game, -1248, 3, 7));
             vines.Add(new Vine(Game, -1280, 3, 6));
             vines.Add(new Vine(Game, -1344, 3, 5));
@@ -139,11 +139,50 @@ namespace Cliffhanger
             vines.Add(new Vine(Game, -1280, 5, 3));
             vines.Add(new Vine(Game, -1344, 4, 2));
             vines.Add(new Vine(Game, -1280, 4, 1));
-            vines.Add(new Vine(Game, -1248, 7, 0));
+            //vines.Add(new Vine(Game, -1248, 7, 0));
 
+            //After 1400
+            vines.Add(new Vine(Game, -1440, 2, 6));
+            vines.Add(new Vine(Game, -1504, 1, 2));
+            vines.Add(new Vine(Game, -1536, 2, 5));
+            vines.Add(new Vine(Game, -1568, 1, 4));
+            vines.Add(new Vine(Game, -1600, 1, 3));
+            vines.Add(new Vine(Game, -1664, 1, 4));
+            vines.Add(new Vine(Game, -1696, 1, 3));
+            vines.Add(new Vine(Game, -1824, 1, 3));
+            vines.Add(new Vine(Game, -1792, 1, 4));
+            vines.Add(new Vine(Game, -1760, 1, 4));
+            vines.Add(new Vine(Game, -1792, 1, 3));
 
+            vines.Add(new Vine(Game, -1760, 12, 1));
+            vines.Add(new Vine(Game, -1728, 9,  7));
+            vines.Add(new Vine(Game, -1984, 10, 6));
+            vines.Add(new Vine(Game, -1952, 5,  1));
+            
+            //After 2000
+            vines.Add(new Vine(Game, -2016, 4, 4));
+            vines.Add(new Vine(Game, -2112, 4, 2));
+            vines.Add(new Vine(Game, -2176, 3, 3));
+            vines.Add(new Vine(Game, -2176, 3, 7));
+            vines.Add(new Vine(Game, -2336, 12, 6));
 
-            foreach(Vine vine in vines)
+            vines.Add(new Vine(Game, -2464, 4, 7));
+            vines.Add(new Vine(Game, -2464, 7, 1));
+            vines.Add(new Vine(Game, -2560, 11, 2));
+            vines.Add(new Vine(Game, -2560, 3, 6));
+            vines.Add(new Vine(Game, -2688, 5, 3));
+            vines.Add(new Vine(Game, -2720, 6, 4));
+            vines.Add(new Vine(Game, -2784, 4, 5));
+            vines.Add(new Vine(Game, -2784, 4, 7));
+
+            vines.Add(new Vine(Game, -2848, 1, 6));
+            vines.Add(new Vine(Game, -2944, 5, 1));
+            vines.Add(new Vine(Game, -2848, 3, 7));
+            vines.Add(new Vine(Game, -3008, 4, 2));
+            vines.Add(new Vine(Game, -3136, 7, 3));
+            vines.Add(new Vine(Game, -3136, 7, 5));
+
+            foreach (Vine vine in vines)
             {
                 vine.Initialize();
             }
@@ -519,7 +558,7 @@ namespace Cliffhanger
             //Draw stuff in the top renderTarget
             GraphicsDevice.SetRenderTarget(topScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             #region Top Viewport
             {
@@ -546,7 +585,7 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearClamp, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
