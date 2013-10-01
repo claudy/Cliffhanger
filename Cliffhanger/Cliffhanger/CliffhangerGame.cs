@@ -200,8 +200,10 @@ namespace Cliffhanger
 
 
             // CHEAT CODE: Music Testing Code.
-            if (input.isPressed(Buttons.X)) music.stopBackgroundMusic();
-            if (input.isPressed(Buttons.Y)) music.playBackgroundMusic();
+            if (input.isPressed(Buttons.X, PlayerIndex.One)) music.stopBackgroundMusic();
+            if (input.isPressed(Buttons.Y, PlayerIndex.One)) music.playBackgroundMusic();
+            if (input.isPressed(Buttons.X, PlayerIndex.Two)) music.stopBackgroundMusic();
+            if (input.isPressed(Buttons.Y, PlayerIndex.Two)) music.playBackgroundMusic();
             // Delete Music Testing Code once convinced of functionality of music class.
             // OOOOORRRRR Just leave it in as a cheat code.
 
