@@ -175,14 +175,7 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
-                        if (screenSplit)
-                        {
-                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y + 20;
-                        }
-                        else
-                        {
-                            p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y ;
-                        }
+                        p1ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
                         break;
                     }
                     else
@@ -200,14 +193,7 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player2.canjump = true;
-                        if (screenSplit)
-                        {
-                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y + 20;
-                        }
-                        else
-                        {
-                            p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
-                        }
+                        p2ScreenPos.Y = platform.position.Y - playerBounds.Height + offsetTop.Y;
                         break;
                     }
                     else
