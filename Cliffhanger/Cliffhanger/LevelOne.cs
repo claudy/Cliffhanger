@@ -296,7 +296,23 @@ namespace Cliffhanger
             if (guitar.IsActive &&
                 (player1.hitbox.Intersects(guitar.rect) || player2.hitbox.Intersects(guitar.rect)))
             {
-                //TODO: Spawn Rocks
+                Random rng = new Random();
+                for(int i = 0; i < 10; i++)
+                {
+                    Rock r = new Rock(Game, 
+                        (float)rng.Next(1000),
+                        -(float)rng.Next(2500), 
+                        Rock.SUGGESTED_UP_R_VELOCITY, 3);
+                    rocks.Add(r);
+                }
+                for (int i = 0; i < 10; i++)
+                {
+                    Rock r = new Rock(Game,
+                        (float)rng.Next(1000),
+                        -(float)rng.Next(2500),
+                        Rock.SUGGESTED_UP_L_VELOCITY, 3);
+                    rocks.Add(r);
+                }
                 guitar.Fired(gameTime);
             }
             guitar.Update(gameTime);
