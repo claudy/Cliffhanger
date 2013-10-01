@@ -332,7 +332,7 @@ namespace Cliffhanger
                 {
                     player1.vel.Y = -2f;
                     player1.vel.X *= .5f;
-
+                    
                     if (player1.position.Y + player1.hitbox.Height> vine.position.Y && player1.position.Y + player1.hitbox.Height < vine.position.Y + 4)
                     {
                         player1.vel.Y = 0;
