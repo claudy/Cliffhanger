@@ -690,12 +690,11 @@ namespace Cliffhanger
             spriteBatch.Draw(topScreen, new Vector2(0, 0), Color.White);
             spriteBatch.Draw(bottomScreen, new Vector2(0, GraphicsDevice.Viewport.Height / 2), Color.White);
             //Debugging draw statements
-            spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, playerBounds.Width, playerBounds.Height), p1);
-            spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, playerBounds.Width, playerBounds.Height), p2);
+            //spriteBatch.Draw(test, new Rectangle((int)p1ScreenPos.X, (int)p1ScreenPos.Y, playerBounds.Width, playerBounds.Height), p1);
+            //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, playerBounds.Width, playerBounds.Height), p2);
             //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
             //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
-
-            spriteBatch.DrawString(font, player1.position.Y.ToString(), new Vector2(0f, 200f), Color.Yellow);
+            //spriteBatch.DrawString(font, player1.position.Y.ToString(), new Vector2(0f, 200f), Color.Yellow);
             spriteBatch.End();
 
         }
