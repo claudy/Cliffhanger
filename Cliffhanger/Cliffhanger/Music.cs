@@ -18,6 +18,7 @@ namespace Cliffhanger
         public Music(Game game)
         {
             backgroundMusic = game.Content.Load<Song>("Philippe_Jungle_LessScream");
+            MediaPlayer.Volume = 1.0f;
             MediaPlayer.Stop();
         }
 

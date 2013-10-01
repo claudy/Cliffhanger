@@ -121,6 +121,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="CliffhangerGame.cs" />
     <Compile Include="Rock.cs" />
+    <Compile Include="RockMachine.cs" />
     <Compile Include="Vine.cs" />
   </ItemGroup>
   <ItemGroup>

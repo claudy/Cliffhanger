@@ -49,6 +49,9 @@ namespace Cliffhanger
         //Vine
         List<Vine> vines;
 
+        //Rock Machine
+        RockMachine guitar;
+
         const int FINISH = -3180;
         public bool isCompleted;
         public int victorPlayerNum;
@@ -108,6 +111,9 @@ namespace Cliffhanger
 
             //Rock
             rocks = new List<Rock>();
+
+            //Guitar (Rock Machine)
+            guitar = new RockMachine(Game, 700, 200);
 
             //Vine
             vines = new List<Vine>();
@@ -292,6 +298,32 @@ namespace Cliffhanger
                     rocks.RemoveAt(i); 
                 }
             }
+
+            #region Rock Machine Collision
+            if (guitar.IsActive &&
+                (player1.hitbox.Intersects(guitar.rect) || player2.hitbox.Intersects(guitar.rect)))
+            {
+                Random rng = new Random();
+                for(int i = 0; i < 10; i++)
+                {
+                    Rock r = new Rock(Game, 
+                        (float)rng.Next(1000),
+                        -(float)rng.Next(2500), 
+                        Rock.SUGGESTED_UP_R_VELOCITY, 3);
+                    rocks.Add(r);
+                }
+                for (int i = 0; i < 10; i++)
+                {
+                    Rock r = new Rock(Game,
+                        (float)rng.Next(1000),
+                        -(float)rng.Next(2500),
+                        Rock.SUGGESTED_UP_L_VELOCITY, 3);
+                    rocks.Add(r);
+                }
+                guitar.Fired(gameTime);
+            }
+            guitar.Update(gameTime);
+            #endregion
 
             #region Vine Collision
             foreach (Vine vine in vines)
@@ -608,7 +640,7 @@ namespace Cliffhanger
                 {
                     vine.Draw(spriteBatch, offsetTop);
                 }
-
+                guitar.Draw(spriteBatch, offsetTop);
                 player1.Draw(spriteBatch, offsetTop);
                 player2.Draw(spriteBatch, offsetTop);
                 ground.Draw(spriteBatch, offsetTop);
@@ -637,7 +669,7 @@ namespace Cliffhanger
                 {
                     vine.Draw(spriteBatch, offsetBottom);
                 }
-
+                guitar.Draw(spriteBatch, offsetBottom);
                 player1.Draw(spriteBatch, offsetBottom);
                 player2.Draw(spriteBatch, offsetBottom);
                 ground.Draw(spriteBatch, offsetBottom);
