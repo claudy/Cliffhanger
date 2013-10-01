@@ -41,6 +41,10 @@ namespace Cliffhanger
 
         Rectangle titleSafeRect;
 
+        Texture2D victoryScreen;
+        int player1Score, player2Score;
+        int playerVictorNumber;
+
         public SpriteFont consolas;
         public SpriteFont tahoma;
         Music music;
@@ -70,6 +74,10 @@ namespace Cliffhanger
             //titleSafe
             titleSafeRect = GraphicsDevice.Viewport.TitleSafeArea;
 
+            player1Score = 0;
+            player2Score = 0;
+            playerVictorNumber = 0;
+
             base.Initialize();
         }
 
@@ -82,6 +90,7 @@ namespace Cliffhanger
             mainMenu = new Menu(this);
             music = new Music(this);
             music.playBackgroundMusic();
+            victoryScreen = Content.Load<Texture2D>("CliffClimbed");
         }
 
         protected override void UnloadContent()
@@ -139,7 +148,19 @@ namespace Cliffhanger
                     break;
                 case LevelStateFSM.Level1Ending:
                     //level1.victorPlayerNum;
-                    level1.Dispose();
+                    //level1.Dispose();
+                    if (level1.victorPlayerNum == 1)
+                    {
+                        player1Score++;
+                        playerVictorNumber = 1;
+                        level1.victorPlayerNum = 0;
+                    }
+                    else if (level1.victorPlayerNum == 2)
+                    {
+                        player2Score++;
+                        playerVictorNumber = 2;
+                        level1.victorPlayerNum = 0;
+                    }
                     level2 = new LevelOne(this);
                     level2.Initialize(GraphicsDevice);
                     level2.LoadContent();
@@ -147,10 +168,24 @@ namespace Cliffhanger
                 case LevelStateFSM.Level2:
                     level2.Update(gameTime, input, titleSafeRect);
                     if (level2.isCompleted)
+                    {
                         currentGameState = LevelStateFSM.Level2Ending;
+                    }
                     break;
                 case LevelStateFSM.Level2Ending:
-                    level2.Dispose();
+                    //level2.Dispose();
+                    if (level2.victorPlayerNum == 1)
+                    {
+                        player1Score++;
+                        playerVictorNumber = 1;
+                        level2.victorPlayerNum = 0;
+                    }
+                    else if(level2.victorPlayerNum == 2)
+                    {
+                        player2Score++;
+                        playerVictorNumber = 2;
+                        level2.victorPlayerNum = 0;
+                    }
                     level1 = new LevelOne(this);
                     level1.Initialize(GraphicsDevice);
                     level1.LoadContent();
@@ -186,7 +221,13 @@ namespace Cliffhanger
                     spriteBatch.Begin(); // Refactor?
                     break;
                 case LevelStateFSM.Level1Ending:
-                    spriteBatch.DrawString(tahoma, "Congrats", new Vector2(titleSafeRect.Width / 2, titleSafeRect.Height / 2), Color.Yellow);
+                    spriteBatch.Draw(victoryScreen, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    if(playerVictorNumber == 1)
+                        spriteBatch.DrawString(tahoma, "Congrats Player Red", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
+                    else
+                        spriteBatch.DrawString(tahoma, "Congrats Player Blue", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
+                    spriteBatch.DrawString(tahoma, "Player 1 Score: " + player1Score.ToString() + "    Player 2 Score: " + player2Score.ToString(),
+                                           new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 200), Color.Yellow);
                     break;
                 case LevelStateFSM.Level2:
                     spriteBatch.End(); //Not quite kosher.  Refactor?
@@ -194,8 +235,13 @@ namespace Cliffhanger
                     spriteBatch.Begin();
                     break;
                 case LevelStateFSM.Level2Ending:
-                    int bob = 5/2;
-                    spriteBatch.DrawString(tahoma, "Congrats 2 also" + bob.ToString(), new Vector2(titleSafeRect.Width / 2, titleSafeRect.Height / 2), Color.Yellow);
+                    spriteBatch.Draw(victoryScreen, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    if(playerVictorNumber == 1)
+                        spriteBatch.DrawString(tahoma, "Congrats Player Red", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
+                    else
+                        spriteBatch.DrawString(tahoma, "Congrats Player Blue", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
+                    spriteBatch.DrawString(tahoma, "Player 1 Score: " + player1Score.ToString() + "    Player 2 Score: " + player2Score.ToString(),
+                                           new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 200), Color.Yellow);
                     break;
                 case LevelStateFSM.Level3:
                     break;

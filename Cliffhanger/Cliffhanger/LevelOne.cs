@@ -26,14 +26,12 @@ namespace Cliffhanger
         Vector2 offsetTop;
         Vector2 offsetBottom;
 
-        //Test Player stuff
+        //Screen Player stuff
         Vector2 p1ScreenPos, p2ScreenPos;
         Vector2 p1ScreenVel, p2ScreenVel;
-        Vector2 playerDifference;
         Texture2D test;
         Boolean screenSplit;
         Color p1, p2;
-        Boolean swapped;
         Rectangle playerBounds;
 
 
@@ -55,6 +53,10 @@ namespace Cliffhanger
         public bool isCompleted;
         public int victorPlayerNum;
 
+        //Audio Effects
+        SoundEffect victorySound;
+        SoundEffect jumpSound;
+
         GraphicsDevice GraphicsDevice;
         SpriteFont font;
 
@@ -66,6 +68,8 @@ namespace Cliffhanger
 
         public void Initialize(GraphicsDevice gd)
         {
+            jumpSound = Game.Content.Load<SoundEffect>("Jump");
+            
             GraphicsDevice = gd;
             topScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
             bottomScreen = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height / 2);
@@ -74,10 +78,10 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game, 1);
+            player1 = new Player(Game, 1, jumpSound);
             player1.Initialize();
             player1.position = new Vector2(100, 0);
-            player2 = new Player(Game, 2);
+            player2 = new Player(Game, 2, jumpSound);
             player2.Initialize();
             player2.position = new Vector2(400, 0);
 
@@ -202,6 +206,7 @@ namespace Cliffhanger
             cliffRect = new Rectangle(0, GraphicsDevice.Viewport.Height - cliffTex.Height * 2, GraphicsDevice.Viewport.Width * 2, cliffTex.Height * 2);
             font = Game.Content.Load<SpriteFont>("Consolas");
             test = Game.Content.Load<Texture2D>("blankTex");
+            victorySound = Game.Content.Load<SoundEffect>("Flashpoint001");
         }
 
         public void reset()
@@ -210,10 +215,10 @@ namespace Cliffhanger
             offsetBottom = new Vector2(0, -topScreen.Height);
 
             //Player
-            player1 = new Player(Game, 1);
+            player1 = new Player(Game, 1, jumpSound);
             player1.Initialize();
             player1.position = new Vector2(100, 0);
-            player2 = new Player(Game, 2);
+            player2 = new Player(Game, 2, jumpSound);
             player2.Initialize();
             player2.position = new Vector2(400, 0);
             //Screen Representation of players
@@ -578,6 +583,7 @@ namespace Cliffhanger
 
             if (player1.position.Y <= FINISH || player2.position.Y <= FINISH)
             {
+                victorySound.Play();
                 isCompleted = true;
                 if (player1.position.Y < player2.position.Y)
                     victorPlayerNum = 1;

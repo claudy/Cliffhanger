@@ -35,15 +35,18 @@ namespace Cliffhanger
         PlayerAction playerAction = PlayerAction.standing;
         PlayerDirection facingDirection = PlayerDirection.right;
 
+        SoundEffect jumpSound;
+
         //Input
         ClaudyInput input;
         int playerNumber;
         public int Num { get { return playerNumber; } protected set { } }
 
-        public Player(Game game, int playerNumber)
+        public Player(Game game, int playerNumber, SoundEffect j)
             : base(game)
         {
             this.playerNumber = playerNumber;
+            jumpSound = j;
         }
 
         public override void Initialize()
@@ -201,6 +204,8 @@ namespace Cliffhanger
                 //jumpvel = vel;
                 vel.Y -= .25f * gameTime.ElapsedGameTime.Milliseconds;
                 //jumpingeffect.Play();
+                jumpSound.Play();
+                
                 canjump = false;
             }
         }
