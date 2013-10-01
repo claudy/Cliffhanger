@@ -143,10 +143,11 @@ namespace Cliffhanger
             }
 
 
-            // Music Testing Code.
-            if (input.isPressed(Buttons.B)) music.stopBackgroundMusic();
+            // CHEAT CODE: Music Testing Code.
+            if (input.isPressed(Buttons.X)) music.stopBackgroundMusic();
             if (input.isPressed(Buttons.Y)) music.playBackgroundMusic();
             // Delete Music Testing Code once convinced of functionality of music class.
+            // OOOOORRRRR Just leave it in as a cheat code.
 
             base.Update(gameTime);
         }
