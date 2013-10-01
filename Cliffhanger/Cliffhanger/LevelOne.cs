@@ -81,12 +81,12 @@ namespace Cliffhanger
 
             //Platform
             platforms = new List<Platform>();
-            ground = new Platform(Game, 10, 256, 800, 100);
+            ground = new Platform(Game, -20, 456, 2000, 1000);
             ground.Initialize();
             platforms.Add(ground);
 
 
-            //Test players
+            //Screen Representation of players
             p1ScreenPos = new Vector2(100, 20);
             p2ScreenPos = new Vector2(400, 20);
             p1ScreenVel = new Vector2(0, 0);
@@ -139,14 +139,7 @@ namespace Cliffhanger
         {
             
 
-            
-            
-
-            player2.Update(gameTime);
-
             ground.Update(gameTime);
-
-            
 
             #region Platform Collision
             foreach (Platform platform in platforms)
@@ -205,18 +198,15 @@ namespace Cliffhanger
             {
                 if (Collision.PlayerVineCollision(player1, vine, gameTime) && input.GetAs8DirectionLeftThumbStick(player1.Num).Y > 0)
                 {
-                    player1.canClimb = true;
-                    //player1.position.Y -= player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
-                    player1.vel.Y = -2;
-                    //p1ScreenVel.Y = -player1.vel.Y;
-                    //player1.position.Y += player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 100;
+                    player1.vel.Y = -2f;
                     player1.vel.X *= .5f;
-                    
+
+                    if (player1.position.Y + player1.hitbox.Height> vine.position.Y && player1.position.Y + player1.hitbox.Height < vine.position.Y + 4)
+                    {
+                        player1.vel.Y = 0;
+                    }
                 }
-                else
-                {
-                    player1.canClimb = false;
-                }
+                
                 
                 if (player1.vel.Y >= 0)
                 {
@@ -224,7 +214,6 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.standing;
                         player1.canjump = true;
-                        //player1.position.Y -= player1.vel.Y * gameTime.ElapsedGameTime.Milliseconds / 10;
                         player1.vel.X *= .5f;
                         player1.vel.Y = 0;
                         break;
@@ -233,7 +222,6 @@ namespace Cliffhanger
                     {
                         //state = PlayerState.falling;
                         //player1.canjump = false;
-                        
                     }
                     
                 }
@@ -241,23 +229,42 @@ namespace Cliffhanger
             }
             foreach (Vine vine in vines)
             {
+                if (Collision.PlayerVineCollision(player2, vine, gameTime) && input.GetAs8DirectionLeftThumbStick(player2.Num).Y > 0)
+                {
+                    player2.vel.Y = -2;
+                    player2.vel.X *= .5f;
+
+                    if (player2.position.Y + player2.hitbox.Height > vine.position.Y && player2.position.Y + player2.hitbox.Height < vine.position.Y + 4)
+                    {
+                        player2.vel.Y = 0;
+                    }
+                }
+
+
                 if (player2.vel.Y >= 0)
                 {
                     if (Collision.PlayerVineCollision(player2, vine, gameTime))
                     {
                         //state = PlayerState.standing;
                         player2.canjump = true;
+                        player2.vel.X *= .5f;
+                        player2.vel.Y = 0;
                         break;
                     }
                     else
                     {
                         //state = PlayerState.falling;
-                        //player2.canjump = false;
+                        //player1.canjump = false;
                     }
                 }
             }
             #endregion //Vine Collision
-            player1.Update(gameTime);
+
+            //Player updates
+            player1.Update(gameTime, titleSafeRect);
+            player2.Update(gameTime, titleSafeRect);
+            
+            
             #region Throw Rocks (requires knowledge of player & of the rock list)
 
             //PLAYER 1

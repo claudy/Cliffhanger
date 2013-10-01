@@ -73,7 +73,7 @@ namespace Cliffhanger
             base.Initialize();
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Rectangle titleSafe)
         {
             hitbox.X = (int)position.X;
             hitbox.Y = (int)position.Y;
@@ -129,16 +129,14 @@ namespace Cliffhanger
                 Jump(gameTime);
                 //add logic to stop from doing other running functions
             }
-
             
-
             if (canjump)
             {
 
                 vel += gravity * gameTime.ElapsedGameTime.Milliseconds * gameTime.ElapsedGameTime.Milliseconds / 100;
-                if (vel.Y > 10)
+                if (vel.Y > 5)
                 {
-                    vel.Y = 10;
+                    vel.Y = 5;
                 }
             }
             else
@@ -173,19 +171,27 @@ namespace Cliffhanger
                 vel += gravity * gameTime.ElapsedGameTime.Milliseconds * gameTime.ElapsedGameTime.Milliseconds / 100;
             }
 
-            if (vel.Y > 10)
+            if (vel.Y > 5)
             {
-                vel.Y = 10;
+                vel.Y = 5;
             }
 
             if (vel.Y > 0 && vel.Y < .3f && canjump)
             {
-                
                 vel.Y = 0;
             }
             position += vel * gameTime.ElapsedGameTime.Milliseconds / 10;
 
-            
+            if (position.X < titleSafe.Left)
+            {
+                position.X = 0;
+            }
+            if (position.X + hitbox.Width > titleSafe.Right)
+            {
+                position.X = titleSafe.Right - hitbox.Width;
+            }
+
+
             #endregion
             base.Update(gameTime);
 

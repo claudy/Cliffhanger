@@ -43,7 +43,7 @@ namespace Cliffhanger
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            spriteBatch.Draw(platform, new Rectangle(platformRect.X, platformRect.Y + (int)offset.Y, platformRect.Width, platformRect.Height), Color.Wheat);
+            spriteBatch.Draw(platform, new Rectangle(platformRect.X, platformRect.Y + (int)offset.Y, platformRect.Width, platformRect.Height), Color.DarkGreen);
         }
     }
 }
