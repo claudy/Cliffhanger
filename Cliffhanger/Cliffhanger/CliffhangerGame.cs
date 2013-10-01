@@ -38,7 +38,7 @@ namespace Cliffhanger
         public ClaudyInput input;
 
         LevelOne level1;
-        LevelOne level2;
+        LevelTwo level2;
 
         Rectangle titleSafeRect;
 
@@ -173,7 +173,7 @@ namespace Cliffhanger
                         playerVictorNumber = 2;
                         level1.victorPlayerNum = 0;
                     }
-                    level2 = new LevelOne(this);
+                    level2 = new LevelTwo(this);
                     level2.Initialize(GraphicsDevice);
                     level2.LoadContent();
                     break;
@@ -212,8 +212,10 @@ namespace Cliffhanger
 
 
             // CHEAT CODE: Music Testing Code.
-            if (input.isPressed(Buttons.X)) music.stopBackgroundMusic();
-            if (input.isPressed(Buttons.Y)) music.playBackgroundMusic();
+            if (input.isPressed(Buttons.X, PlayerIndex.One)) music.stopBackgroundMusic();
+            if (input.isPressed(Buttons.Y, PlayerIndex.One)) music.playBackgroundMusic();
+            if (input.isPressed(Buttons.X, PlayerIndex.Two)) music.stopBackgroundMusic();
+            if (input.isPressed(Buttons.Y, PlayerIndex.Two)) music.playBackgroundMusic();
             // Delete Music Testing Code once convinced of functionality of music class.
             // OOOOORRRRR Just leave it in as a cheat code.
 

@@ -640,6 +640,7 @@ namespace Cliffhanger
                 {
                     vine.Draw(spriteBatch, offsetTop);
                 }
+                spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, -3160 + (int)offsetTop.Y, cliffRect.Width, 3), Color.LawnGreen);
                 guitar.Draw(spriteBatch, offsetTop);
                 player1.Draw(spriteBatch, offsetTop);
                 player2.Draw(spriteBatch, offsetTop);
@@ -656,7 +657,7 @@ namespace Cliffhanger
             //Draw stuff in the bottom renderTarget; Use an offset
             GraphicsDevice.SetRenderTarget(bottomScreen);
             GraphicsDevice.Clear(Color.Gray);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null); // TODO: Change to LinearWrap before submitting to Dr. Birmingham.
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap, null, null);
 
             bottomOffset = GraphicsDevice.Viewport.Height;
 
@@ -669,6 +670,7 @@ namespace Cliffhanger
                 {
                     vine.Draw(spriteBatch, offsetBottom);
                 }
+                spriteBatch.Draw(cliffTex, new Rectangle(cliffRect.X, -3160 + (int)offsetBottom.Y, cliffRect.Width, 3), Color.LawnGreen);
                 guitar.Draw(spriteBatch, offsetBottom);
                 player1.Draw(spriteBatch, offsetBottom);
                 player2.Draw(spriteBatch, offsetBottom);
@@ -692,7 +694,6 @@ namespace Cliffhanger
             //spriteBatch.Draw(test, new Rectangle((int)p2ScreenPos.X, (int)p2ScreenPos.Y, playerBounds.Width, playerBounds.Height), p2);
             //spriteBatch.DrawString(font, "bool: " + player1.canjump.ToString(), new Vector2(0, 0), Color.Black);
             //spriteBatch.DrawString(font, "bool: " + player1.vel.ToString(), new Vector2(0, 50), Color.Orange);
-
             //spriteBatch.DrawString(font, player1.position.Y.ToString(), new Vector2(0f, 200f), Color.Yellow);
             spriteBatch.End();
 
