@@ -20,6 +20,7 @@ namespace Cliffhanger
         #region Menu
         public enum LevelStateFSM
         {
+            Splash,
             AlphaMenu,
             Level1,
             Level1Ending,
@@ -45,6 +46,9 @@ namespace Cliffhanger
         int player1Score, player2Score;
         int playerVictorNumber;
 
+        Texture2D splash;
+        int splashLength = 250;
+
         public SpriteFont consolas;
         public SpriteFont tahoma;
         Music music;
@@ -69,7 +73,7 @@ namespace Cliffhanger
             level1 = new LevelOne(this);
             level1.Initialize(GraphicsDevice);
             
-            currentGameState = LevelStateFSM.AlphaMenu;
+            currentGameState = LevelStateFSM.Splash;
 
             //titleSafe
             titleSafeRect = GraphicsDevice.Viewport.TitleSafeArea;
@@ -91,6 +95,7 @@ namespace Cliffhanger
             music = new Music(this);
             music.playBackgroundMusic();
             victoryScreen = Content.Load<Texture2D>("CliffClimbed");
+            splash = Content.Load<Texture2D>("steve");
         }
 
         protected override void UnloadContent()
@@ -138,6 +143,13 @@ namespace Cliffhanger
 
             switch (currentGameState)
             {
+                case LevelStateFSM.Splash:
+                    splashLength--;
+                    if (splashLength <= 0)
+                    {
+                        currentGameState = LevelStateFSM.AlphaMenu;
+                    }
+                    break;
                 case LevelStateFSM.AlphaMenu:
                     mainMenu.Update(gameTime, this);
                     break;
@@ -213,6 +225,9 @@ namespace Cliffhanger
             spriteBatch.Begin();
             switch (currentGameState)
             {
+                case LevelStateFSM.Splash:
+                    spriteBatch.Draw(splash, new Rectangle(titleSafeRect.X, titleSafeRect.Y, titleSafeRect.Width, titleSafeRect.Height), Color.White);
+                    break;
                 case LevelStateFSM.AlphaMenu:
                     mainMenu.Draw(spriteBatch);
                     break;
@@ -223,6 +238,7 @@ namespace Cliffhanger
                     break;
                 case LevelStateFSM.Level1Ending:
                     spriteBatch.Draw(victoryScreen, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.DrawString(tahoma, "Press The Start Button To Continue...", new Vector2(titleSafeRect.X, titleSafeRect.Y), Color.Black);
                     if(playerVictorNumber == 1)
                         spriteBatch.DrawString(tahoma, "Congrats Player Red", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
                     else
@@ -237,6 +253,7 @@ namespace Cliffhanger
                     break;
                 case LevelStateFSM.Level2Ending:
                     spriteBatch.Draw(victoryScreen, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.DrawString(tahoma, "Press The Start Button To Continue...", new Vector2(titleSafeRect.X, titleSafeRect.Y), Color.Black);
                     if(playerVictorNumber == 1)
                         spriteBatch.DrawString(tahoma, "Congrats Player Red", new Vector2(titleSafeRect.X, titleSafeRect.Height / 2 + 100), Color.Yellow);
                     else
